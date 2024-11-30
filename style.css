@@ -56,6 +56,12 @@ header{
     justify-content: space-between;
     padding: 20px 100px;
     transition: 0.5s linear;
+    background-color: #161f48;
+    border-bottom: 3px solid var(--second-color);
+    box-shadow: var(--box-shadow);
+    left: 0;
+    min-height: 90px;
+    max-height: 90px;
 }
 
 .Logo{
@@ -65,20 +71,35 @@ header{
     font-weight: 400;
     column-gap: 0.2rem;
     color: var(--second-color);
+    position: absolute;  /* Fix position */
+    left: 50%;  /* Center horizontally */
+    transform: translateX(-50%);  /* Adjust to center */
 }
 
 /* Navigation Bar */
 
-#menu-button, #close-button{
+#menu-button {
     font-size: 3rem;
     cursor: pointer;
     transition: all .55s ease;
 }
 
-#menu-button, #close-button:hover {
-    transform: translateY(-5px);
+#close-button{
+    font-size: 3rem;
+    padding: 2px 2px;
+    cursor: pointer;
+    transition: all .55s ease;
+    width: 50px;
+    position: absolute;          
+    right: 1rem;  
+    margin-bottom: 4rem;
 }
 
+#menu-button:hover, #close-button:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow);
+    border-radius: 1rem;
+}
 .SideBar{
     position: fixed;
     top: 0;
@@ -91,28 +112,54 @@ header{
     flex-direction: column;
     justify-content: flex-start;
     padding: 2rem 1rem;
-    transition: left 0.5s ease;
+    transition: left 0.8s ease;
     z-index: 1000;
+    border-right: 2px solid var(--second-color);
+    box-shadow: var(--box-shadow);
 }
 
-.SideBar i{
+.SideBar hr{
+    align-items: center;
+    height: 3px;
+    background-color: var(--second-color);
+    margin-bottom: 2.5rem;
+    width: 80%; 
+    border: none; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.SideBar-Icons {
+    display: flex;
+    justify-content: center; 
+    align-items: center;      
+    flex-direction: row;  
+    gap: 1rem;    
+    margin-top: 4rem; 
+}
+
+.SideBar-Icons i{
     padding: 1.25rem 1rem;
     margin-bottom: 1rem;
-    font-size: 1.8rem;
+    margin: 1rem 1rem;
+    font-size: 2rem;
     cursor: pointer;
     transition: all .55s ease;
+
 }
 
-.SideBar i:hover{
+.SideBar-Icons i:hover{
     transform: translateY(-5px);
     box-shadow: var(--box-shadow);
     border-radius: 1rem ;
 }
 
 .SideBar li{
+    margin-left: 1rem;
+    margin-bottom: 1rem;
     top: 0rem;
-    padding: 1rem 1.25rem;
-    transition: all .55s ease;
+    padding: 1rem 1rem;
+    transition: all .15s ease;
 }
 
 .SideBar li:hover{
@@ -120,6 +167,8 @@ header{
     transform: translateY(-5px);
     box-shadow: var(--box-shadow);
     border-radius: 0.5rem ;
+    border-right: 2px solid var(--second-color);
+    border-bottom: 2px solid var(--second-color);
 }
 
 .SideBar li a{
@@ -154,9 +203,14 @@ header{
     }
 }
 
+.Quick-Tools {
+    position: absolute; 
+    right: 1rem;  
+}
+
 .Quick-Tools i{
     font-size: 1.8rem;
-    gap: 5.4rem;
+    padding: 1rem 1rem;
     cursor: pointer;
     transition: all .55s ease;
 }
