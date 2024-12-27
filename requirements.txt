@@ -1,0 +1,7 @@
+# Install dependencies using the following command:
+# pip install -r requirements.txt
+
+pandas==2.2.3
+flask==3.1.0
+flask-cors==3.1.1
+matplotlib==5.0.0

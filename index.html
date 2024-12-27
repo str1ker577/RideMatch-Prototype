@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obsidian Drive</title>
+    <title>RideMatch</title>
 
     <!-- Link to Boxicons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
@@ -53,11 +53,8 @@
         </div>
 
 
-
-
-
         <!-- Centered Logo -->
-        <a href="#" class="Logo">Obsidian Drive</a>
+        <a href="#" class="Logo">RideMatch</a>
 
         <!-- Quick Access Tools-->
         <div class="Quick-Tools">
@@ -66,22 +63,78 @@
             <i class='bx bx-search' id="search-icon" style='color:#b49b66' ></i>
         </div>
 
+        <!-- Location/Map Icon -->
         <div class="location">
             
         </div>
 
+        <!-- Language Support Icon -->
         <div class="language-support">
 
         </div>
         
+        <!-- Search Box Icon -->
         <div class="search-box">
             <input type="search" name="" id="" placeholder="e.g. Porsche 911...">
         </div>
-
-        
-
-        
     </header>
+
+<!-- Outer Frame (with border and shadow) -->
+    <div class="outer-frame">
+        <h2 class="filter-title">Filter</h2>
+        
+        <!-- Inner Frame (contains all the filter options) -->
+        <div class="inner-frame">
+            <!-- Left Section: Brand, Model, Drive Train -->
+            <div class="filter-left">
+                <label for="brand">Brand:</label>
+                <input list="brands" id="brand" name="brand" placeholder="Enter brand...">
+                <datalist id="brands">
+                    <option value="Honda">
+                    <option value="Toyota">
+                    <option value="Mitsubishi">
+                    <option value="Ford">
+                    <option value="Nissan">
+                    <!-- Add more brand options here -->
+                </datalist>
+                
+                <label for="model">Model:</label>
+                <input list="models" id="model" name="model" placeholder="Enter model..." disabled>
+                    <datalist id="models">
+                        <!-- Model options will be dynamically filled by JavaScript based on selected brand -->
+                    </datalist>
+                
+                <label for="drive-train">Drive Train:</label>
+                <select id="drive-train" name="drive-train">
+                    <option value="FWD">Front-Wheel Drive (FWD)</option>
+                    <option value="RWD">Rear-Wheel Drive (RWD)</option>
+                    <option value="AWD">All-Wheel Drive (AWD)</option>
+                    <option value="2WD">Two-Wheel Drive (2WD)</option>
+                    <option value="4WD">Four-Wheel Drive (4WD)</option>
+                </select>
+            </div>
+
+            <!-- Vertical Divider -->
+            <div class="vertical-divider"></div>
+
+            <!-- Right Section: Sliders and Submit Button -->
+            <div class="filter-right">
+                <label for="horsepower">Horsepower:</label>
+                <input type="range" id="horsepower" name="horsepower" min="50" max="500" value="100">
+                <span id="horsepower-value">100 hp</span>
+
+                <label for="cargo-space">Cargo Space:</label>
+                <input type="range" id="cargo-space" name="cargo-space" min="150" max="1000" value="150">
+                <span id="cargo-space-value">150L</span>
+
+                <label for="price">Price:</label>
+                <input type="range" id="price" name="price" min="5000" max="80000" value="5000">
+                <span id="price-value">₱5000</span>
+                
+                <button class="filter-btn">Apply Filters</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Link to Main.java -->
      <script src="main.js"></script>
