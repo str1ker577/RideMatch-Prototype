@@ -11,6 +11,21 @@
     scroll-padding-top: 2rem;
 }
 
+body{
+    background-image: url('resources/BG.png'); /* Path to your image */
+    background-size: cover; /* Adjusts image to cover the screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling */
+}
+
+body, html{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Variables */ 
 :root{
     --main-color: #161f48;
@@ -307,6 +322,8 @@ header{
     border: 2px solid #b49b66;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.2); /* Transparent white */
+    backdrop-filter: blur(10px);
 }
 
 /* Title Styling */
@@ -415,5 +432,96 @@ header{
 #price-value {
     color: #b49b66;
 }
+
+.outer-frame {
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    background: #161f48;
+    color: #fff;
+    padding: 20px 100px;
+    text-align: center;
+    border-top: 3px solid var(--second-color);
+    box-shadow: var(--box-shadow);
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    padding: 10px;
+}
+
+.footer-section h3 {
+    color: var(--second-color);
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    color: var(--second-color);
+}
+
+.social-icons a {
+    color: var(--second-color);
+    font-size: 20px;
+    margin: 0 10px;
+}
+
+.social-icons a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    background: #161f48;
+    color: #fff;
+    padding-bottom: 15px;
+}
+
+body.home-page footer {
+    background-color: #161f48;
+    padding-bottom: 40px;
+}
+
+.main-content {
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    padding: 20px 0;
+}
+
 
 
