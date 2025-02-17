@@ -492,10 +492,12 @@ footer {
     color: var(--second-color);
     font-size: 20px;
     margin: 0 10px;
+    transition: transform 0.55s ease, color 0.55s ease;
 }
 
 .social-icons a:hover {
     color: #fff;
+    transform: translateY(-5px);
 }
 
 .footer-bottom {
