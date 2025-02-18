@@ -11,6 +11,21 @@
     scroll-padding-top: 2rem;
 }
 
+body{
+    background-image: url('resources/BG.png'); /* Path to your image */
+    background-size: cover; /* Adjusts image to cover the screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling */
+}
+
+body, html{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Variables */ 
 :root{
     --main-color: #161f48;
@@ -389,8 +404,9 @@ header{
 
 .filter-right input[type="range"] {
     width: 100%;
-    /* Customize the slider color */
-    -webkit-appearance: none;
+    appearance: none;
+    -webkit-appearance: none; /* For Safari, Chrome */
+    -moz-appearance: none; /* For Firefox */
     background-color: #dcdcdc;
     height: 6px;
     border-radius: 5px;
@@ -425,5 +441,98 @@ header{
 #price-value {
     color: #b49b66;
 }
+
+.outer-frame {
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    background: #161f48;
+    color: #fff;
+    padding: 20px 100px;
+    text-align: center;
+    border-top: 3px solid var(--second-color);
+    box-shadow: var(--box-shadow);
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    padding: 10px;
+}
+
+.footer-section h3 {
+    color: var(--second-color);
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    color: var(--second-color);
+}
+
+.social-icons a {
+    color: var(--second-color);
+    font-size: 20px;
+    margin: 0 10px;
+    transition: transform 0.55s ease, color 0.55s ease;
+}
+
+.social-icons a:hover {
+    color: #fff;
+    transform: translateY(-5px);
+}
+
+.footer-bottom {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    background: #161f48;
+    color: #fff;
+    padding-bottom: 15px;
+}
+
+body.home-page footer {
+    background-color: #161f48;
+    padding-bottom: 40px;
+}
+
+.main-content {
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    padding: 20px 0;
+}
+
 
 
