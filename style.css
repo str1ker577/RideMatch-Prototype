@@ -20,7 +20,12 @@
     --text-background-color: #ebeff2;
 
     /* Box Shadow */
-    --box-shadow: 2px 2px 10px 4px rgb(14 55 54 / 15%)
+    --box-shadow: 2px 2px 10px 4px rgb(14 55 54 / 15%);
+
+    background-image: url('resources/Background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* Scroll Bar */
@@ -65,16 +70,19 @@ header{
 }
 
 .Logo{
+    width: 320px;
     display: flex;
     align-items: center;
     font-size: 2.7rem;
     font-weight: 400;
     column-gap: 0.2rem;
     color: var(--second-color);
-    position: absolute;  /* Fix position */
-    left: 50%;  /* Center horizontally */
-    transform: translateX(-50%);  /* Adjust to center */
+    position: absolute;  
+    left: 50%;  
+    transform: translateX(-50%);  
 }
+
+
 
 /* Navigation Bar */
 
@@ -307,6 +315,8 @@ header{
     border: 2px solid #b49b66;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(18px);
 }
 
 /* Title Styling */
