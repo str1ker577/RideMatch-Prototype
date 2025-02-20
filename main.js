@@ -1,18 +1,7 @@
-// Toggle search and user menu
-let search = document.querySelector('.search-box');
-let user = document.querySelector('.user');
+//////////////////////
+//Side Menu Function//
+//////////////////////
 
-// Toggle search-box visibility when search icon is clicked
-document.querySelector('#search-icon').onclick = () => {
-    search.classList.toggle('active');
-    user.classList.remove('active');
-};
-
-// Toggle user menu visibility when user icon is clicked
-document.querySelector('#user-icon').onclick = () => {
-    user.classList.toggle('active');
-    search.classList.remove('active');
-};
 
 // Get elements for toggling sidebar and menu button
 const menuButton = document.getElementById('menu-button');
@@ -22,16 +11,24 @@ const sidebar = document.getElementById('sidebar');
 // Toggle the sidebar visibility and menu button icon
 menuButton.addEventListener('click', () => {
     sidebar.classList.add('open');
-    menuButton.style.display = 'none'; // Hide the menu button
-    closeButton.style.display = 'block'; // Show the close button
+    menuButton.style.display = 'none'; 
+    closeButton.style.display = 'block';
 });
 
 // Close the sidebar and switch back the icons when close button is clicked
 closeButton.addEventListener('click', () => {
     sidebar.classList.remove('open');
-    menuButton.style.display = 'block'; // Show the menu button again
-    closeButton.style.display = 'none'; // Hide the close button
+    menuButton.style.display = 'block'; 
+    closeButton.style.display = 'none';
 });
+
+
+
+
+
+////////////////////
+//Filter Functions//
+////////////////////
 
 // Get sliders by their ids
 const hpSlider = document.getElementById("horsepower");
