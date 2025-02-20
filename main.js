@@ -28,90 +28,23 @@ closeButton.addEventListener('click', () => {
 //Filter Functions//
 ////////////////////
 
-// Get sliders by their ids
-const hpSlider = document.getElementById("horsepower");
-const cargoSlider = document.getElementById("cargo-space");
-const priceSlider = document.getElementById("price");
+fetchData();
 
-// Get the elements where the values will be displayed
-const hpValue = document.getElementById("horsepower-value");
-const cargoValue = document.getElementById("cargo-space-value");
-const priceValue = document.getElementById("price-value");
+async function fetchData() {
+    
+    try {
+        const response = await fetch("http://127.0.0.1:5000/get_cars");
 
-// Initial values to display
-hpValue.textContent = hpSlider.value + " hp";
-cargoValue.textContent = cargoSlider.value + "L";
-priceValue.textContent = "₱" + priceSlider.value;
+        if(!response.ok){
+            throw new Error("Could not fetch resource")
+        }     
+        
+        const data = await response.json();
+        console.log(data);
 
-// Update the displayed values dynamically when the sliders are changed
-hpSlider.oninput = function() {
-    hpValue.textContent = this.value + " hp";
-}
+    }
 
-cargoSlider.oninput = function() {
-    cargoValue.textContent = this.value + "L";
-}
-
-priceSlider.oninput = function() {
-    priceValue.textContent = "₱" + this.value;
-}
-
-// Add event listeners for dynamic updates when sliders are moved
-document.getElementById("horsepower").addEventListener("input", function() {
-    document.getElementById("horsepower-value").innerText = this.value + " hp";
-});
-
-document.getElementById("cargo-space").addEventListener("input", function() {
-    document.getElementById("cargo-space-value").innerText = this.value + "L";
-});
-
-document.getElementById("price").addEventListener("input", function() {
-    document.getElementById("price-value").innerText = "₱" + this.value;
-});
-
-// Function to update model suggestions based on selected brand
-async function updateModelSuggestions() {
-    const brandInput = document.getElementById('Brand');
-    const modelInput = document.getElementById('Model');
-    const selectedBrand = brandInput.value.trim();
-
-    // If a brand is selected, fetch models for that brand from the Flask backend
-    if (selectedBrand) {
-        try {
-            const response = await fetch(`http://localhost:5000/get_models_for_brand/${encodeURIComponent(selectedBrand)}`);
-            const models = await response.json();
-
-            if (models.length > 0) {
-                modelInput.disabled = false;
-                modelInput.setAttribute("list", "model-suggestions");
-
-                // Clear previous suggestions and add new ones
-                let dataList = document.getElementById('model-suggestions');
-                if (!dataList) {
-                    dataList = document.createElement('datalist');
-                    dataList.id = "model-suggestions";
-                    modelInput.parentElement.appendChild(dataList);
-                }
-                dataList.innerHTML = '';
-                models.forEach(model => {
-                    let option = document.createElement('option');
-                    option.value = model;
-                    dataList.appendChild(option);
-                });
-            } else {
-                modelInput.disabled = true;
-                modelInput.setAttribute("list", "");
-            }
-        } catch (error) {
-            console.error('Error fetching models:', error);
-            modelInput.disabled = true;
-        }
-    } else {
-        // If no brand is selected, disable the model input
-        modelInput.disabled = true;
-        modelInput.setAttribute("list", "");
+    catch(error){
+        console.error(error);
     }
 }
-
-// Add event listener for brand input
-document.getElementById('brand').addEventListener('input', updateModelSuggestions);
