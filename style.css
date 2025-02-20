@@ -12,17 +12,10 @@
 }
 
 body{
-<<<<<<< HEAD
     background-image: url('resources/BG.png'); /* Path to your image */
     background-size: cover; /* Adjusts image to cover the screen */
     background-position: center; /* Centers the image */
     background-repeat: no-repeat; /* Prevents tiling */
-=======
-    background-image: url('resources/BG.png'); 
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat; 
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
 }
 
 body, html{
@@ -40,14 +33,10 @@ body, html{
     --background-color: #fff;
     --text-color: #02171d;
     --text-background-color: #ebeff2;
-<<<<<<< HEAD
 
     /* Box Shadow */
     --box-shadow: 2px 2px 10px 4px rgb(14 55 54 / 15%);
 
-=======
-    --box-shadow: 2px 2px 10px 4px rgb(14 55 54 / 15%);
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
     background-image: url('resources/Background.png');
     background-size: cover;
     background-position: center;
@@ -108,15 +97,7 @@ header{
     transform: translateX(-50%);  
 }
 
-<<<<<<< HEAD
-
-
 /* Navigation Bar */
-=======
-/***********/
-/*Side Menu*/
-/***********/
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
 
 #menu-button {
     font-size: 3rem;
@@ -199,11 +180,7 @@ header{
     margin-bottom: 1rem;
     top: 0rem;
     padding: 1rem 1rem;
-<<<<<<< HEAD
     transition: all .15s ease;
-=======
-    transition: all .25s ease;
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
 }
 
 .SideBar li:hover{
@@ -227,7 +204,6 @@ header{
     left: 0;
 }
 
-<<<<<<< HEAD
 @media (max-width: 768px) {
     .Sidebar {
         width: 200px; /* Narrower sidebar for smaller screens */
@@ -235,19 +211,6 @@ header{
 
     .Sidebar li a {
         font-size: 1rem; /* Adjust font size for better readability */
-=======
-/******************/
-/* Side Bar Scale */
-/******************/
-
-@media (max-width: 768px) {
-    .Sidebar {
-        width: 220px; 
-    }
-
-    .Sidebar li a {
-        font-size: 1rem; 
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
     }
 }
 
@@ -261,13 +224,6 @@ header{
     }
 }
 
-<<<<<<< HEAD
-=======
-/******************/
-/*Side Menu Button*/
-/******************/
-
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
 .Quick-Tools {
     position: absolute; 
     right: 1rem;  
@@ -284,7 +240,6 @@ header{
     transform: translateY(-5px);
 }
 
-<<<<<<< HEAD
 /* Search Box */
 .search-box {
     position: absolute;
@@ -363,8 +318,6 @@ header{
     left: 1rem;
     transition: 0.2s;
 }
-=======
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
 
 /* Outer Frame Styling */
 .outer-frame {
@@ -491,13 +444,6 @@ header{
     flex: 1;
 }
 
-<<<<<<< HEAD
-=======
-/****************/
-/*Footer Styling*/
-/****************/
-
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
 footer {
     width: 100%;
     background: #161f48;
@@ -533,10 +479,6 @@ footer {
 
 .footer-section h3 {
     color: var(--second-color);
-<<<<<<< HEAD
-=======
-    padding-bottom: 5px;
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
 }
 
 .footer-section ul {
