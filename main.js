@@ -24,8 +24,6 @@ closeButton.addEventListener('click', () => {
 
 
 
-
-
 ////////////////////
 //Filter Functions//
 ////////////////////
