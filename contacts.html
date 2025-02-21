@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Testimonials | RideMatch</title>
+  <title>Contact Us | RideMatch</title>
 
   <!-- Link to Boxicons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
-  <!-- Link to CSS -->
+  <!-- Link to your main CSS -->
   <link rel="stylesheet" type="text/css" href="style.css">
 
-  <!-- Optional inline style for the sidebar slide animation -->
+  <!-- Inline CSS specifically for form layout (you can move to style.css if you prefer) -->
   <style>
+    /* Smooth 0.5s slide-in for the sidebar */
     .SideBar {
       position: fixed;
       top: 0;
@@ -26,6 +27,24 @@
     .SideBar.open {
       left: 0;
     }
+
+    /* Ensure labels appear above inputs */
+    .filter-right label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #b49b66;
+    }
+    .filter-right input,
+    .filter-right textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 8px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
@@ -36,18 +55,23 @@
       <img src="resources/Logo2.png" alt="RideMatch">
     </a>
 
-    <!-- Side-Menu -->
+    <!-- Quick Tools (placeholder if needed) -->
+    <div class="Quick-Tools"></div>
+
+    <!-- Side Menu Icon -->
     <div class="Side-Menu">
       <i class='bx bx-menu' id='menu-button' style='color:#b49b66'></i>
     </div>
 
-    <!-- Sidebar Navigation -->
+    <!-- SideBar Navigation -->
     <div class="SideBar" id="sidebar">
       <i class='bx bx-arrow-from-right' id="close-button" style='color:#b49b66'></i>
       <ul>
         <div class="SideBar-Icons">
           <i class='bx bx-user' id='user-icon' style='color:#b49b66'></i>
-          <a href="favourites.html"><i class='bx bx-heart' style='color:#b49b66'></i></a>
+          <a href="favourites.html">
+            <i class='bx bx-heart' style='color:#b49b66'></i>
+          </a>
         </div>
         <hr>
         <!-- Updated nav items -->
@@ -59,18 +83,46 @@
     </div>
 
     <div class="liked"><a href="#"></a></div>
-
-    <!-- Quick Access Tools (placeholder)-->
-    <div class="Quick-Tools"></div>
   </header>
 
-  <!-- Main Testimonials Content -->
-  <div style="margin-top:10rem;">
-    <h2 style="text-align:center; color:#b49b66;">Client Testimonials</h2>
-    <p style="text-align:center;">
-      <!-- Replace or expand with actual testimonial content -->
-      Our clients love us! Read what they have to say below.
-    </p>
+  <!-- Contact Section -->
+  <div class="outer-frame" style="margin-top: 10rem;"><!-- Extra top margin to clear fixed header -->
+    <h2 class="filter-title">Contact Us</h2>
+    <div class="inner-frame">
+      <!-- Left Section: Contact Info -->
+      <div class="filter-left">
+        <h3>Get in Touch</h3>
+        <p>Email: <a href="mailto:ridematchhelp@gmail.com">ridematchhelp@gmail.com</a></p>
+        <p>Phone: +63 961 993 7494</p>
+        <p>Address: 123 RideMatch St., Metro Manila, Philippines</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+
+      <!-- Right Section: Contact Form (Web3Forms) -->
+      <div class="filter-right">
+        <h3>Send Us a Message</h3>
+        <form action="https://api.web3forms.com/submit" method="POST">
+          <!-- Your public access key -->
+          <input type="hidden" name="access_key" value="7be6ee75-b0a5-43bd-b36a-c0194b58f8d8">
+
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+
+          <button type="submit" class="filter-btn">Submit</button>
+        </form>
+      </div>
+    </div>
   </div>
 
   <!-- Footer -->
@@ -108,8 +160,8 @@
       <p>&copy; 2025 RideMatch. All Rights Reserved.</p>
     </div>
   </footer>
-  
-  <!-- Link to Main.js -->
+
+  <!-- Link to your JavaScript (for sidebar open/close) -->
   <script src="main.js"></script>
 </body>
 </html>
