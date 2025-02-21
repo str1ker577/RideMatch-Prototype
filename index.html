@@ -78,6 +78,17 @@
                     <datalist id="models">
                         <option value="All Models">
                     </datalist>
+
+                <!--Body Type Drop down box-->    
+                <label for="body-type:">Body Type:</label>
+                <select id="body-type" name="body-type">
+                    <option value="">Any Body Type</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="MPV">MPV</option>
+                    <option value="Hatchback">Hatchback</option>
+                    <option value="Van">Van</option>
+                </select>
                 
                 <!--Drive Train Drop down box-->
                 <label for="drive-train">Drive Train:</label>
@@ -91,14 +102,22 @@
                     <option value="4WD">Four-Wheel Drive (4WD)</option>
                 </select>
 
-            <!--Transmission Drop down box-->
-            <label for="transmission">Transmission</label>
-            <select id="transmission" name="transmission">
-                <option value="" selected disabled>Choose Transmission...</option>
-                <option value="">All Transmission Options</option>
-                <option value="Automatic">Automatic</option>
-                <option value="Manual">Manual</option>
-            </select>
+                <!--Transmission Drop down box-->
+                <label for="transmission">Transmission</label>
+                <select id="transmission" name="transmission">
+                    <option value="" selected disabled>Choose Transmission...</option>
+                    <option value="">All Transmission Options</option>
+                    <option value="Automatic">Automatic</option>
+                    <option value="Manual">Manual</option>
+                </select>
+
+                <!--Fuel Type Drop down box-->
+                <label for="fuel-type">Fuel Type:</label>
+                <select id="fuel-type" name="fuel-type">
+                    <option value="">Any Fuel Type</option>
+                    <option value="Gasoline">Gasoline</option>
+                    <option value="Diesel">Diesel</option>
+                </select>
 
             </div>
 
@@ -109,14 +128,19 @@
             <div class="filter-right">
 
                 <!--Horse Power Slider-->
-                <label for="horsepower">Horsepower:</label>
+                <label for="horsepower">Horsepower (Hp):</label>
                 <input type="range" id="horsepower" name="horsepower" min="50" max="500" value="100">
                 <span id="horsepower-value">100 hp</span>
 
                 <!--Cargo Space Slider-->
-                <label for="cargo-space">Cargo Space:</label>
+                <label for="cargo-space">Cargo Space (L):</label>
                 <input type="range" id="cargo-space" name="cargo-space" min="150" max="1000" value="150">
                 <span id="cargo-space-value">150L</span>
+
+                <!--Ground Clearance Slider-->
+                <label for="ground-clearance">Ground Clearance (cm):</label>
+                <input type="range" id="ground-clearance" name="ground-clearance" min="13.3" max="27.9" step="0.1" value="13.3">
+                <span id="ground-clearance-value">13.3 cm</span>
 
                 <!--Seating Slider-->
                 <label for="seating">Seating Capacity:</label>
@@ -124,7 +148,7 @@
                 <span id="seating-value">5 Seats</span>
 
                 <!--Price Slider-->
-                <label for="price">Price:</label>
+                <label for="price">Price (₱):</label>
                 <input type="range" id="price" name="price" min="5000" max="80000" value="5000">
                 <span id="price-value">₱5000</span>
                 
@@ -133,6 +157,30 @@
         </div>
     </div>
 
+    <!-- Results Frame (Initially Hidden)-->
+    <div class="results-frame" id="results-frame" style="display: none;"></div>
+    <h2 class="results-title">Your personalized vehicle list is ready!</h2>
+    <table class="results-table">
+        <thread>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Body type</th>
+                <th>Variant</th>
+                <th>Drive Train</th>
+                <th>Engine</th>
+                <th>Horsepower</th>
+                <th>Transmission</th>
+                <th>Ground Clearance</th>
+                <th>Cargo Space</th>
+                <th>Seating Capacity</th>
+                <th>Price</th>
+            </tr>
+        </thread>
+        <tbody id="results-body">
+
+        </tbody>
+    </table>
 
     <footer>
         <div class="footer-container">

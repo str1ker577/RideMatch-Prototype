@@ -246,6 +246,9 @@ header{
 .Quick-Tools i:hover{
     transform: translateY(-5px);
 }
+/***********************/
+/* Filter System Frame */
+/***********************/
 
 /* Outer Frame Styling */
 .outer-frame {
@@ -348,7 +351,7 @@ header{
 }
 
 /* Slider Values Styling */
-#horsepower-value, #cargo-space-value, #seating-value, #price-value  {
+#horsepower-value, #cargo-space-value, #seating-value, #price-value, #ground-clearance-value  {
     text-align: center;
     margin-top: 5px;
     font-size: 14px;
@@ -376,6 +379,58 @@ header{
     flex: 1;
 }
 
+/*************************/
+/* Results Frame Styling */
+/*************************/
+
+/* Results Frame Styling */
+.results-frame {
+    width: 70%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #b49b66;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(18px);
+    opacity: 0; /* Initially hidden */
+    transform: translateY(-20px); /* Start slightly above */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+
+/* Show the results frame when filters are applied */
+.results-frame.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Title Styling */
+.results-title {
+    text-align: center;
+    color: #b49b66;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Results Table Styling */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.results-table th, .results-table td {
+    border: 1px solid #b49b66;
+    padding: 10px;
+    text-align: left;
+}
+
+.results-table th {
+    background-color: rgba(180, 155, 102, 0.2);
+    color: #b49b66;
+}
+
 
 /****************/
 /*Footer Styling*/
@@ -385,40 +440,39 @@ footer {
     width: 100%;
     background: #161f48;
     color: #fff;
-    padding: 20px 100px;
+    padding: 30px 0;
     text-align: center;
     border-top: 3px solid var(--second-color);
     box-shadow: var(--box-shadow);
-    min-height: 90px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: auto;
     position: relative;
-    box-sizing: border-box;
+    bottom: 0;
+    left: 0;
 }
 
 .footer-container {
+    width: 90%;
+    max-width: 1200px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
+    align-items: stretch;
+    padding-bottom: 20px;
 }
 
 .footer-section {
     flex: 1;
     min-width: 250px;
-    padding: 10px;
+    padding: 15px;
+    text-align: left;
 }
 
 .footer-section h3 {
     color: var(--second-color);
-    padding-bottom: 5px;
-    color: var(--second-color);
-    transform: translateY(-5px);  
+    margin-bottom: 10px;
 }
 
 .footer-section ul {
@@ -427,19 +481,26 @@ footer {
 }
 
 .footer-section ul li a {
-    color: #ccc;
+    color: #fff;
     text-decoration: none;
+    transition: color 0.3s;
 }
 
 .footer-section ul li a:hover {
     color: var(--second-color);
 }
 
+.social-icons {
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    margin-top: 10px;
+}
+
 .social-icons a {
     color: #fff;
     font-size: 20px;
-    margin: 0 10px;
-    transition: transform 0.55s ease, color 0.55s ease;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .social-icons a:hover {
@@ -450,27 +511,23 @@ footer {
 .footer-bottom {
     width: 100%;
     text-align: center;
-    margin-top: 10px;
+    padding: 15px 0;
     border-top: 1px solid #fff;
-    padding-top: 10px;
-    background: (var(--main-color));
+    background: var(--main-color);
     color: #fff;
-    padding-bottom: 15px;
 }
 
-body.home-page footer {
-    background-color: var(--main-color);
-    padding-bottom: 40px;
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-section {
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
 }
-
-.main-content {
-    flex: 1;
-}
-
-footer {
-    width: 100%;
-    padding: 20px 0;
-}
-
-
 
