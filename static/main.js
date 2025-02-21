@@ -14,6 +14,29 @@ document.querySelector('#user-icon').onclick = () => {
     search.classList.remove('active');
 };
 
+
+// Popup functionality
+function togglePopup(popupId) {
+    const popup = document.getElementById(popupId);
+    popup.classList.toggle('active');
+}
+
+// Close popup when clicking outside
+document.addEventListener('click', function(event) {
+    // Don't handle clicks on menu button or sidebar
+    if (event.target.closest('#menu-button') || event.target.closest('#sidebar')) {
+        return;
+    }
+    
+    const popups = document.querySelectorAll('.popup.active');
+    popups.forEach(popup => {
+        if (!popup.contains(event.target) && !event.target.matches('[onclick*="togglePopup"]')) {
+            popup.classList.remove('active');
+        }
+    });
+});
+
+
 // Get elements for toggling sidebar and menu button
 const menuButton = document.getElementById('menu-button');
 const closeButton = document.getElementById('close-button');
@@ -32,6 +55,7 @@ closeButton.addEventListener('click', () => {
     menuButton.style.display = 'block'; // Show the menu button again
     closeButton.style.display = 'none'; // Hide the close button
 });
+
 
 // Get sliders by their ids
 const hpSlider = document.getElementById("horsepower");

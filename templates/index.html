@@ -18,16 +18,16 @@
         
         <!-- Side-Menu -->
         <div class="Side-Menu">
-            <i class='bx bx-menu' id='menu-button' style='color:#b49b66' ></i>
+            <i class='bx bx-menu' id='menu-button' style='color:#b49b66' onclick="togglePopup('login-popup')"></i>
         </div>
 
         <div class="SideBar" id="sidebar">
             <i class='bx bx-arrow-from-right' id="close-button" style='color:#b49b66' ></i>
             <ul>
                 <div class="SideBar-Icons">
-                <a href="/signup"><i class='bx bx-user' id='user-icon' style='color:#b49b66' ></i></a>
+                <i class='bx bx-user' id='user-icon' style='color:#b49b66' ></i>
+
                 <a href="favourites.html"><i class='bx bx-heart' style='color:#b49b66'></i></a>
-                <i class='bx bx-shopping-bag' style='color:#b49b66' ></i>
                 </div>
                 <hr>
 
@@ -35,16 +35,7 @@
                 <li><a href="testimonials.html">Client Testimonials</a></li>
             </ul>
         </div>
-
-        <div class="user">
-            <h2>Sign In</h2>
-            <input type="email" placeholder="e.g. example@email.com...">
-            <input type="password" name="" id="" placeholder="e.g. 1234ABCD...">
-            <input type="submit" value="Login" class="login-btn">
-            <p>Forgot Password?? <a href="#">Reset Now</a></p>
-            <p>Don't have an account?<a href="#">Create One</a></p>
-        </div>
-
+        
         <div class="liked"><a href="#"></a>
 
         </div>
@@ -114,6 +105,33 @@
                 
                 <button class="filter-btn">Apply Filters</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Popup Containers -->
+    <div id="login-popup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="togglePopup('login-popup')">&times;</span>
+            <h1>Login</h1>
+            <form action="/login" method="POST">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="javascript:void(0)" onclick="togglePopup('signup-popup'); togglePopup('login-popup')">Sign Up</a></p>
+        </div>
+    </div>
+
+    <div id="signup-popup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="togglePopup('signup-popup')">&times;</span>
+            <h1>Sign Up</h1>
+            <form action="/signup" method="POST">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <p>Already have an account? <a href="javascript:void(0)" onclick="togglePopup('login-popup'); togglePopup('signup-popup')">Login</a></p>
         </div>
     </div>
 
