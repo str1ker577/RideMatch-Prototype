@@ -134,100 +134,137 @@
       <!-- Vertical Divider -->
       <div class="vertical-divider"></div>
 
-      <!-- Right Section: Sliders and Submit Button -->
-      <div class="filter-right">
-        <!-- Horsepower Slider -->
-        <label for="horsepower">Horsepower (Hp):</label>
-        <input type="range" id="horsepower" name="horsepower" min="50" max="500" value="100">
-        <span id="horsepower-value">100 hp</span>
+            <!-- Right Section: Sliders and Submit Button -->
+            <div class="filter-right">
 
-        <!-- Cargo Space Slider -->
-        <label for="cargo-space">Cargo Space (L):</label>
-        <input type="range" id="cargo-space" name="cargo-space" min="150" max="1000" value="150">
-        <span id="cargo-space-value">150L</span>
+                <!--Horse Power Slider-->
+                <label for="horsepower">Horsepower (Hp):</label>
+                <input type="range" id="horsepower" name="horsepower" min="50" max="500" step="10" value="100" oninput="updateSliderValue('horsepower', 'HP', false)">
+                <span id="horsepower-value">50 HP</span>
 
-        <!-- Ground Clearance Slider -->
-        <label for="ground-clearance">Ground Clearance (cm):</label>
-        <input type="range" id="ground-clearance" name="ground-clearance" min="13.3" max="27.9" step="0.1" value="13.3">
-        <span id="ground-clearance-value">13.3 cm</span>
+                <!--Cargo Space Slider-->
+                <label for="cargo-space">Cargo Space (L):</label>
+                <input type="range" id="cargo-space" name="cargo-space" min="150" max="1000" step="5" value="150" oninput="updateSliderValue('cargo-space', 'L')">
+                <span id="cargo-space-value">150L</span>
 
-        <!-- Seating Slider -->
-        <label for="seating">Seating Capacity:</label>
-        <input type="range" id="seating" name="seating" min="5" max="15" value="5">
-        <span id="seating-value">5 Seats</span>
+                <!--Ground Clearance Slider-->
+                <label for="ground-clearance">Ground Clearance (cm):</label>
+                <input type="range" id="ground-clearance" name="ground-clearance" min="13.3" max="27.9" step="0.1" value="13.3" oninput="updateSliderValue('ground-clearance', 'cm')">
+                <span id="ground-clearance-value">13.3 cm</span>
 
-        <!-- Price Slider -->
-        <label for="price">Price (₱):</label>
-        <input type="range" id="price" name="price" min="5000" max="80000" value="5000">
-        <span id="price-value">₱5000</span>
-        
-        <button class="filter-btn">Apply Filters</button>
-      </div>
-    </div>
-  </div>
+                <!--Seating Slider-->
+                <label for="seating">Seating Capacity:</label>
+                <input type="range" id="seating" name="seating" min="5" max="15" step="1" value="5" oninput="updateSliderValue('seating')">
+                <span id="seating-value">5 Seats</span>
 
-  <!-- Results Frame (Initially Hidden)-->
-  <div class="results-frame" id="results-frame" style="display: none;"></div>
-  <h2 class="results-title">Your personalized vehicle list is ready!</h2>
-  <table class="results-table">
-    <thead>
-      <tr>
-        <th>Brand</th>
-        <th>Model</th>
-        <th>Body Type</th>
-        <th>Variant</th>
-        <th>Drive Train</th>
-        <th>Engine</th>
-        <th>Horsepower</th>
-        <th>Transmission</th>
-        <th>Ground Clearance</th>
-        <th>Cargo Space</th>
-        <th>Seating Capacity</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody id="results-body">
-      <!-- Vehicle results will be dynamically inserted here -->
-    </tbody>
-  </table>
+                <!--Price Slider-->
+                <label for="price">Price (₱):</label>
+                <input type="range" id="price" name="price" min="500000" max="2000000" step="1000" oninput="updateSliderValue('price','₱', true)">
+                <span id="price-value">₱500,000</span>
+                
+                <button id="filter-btn" class="filter-btn">Apply Filters</button>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-section">
-        <h3>About Us</h3>
-        <p>RideMatch helps you find the perfect car with ease. Explore our collection and filter cars based on your preferences.</p>
-      </div>
-      <div class="footer-section">
-        <h3>Quick Links</h3>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="testimonials.html">Client Testimonials</a></li>
-          <li><a href="contacts.html">Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h3>Contact Us</h3>
-        <p>Email: ridematchhelp@gmail.com</p>
-        <p>Phone: +63 961 993 7494</p>
-      </div>
-      <div class="footer-section">
-        <h3>Follow Us</h3>
-        <div class="social-icons">
-          <a href="#"><i class='bx bxl-facebook'></i></a>
-          <a href="#"><i class='bx bxl-twitter'></i></a>
-          <a href="#"><i class='bx bxl-instagram'></i></a>
-          <a href="#"><i class='bx bxl-linkedin'></i></a>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 RideMatch. All Rights Reserved.</p>
+
+<!-- Results Frame (Initially Hidden) -->
+<div id="results-frame">
+    <div class="results-outer-frame">
+    <h2 class="results-title">Your personalized vehicle list is ready!</h2>
+
+    <!-- Separate Table Header -->
+    <div class="table-header">
+        <table>
+            <thead>
+                <tr>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Body Type</th>
+                    <th>Variant</th>
+                    <th>Drive Train</th>
+                    <th>Engine</th>
+                    <th>Horsepower</th>
+                    <th>Transmission</th>
+                    <th>Ground Clearance</th>
+                    <th>Cargo Space</th>
+                    <th>Seating Capacity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+        </table>
     </div>
-  </footer>
-  
-  <!-- Link to Main.js -->
-  <script src="main.js"></script>
+
+    <!-- Scrollable Table Body -->
+    <div class="results-inner-frame">
+        <table class="results-table">
+            <tbody id="results-body">
+                <!-- Filtered car data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>RideMatch helps you find the perfect car with ease. Explore our collection and filter cars based on your preferences.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="testimonials.html">Client Testimonials</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: ridematchhelp@gmail.com</p>
+                <p>Phone: +63 961 993 7494</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin'></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 RideMatch. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+        <script>
+        function updateSliderValue(id, unit, isPrice = false) {
+            let value = document.getElementById(id).value;
+
+            // Format price with commas and place the unit on the left
+            if (isPrice) {
+                value = "₱" + parseInt(value).toLocaleString();
+            } else {
+                value = parseInt(value).toLocaleString() + " " + unit;
+            }
+
+            document.getElementById(id + "-value").textContent = value;
+        }
+
+        // Ensure all sliders display correct formatting when the page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSliderValue('price', '₱', true);
+            updateSliderValue('horsepower', 'HP', false);
+        });
+        </script>
+
+    
+    <!-- Link to Main.java -->
+     <script src="main.js"></script>
+    
 </body>
 </html>

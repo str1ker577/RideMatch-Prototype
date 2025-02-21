@@ -1,6 +1,8 @@
+import json
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pandas as pd
+import numpy as np
 
 app = Flask(__name__)
 CORS(app)
@@ -18,38 +20,66 @@ df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
 
 @app.route('/get_cars', methods=['GET'])
 def get_cars():
-    
-    #Get the Filter Values from the Frontend side
-    
-    brand = request.args.get("brand", "").strip()  
-    drive_train = request.args.get("drive_train", "").strip()  
-    min_hp = request.args.get('min_hp', type=float, default=50)
-    max_hp = request.args.get('max_hp', type=float, default=500)
-    min_cargo = request.args.get('min_cargo', type=float, default=150)
-    max_cargo = request.args.get('max_cargo', type=float, default=1000)
-    min_price = request.args.get('min_price', type=float, default=5000)
-    max_price = request.args.get('max_price', type=float, default=80000)
-    
-    filtered_df = df[
-        (df['Horsepower'] >= min_hp) & (df['Horsepower'] <= max_hp) &
-        (df['Cargo_space'] >= min_cargo) & (df['Cargo_space'] <= max_cargo) &
-        (df['Price'] >= min_price) & (df['Price'] <= max_price)
-    ]
-    
-    print(f"Brand received: {repr(brand)}, Type: {type(brand)}")
-    print(f"Drive Train received: {repr(drive_train)}, Type: {type(drive_train)}")
-    
-    print(request.args)  # See what parameters are being received
+    # Extract parameters safely with default values
+    brand = request.args.get("brand", "").strip()
+    model = request.args.get("model", "").strip()
+    body_type = request.args.get("body-type", "").strip()
+    drive_train = request.args.get("drive-train", "").strip()
+    transmission = request.args.get("transmission", "").strip()
+    fuel_type = request.args.get("fuel-type", "").strip()
+    min_hp = request.args.get("horsepower", type=int, default=50)
+    min_cargo = request.args.get("cargo-space", type=int, default=150)
+    min_price = request.args.get("price", type=int, default=5000)
 
-    
-    if brand:
+    # Debugging - Log received values
+    print("\n🔍 Received Filters:")
+    print(f"Brand: {repr(brand)}")
+    print(f"Model: {repr(model)}")
+    print(f"Body Type: {repr(body_type)}")
+    print(f"Drive Train: {repr(drive_train)}")
+    print(f"Transmission: {repr(transmission)}")
+    print(f"Fuel Type: {repr(fuel_type)}")
+    print(f"Min HP: {min_hp}")
+    print(f"Min Cargo Space: {min_cargo}")
+    print(f"Min Price: {min_price}")
+
+    # Start filtering
+    filtered_df = df.copy()
+
+    if brand.lower() != "all brands" and brand != "":
         filtered_df = filtered_df[filtered_df["Brand"].str.lower() == brand.lower()]
-    if drive_train:
-        filtered_df = filtered_df[filtered_df["Drive_train"].str.lower() == drive_train.lower()]
     
-    """Return the CSV data as JSON."""
-    return jsonify(df.to_dict(orient='records'))
+    if model.lower() != "all models" and model != "":
+        filtered_df = filtered_df[filtered_df["Model"].str.lower() == model.lower()]
+    
+    if body_type != "":
+        filtered_df = filtered_df[filtered_df["Body Type"].str.lower() == body_type.lower()]
 
-if __name__ == '__main__':
+    if drive_train != "":
+        filtered_df = filtered_df[filtered_df["Drive Train"].str.lower() == drive_train.lower()]
+    
+    if transmission != "":
+        filtered_df = filtered_df[filtered_df["Transmission"].str.lower() == transmission.lower()]
+    
+    if fuel_type != "":
+        filtered_df = filtered_df[filtered_df["Fuel Type"].str.lower() == fuel_type.lower()]
+
+    filtered_df = filtered_df[
+        (filtered_df["Horsepower"] >= min_hp) &
+        (filtered_df["Cargo_space"] >= min_cargo) &
+        (filtered_df["Price"] >= min_price)
+    ]
+
+    print("\n📊 Filtered DataFrame:")
+    print(filtered_df)
+
+
+    filtered_cars = filtered_df.to_dict(orient="records")  # ✅ Convert DataFrame to list of dictionaries
+    print(json.dumps(filtered_cars, indent=4))  # ✅ Now JSON-safe
+
+
+
+    return jsonify(filtered_df.to_dict(orient="records"))
+
+if __name__ == "__main__":
     app.run(debug=True)
-

@@ -1,4 +1,4 @@
-Brand,Model,Body_type,Variant,Drive_train,Engine,Horsepower,Transmission,Fuel_type,Ground_Clearance,Cargo_space,Seating,Price
+Brand,Model,Body_Type,Variant,Drive_Train,Engine,Horsepower,Transmission,Fuel_Type,Ground_Clearance,Cargo_space,Seating_Capacity,Price
 Toyota,Vios,Sedan,1.3 J MT,FWD,1.3L ; In-line 4,98.0,5-Speed ; Manual,Gasoline,13.3,326.0,5,732000.0
 Toyota,Vios,Sedan,1.3 XE CVT,FWD,1.3L ; In-line 4,98.0,CVT,Gasoline,13.3,326.0,5,774000.0
 Toyota,Vios,Sedan,1.3 XLE MT,FWD,1.3L ; In-line 4,98.0,5-Speed ; Manual,Gasoline,13.3,326.0,5,862000.0
