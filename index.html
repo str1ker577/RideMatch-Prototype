@@ -68,31 +68,66 @@
     <h2 class="filter-title">Filter</h2>
     <!-- Inner Frame (contains all the filter options) -->
     <div class="inner-frame">
-      <!-- Left Section: Brand, Model, Drive Train -->
+      <!-- Left Section: Brand, Model, etc. -->
       <div class="filter-left">
         <label for="brand">Brand:</label>
         <input list="brands" id="brand" name="brand" placeholder="Enter brand...">
         <datalist id="brands">
-          <option value="Honda">
+          <option value="All Brands">
           <option value="Toyota">
+          <option value="Honda">
           <option value="Mitsubishi">
           <option value="Nissan">
-          <!-- Add more brand options here -->
+          <option value="Ford">
+          <option value="Hyundai">
+          <option value="Suzuki">
         </datalist>
-        
+
+        <!-- Input for Model -->
         <label for="model">Model:</label>
         <input list="models" id="model" name="model" placeholder="Enter model..." disabled>
         <datalist id="models">
-          <!-- Model options will be dynamically filled by JavaScript based on selected brand -->
+          <option value="All Models">
         </datalist>
+
+        <!-- Body Type Drop down box -->
+        <label for="body-type">Body Type:</label>
+        <select id="body-type" name="body-type">
+          <option value="">Any Body Type</option>
+          <option value="Sedan">Sedan</option>
+          <option value="SUV">SUV</option>
+          <option value="MPV">MPV</option>
+          <option value="Hatchback">Hatchback</option>
+          <option value="Van">Van</option>
+        </select>
         
+        <!-- Drive Train Drop down box -->
         <label for="drive-train">Drive Train:</label>
         <select id="drive-train" name="drive-train">
+          <option value="" selected disabled>Choose drive train...</option>
+          <option value="">All Drive Train Options</option>
           <option value="FWD">Front-Wheel Drive (FWD)</option>
           <option value="RWD">Rear-Wheel Drive (RWD)</option>
           <option value="AWD">All-Wheel Drive (AWD)</option>
           <option value="2WD">Two-Wheel Drive (2WD)</option>
           <option value="4WD">Four-Wheel Drive (4WD)</option>
+        </select>
+
+        <!-- Transmission Drop down box -->
+        <label for="transmission">Transmission:</label>
+        <select id="transmission" name="transmission">
+          <option value="" selected disabled>Choose Transmission...</option>
+          <option value="">All Transmission Options</option>
+          <option value="Automatic">Automatic</option>
+          <option value="Manual">Manual</option>
+        </select>
+
+        <!-- Fuel Type Drop down box -->
+        <label for="fuel-type">Fuel Type:</label>
+        <select id="fuel-type" name="fuel-type">
+          <option value="">Any Fuel Type</option>
+          <option value="Gasoline">Gasoline</option>
+          <option value="Diesel">Diesel</option>
         </select>
       </div>
 
@@ -101,15 +136,28 @@
 
       <!-- Right Section: Sliders and Submit Button -->
       <div class="filter-right">
-        <label for="horsepower">Horsepower:</label>
+        <!-- Horsepower Slider -->
+        <label for="horsepower">Horsepower (Hp):</label>
         <input type="range" id="horsepower" name="horsepower" min="50" max="500" value="100">
         <span id="horsepower-value">100 hp</span>
 
-        <label for="cargo-space">Cargo Space:</label>
+        <!-- Cargo Space Slider -->
+        <label for="cargo-space">Cargo Space (L):</label>
         <input type="range" id="cargo-space" name="cargo-space" min="150" max="1000" value="150">
         <span id="cargo-space-value">150L</span>
 
-        <label for="price">Price:</label>
+        <!-- Ground Clearance Slider -->
+        <label for="ground-clearance">Ground Clearance (cm):</label>
+        <input type="range" id="ground-clearance" name="ground-clearance" min="13.3" max="27.9" step="0.1" value="13.3">
+        <span id="ground-clearance-value">13.3 cm</span>
+
+        <!-- Seating Slider -->
+        <label for="seating">Seating Capacity:</label>
+        <input type="range" id="seating" name="seating" min="5" max="15" value="5">
+        <span id="seating-value">5 Seats</span>
+
+        <!-- Price Slider -->
+        <label for="price">Price (₱):</label>
         <input type="range" id="price" name="price" min="5000" max="80000" value="5000">
         <span id="price-value">₱5000</span>
         
@@ -117,6 +165,31 @@
       </div>
     </div>
   </div>
+
+  <!-- Results Frame (Initially Hidden)-->
+  <div class="results-frame" id="results-frame" style="display: none;"></div>
+  <h2 class="results-title">Your personalized vehicle list is ready!</h2>
+  <table class="results-table">
+    <thead>
+      <tr>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Body Type</th>
+        <th>Variant</th>
+        <th>Drive Train</th>
+        <th>Engine</th>
+        <th>Horsepower</th>
+        <th>Transmission</th>
+        <th>Ground Clearance</th>
+        <th>Cargo Space</th>
+        <th>Seating Capacity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody id="results-body">
+      <!-- Vehicle results will be dynamically inserted here -->
+    </tbody>
+  </table>
 
   <!-- Footer -->
   <footer>
