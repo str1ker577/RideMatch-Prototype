@@ -54,7 +54,8 @@ async function applyFilters() {
     console.log("Min Price:", minPrice);
 
     // Construct API URL
-    const url = new URL("http://127.0.0.1:5000/get_cars");
+    //const url = new URL("http://127.0.0.1:5000/get_cars");//
+    const url = new URL("https://ridematch-tsv7.onrender.com/get_cars");
     if (brand) url.searchParams.append("brand", brand);
     if (driveTrain) url.searchParams.append("drive_train", driveTrain);
     if (transmission) url.searchParams.append("transmission", transmission);
