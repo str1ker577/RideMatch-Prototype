@@ -1,90 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RideMatch</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Testimonials | RideMatch</title>
 
-    <!-- Link to Boxicons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+  <!-- Link to Boxicons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
-    <!-- Link to CSS -->
-     <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- Link to CSS -->
+  <link rel="stylesheet" type="text/css" href="style.css">
 
+  <!-- Optional inline style for the sidebar slide animation -->
+  <style>
+    .SideBar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 500px;
+      height: 100%;
+      background-color: #fff;
+      transition: left 0.5s ease-in-out;
+      z-index: 1000;
+    }
+    .SideBar.open {
+      left: 0;
+    }
+  </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <header>
+  <!-- Navbar -->
+  <header>
+    <!-- Centered Logo -->
+    <a href="#" class="Logo">
+      <img src="resources/Logo2.png" alt="RideMatch">
+    </a>
 
-        <!-- Centered Logo -->
-        <a href="index.html" class="Logo">RideMatch</a>
-        
-        <!-- Side-Menu -->
-        <div class="Side-Menu">
-            <i class='bx bx-menu' id='menu-button' style='color:#b49b66' ></i>
+    <!-- Side-Menu -->
+    <div class="Side-Menu">
+      <i class='bx bx-menu' id='menu-button' style='color:#b49b66'></i>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <div class="SideBar" id="sidebar">
+      <i class='bx bx-arrow-from-right' id="close-button" style='color:#b49b66'></i>
+      <ul>
+        <div class="SideBar-Icons">
+          <i class='bx bx-user' id='user-icon' style='color:#b49b66'></i>
+          <a href="favourites.html"><i class='bx bx-heart' style='color:#b49b66'></i></a>
         </div>
+        <hr>
+        <!-- Updated nav items -->
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contacts.html">Contacts</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+      </ul>
+    </div>
 
-        <div class="SideBar" id="sidebar">
-            <i class='bx bx-arrow-from-right' id="close-button" style='color:#b49b66' ></i>
-            <ul>
-                <div class="SideBar-Icons">
-                <i class='bx bx-user' id='user-icon' style='color:#b49b66' ></i>
-                <a href="favourites.html"><i class='bx bx-heart' style='color:#b49b66'></i></a>
-                </div>
-                <hr>
+    <div class="liked"><a href="#"></a></div>
 
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-            </ul>
+    <!-- Quick Access Tools (placeholder)-->
+    <div class="Quick-Tools"></div>
+  </header>
+
+  <!-- Main Testimonials Content -->
+   <div class="wrapper">
+  <div style="margin-top:10rem;">
+    <h2 style="text-align:center; color:#b49b66;">Client Testimonials</h2>
+    <p style="text-align:center;">
+      <!-- Replace or expand with actual testimonial content -->
+      Our clients love us! Read what they have to say below.
+    </p>
+  </div>
+</div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <p>RideMatch helps you find the perfect car with ease. Explore our collection and filter cars based on your preferences.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="testimonials.html">Client Testimonials</a></li>
+          <li><a href="contacts.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <p>Email: <a href="mailto:ridematchhelp@gmail.com">ridematchhelp@gmail.com</a></p>
+        <p>Phone: +63 961 993 7494</p>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="#"><i class='bx bxl-facebook'></i></a>
+          <a href="#"><i class='bx bxl-twitter'></i></a>
+          <a href="#"><i class='bx bxl-instagram'></i></a>
+          <a href="#"><i class='bx bxl-linkedin'></i></a>
         </div>
-
-        <div class="liked"><a href="#"></a>
-
-        </div>
-
-        <!-- Quick Access Tools-->
-        <div class="Quick-Tools">
-        </div>
-
-    </header>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>About Us</h3>
-                <p>RideMatch helps you find the perfect car with ease. Explore our collection and filter cars based on your preferences.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="testimonials.html">Client Testimonials</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p>Email: ridematchhelp@gmail.com</p>
-                <p>Phone: +63 961 993 7494</p>
-            </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#"><i class='bx bxl-facebook'></i></a>
-                    <a href="#"><i class='bx bxl-twitter'></i></a>
-                    <a href="#"><i class='bx bxl-instagram'></i></a>
-                    <a href="#"><i class='bx bxl-linkedin'></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 RideMatch. All Rights Reserved.</p>
-        </div>
-    </footer>
-    
-
-    <!-- Link to Main.java -->
-     <script src="main.js"></script>
-    
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 RideMatch. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+  <!-- Link to Main.js -->
+  <script src="main.js"></script>
 </body>
 </html>
