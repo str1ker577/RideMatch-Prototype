@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["https://ride-match-prototype.vercel.app"])
 
 # Load CSV data
 df = pd.read_csv('car_data.csv', encoding='utf-8')
