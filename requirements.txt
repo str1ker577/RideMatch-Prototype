@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Install dependencies using the following command:
 # pip install -r requirements.txt
 
@@ -6,12 +5,5 @@ pandas==2.2.3
 flask==3.1.0
 flask-cors==5.0.0
 matplotlib==3.9.2
-=======
-# Install dependencies using the following command:
-# pip install -r requirements.txt
-
-pandas==2.2.3
-flask==3.1.0
-flask-cors==5.0.0
-matplotlib==3.9.2
->>>>>>> 150aad2c7daf4789815b42617d2076f42d5311e1
+mysql-connector-python==9.2.0
+firebase-admin==6.6.0

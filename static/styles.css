@@ -12,7 +12,7 @@
 }
 
 body{
-    background-image: url('resources/BG.png'); 
+    background-image: url('../resources/BG.png'); 
     background-size: cover; 
     background-position: top left;
     background-repeat: repeat; 
@@ -34,7 +34,7 @@ body, html{
     --text-color: #02171d;
     --text-background-color: #ebeff2;
     --box-shadow: 2px 2px 10px 4px rgb(14 55 54 / 15%);
-    background-image: url('resources/Background.png');
+    background-image: url('../resources/Background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -662,4 +662,84 @@ footer {
 /******************/
 /* About Us Style */
 /******************/
+
+
+/* Popup Styles */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1001;
+}
+
+.popup.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup-content {
+    background: var(--background-color);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--second-color);
+}
+
+.popup-content h1 {
+    color: var(--second-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.popup-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.popup-content input {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
+}
+
+.popup-content button {
+    background: var(--second-color);
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.popup-content p {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.popup-content a {
+    color: var(--second-color);
+    text-decoration: underline;
+    cursor: pointer;
+}
 

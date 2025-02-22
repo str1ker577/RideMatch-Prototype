@@ -22,6 +22,28 @@ closeButton.addEventListener('click', () => {
     closeButton.style.display = 'none';
 });
 
+// Popup functionality
+function togglePopup(popupId) {
+    const popup = document.getElementById(popupId);
+    popup.classList.toggle('active');
+}
+
+// Close popup when clicking outside
+document.addEventListener('click', function(event) {
+    // Don't handle clicks on menu button or sidebar
+    if (event.target.closest('#menu-button') || event.target.closest('#sidebar')) {
+        return;
+    }
+    
+    const popups = document.querySelectorAll('.popup.active');
+    popups.forEach(popup => {
+        if (!popup.contains(event.target) && !event.target.matches('[onclick*="togglePopup"]')) {
+            popup.classList.remove('active');
+        }
+    });
+});
+
+
 
 
 document.addEventListener("DOMContentLoaded", function () {

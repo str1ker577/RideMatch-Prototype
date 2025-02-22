@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Favorites | RideMatch</title>
+  <title>About Us | RideMatch</title>
 
-  <!-- Boxicons -->
+  <!-- Link to Boxicons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
-  <!-- CSS -->
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- Link to your main CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+
 
 </head>
 <body>
@@ -17,7 +18,7 @@
   <header>
     <!-- Centered Logo -->
     <a href="#" class="Logo">
-      <img src="resources/Logo2.png" alt="RideMatch">
+      <img src="{{ url_for('static', filename='resources/Logo2.png') }}" alt="RideMatch">
     </a>
 
     <!-- Quick Tools (placeholder if needed) -->
@@ -50,15 +51,17 @@
     <div class="liked"><a href="#"></a></div>
   </header>
 
-  <!-- Favorites Section -->
-  <div class="outer-frame" style="margin-top:10rem;">
-    <h2 class="filter-title">Your Favorite Cars</h2>
-    <!-- Insert your favorites list or dynamic content here -->
-    <p style="text-align:center; color:#b49b66;">
-      <!-- Example text. Replace with your own or remove if you're dynamically generating favorites. -->
-      Here are the cars you've marked as favorites.
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="about-header">
+    <h1 style="text-align:center; color:#b49b66;">About RideMatch</h1>
+    </div>
+    <div class="about-paragraph">
+    <p style="text-align:center;">
+      RideMatch helps you find the perfect car with ease. Explore our collection and filter cars based on your preferences.
     </p>
   </div>
+  </main>
 
   <!-- Footer -->
   <footer>
@@ -96,7 +99,7 @@
     </div>
   </footer>
 
-  <!-- JavaScript -->
-  <script src="main.js"></script>
+  <!-- Script for sidebar toggle -->
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>

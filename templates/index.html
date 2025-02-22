@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
   <!-- Link to CSS -->
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 
 </head>
 <body>
@@ -17,7 +17,7 @@
   <header>
     <!-- Centered Logo -->
     <a href="#" class="Logo">
-      <img src="resources/Logo2.png" alt="RideMatch">
+      <img src="{{ url_for('static', filename='resources/Logo2.png') }}" alt="RideMatch">
     </a>
 
     <!-- Side Menu Pop-out-->
@@ -25,14 +25,14 @@
 
     <!-- Side-Menu -->
     <div class="Side-Menu">
-      <i class='bx bx-menu' id='menu-button' style='color:#b49b66'></i>
+      <i class='bx bx-menu' id='menu-button' style='color:#b49b66' ></i>
     </div>
 
     <div class="SideBar" id="sidebar">
       <i class='bx bx-arrow-from-right' id="close-button" style='color:#b49b66'></i>
       <ul>
         <div class="SideBar-Icons">
-          <i class='bx bx-user' id='user-icon' style='color:#b49b66'></i>
+          <i class='bx bx-user' id='user-icon' style='color:#b49b66' onclick="togglePopup('login-popup')"></i>
           <a href="favourites.html"><i class='bx bx-heart' style='color:#b49b66'></i></a>
         </div>
         <hr>
@@ -46,6 +46,12 @@
 
     <div class="liked"><a href="#"></a></div>
   </header>
+
+  {% if logged_in %}
+  <div class="welcome-message">
+      <h1 class="filter-title">Welcome back, {{ user_name }}! <a href="{{ url_for('logout') }}">Logout</a></h1>
+  </div>
+  {% endif %}
 
   <!-- Outer Frame (with border and shadow) -->
   <div class="outer-frame" style="margin-top:10rem;">
@@ -190,6 +196,33 @@
 </div>
 </div>
 
+<!-- Popup Containers -->
+<div id="login-popup" class="popup">
+  <div class="popup-content">
+      <span class="close-btn" onclick="togglePopup('login-popup')">&times;</span>
+      <h1>Login</h1>
+      <form action="/login" method="POST">
+          <input type="email" name="email" placeholder="Email" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+      </form>
+      <p>Don't have an account? <a href="javascript:void(0)" onclick="togglePopup('signup-popup'); togglePopup('login-popup')">Sign Up</a></p>
+  </div>
+</div>
+
+<div id="signup-popup" class="popup">
+  <div class="popup-content">
+      <span class="close-btn" onclick="togglePopup('signup-popup')">&times;</span>
+      <h1>Sign Up</h1>
+      <form action="/signup" method="POST">
+          <input type="email" name="email" placeholder="Email" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit">Sign Up</button>
+      </form>
+      <p>Already have an account? <a href="javascript:void(0)" onclick="togglePopup('login-popup'); togglePopup('signup-popup')">Login</a></p>
+  </div>
+</div>
+
 
     <footer>
         <div class="footer-container">
@@ -249,7 +282,7 @@
 
     
     <!-- Link to Main.java -->
-     <script src="main.js"></script>
+     <script src="{{ url_for('static', filename='main.js') }}"></script>
     
 </body>
 </html>
