@@ -76,18 +76,28 @@ async function applyFilters() {
 }
 
 function displayFilteredCars(data) {
+    console.log("📊 Displaying cars:", data); // Debugging log
+
     const resultsFrame = document.getElementById("results-frame");
     const resultsBody = document.getElementById("results-body");
 
-    // Ensure the results frame is visible
+    // ✅ Check if elements exist
+    if (!resultsFrame || !resultsBody) {
+        console.error("❌ Results elements not found!"); 
+        return;
+    }
+
+    // ✅ Ensure the results frame is visible
+    resultsFrame.style.display = "block"; 
     resultsFrame.classList.add("active");
 
-    // ✅ Clear only the table body, keeping the header intact
+    // ✅ Clear the table body before inserting new data
     resultsBody.innerHTML = "";
 
     // ✅ Handle case when no results match
     if (data.length === 0) {
         resultsBody.innerHTML = `<tr><td colspan="12" style="text-align: center;">No matching cars found.</td></tr>`;
+        console.warn("⚠️ No cars found for given filters.");
         return;
     }
 
@@ -110,7 +120,10 @@ function displayFilteredCars(data) {
         `;
         resultsBody.appendChild(row);
     });
+
+    console.log("✅ Table updated successfully!");
 }
+
 
 
 
