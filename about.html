@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideMatch</title>
+
+    <!-- Link to Boxicons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Link to CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        .about-frame {
+            max-width: 75%;
+            margin: 40px auto;
+            margin-top: 10%;
+            padding: 30px;
+            border: 2px solid #b49b66;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(18px);
+        }
+        
+        .about-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .features {
+            display: flex;
+            justify-content: space-between;
+        }
+        .feature-item {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f5f5f5;
+            margin: 0 10px;
+            border: 2px solid #b49b66;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(18px);
+        }
+            
+        .how-it-works ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .how-it-works li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        .how-it-works li::before {
+            content: '\f00c'; /* Checkmark unicode */
+            font-family: 'Boxicons';
+            color: #b49b66; /* Gold color */
+            margin-right: 10px;
+        }
+        .how-it-works i {
+            color: #b49b66; /* Gold color */
+            font-size: 20px; /* Adjust icon size */
+            margin-right: 10px; /* Adds space between icon and text */
+            vertical-align: middle; /* Aligns the icon with the text */
+        }
+
+        h2, .about-content h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .about-content h1 {
+            border-bottom: 3px solid #b49b66; /* Gold underline */
+            padding-bottom: 10px;
+        }
+        .about-content p, .mission-section p {
+            text-align: center;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .why-choose h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .feature-item i {
+            font-size: 2rem;
+            color: #b49b66;
+        }
+        .feature-item h3 {
+            margin-top: 10px;
+        }
+        .feature-item p {
+            font-size: 0.95rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <a href="#" class="Logo">
+            <img src="resources/Logo2.png" alt="RideMatch">
+        </a>
+        
+        <div class="Quick-Tools"></div>
+        
+        <div class="Side-Menu">
+            <i class='bx bx-menu' id='menu-button' style='color:#b49b66'></i>
+        </div>
+
+        <div class="SideBar" id="sidebar">
+            <i class='bx bx-arrow-from-right' id="close-button" style='color:#b49b66'></i>
+            <ul>
+                <div class="SideBar-Icons">
+                    <i class='bx bx-user' id='user-icon' style='color:#b49b66'></i>
+                    <a href="favourites.html"><i class='bx bx-heart' style='color:#b49b66'></i></a>
+                </div>
+                <hr>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">Testimonials</a></li>
+                <li><a href="contacts.html">Contacts</a></li>
+                <li><a href="testimonials.html">Testimonials</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content Frame -->
+    <div class="wrapper">
+        <main class="about-frame">
+            <h2 class="filter-title">About Us</h2>
+            <section class="about-container">
+                <div class="about-content">
+                    <h1>About RideMatch</h1>
+                    <p>RideMatch is your ultimate car-matching platform, designed to simplify the car selection process. Inspired by PC Part Picker, we help users filter and find cars based on various criteria like price range, fuel efficiency, horsepower, cargo capacity, engine size, and brand.</p>
+                </div>
+                <div class="mission-section">
+                    <h2>Our Mission</h2>
+                    <p>Our goal is to streamline the car-buying experience by offering an intuitive and efficient platform that allows users to make informed decisions with ease.</p>
+                </div>
+                <div class="how-it-works">
+                    <h2>How It Works</h2>
+                    <ul>
+                      <li><i class="fas fa-check"></i> Set your preferences using our comprehensive filter system.</li>
+                      <li><i class="fas fa-check"></i> Browse a curated selection of cars that match your needs.</li>
+                      <li><i class="fas fa-check"></i> Compare vehicles and make an informed decision.</li>
+                    </ul>
+                </div>
+                <div class="why-choose">
+                    <h2>Why Choose RideMatch?</h2>
+                    <div class="features">
+                        <div class="feature-item">
+                            <i class='bx bx-search'></i>
+                            <h3>Smart Filtering</h3>
+                            <p>Find the perfect car using advanced filtering options.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class='bx bx-time-five'></i>
+                            <h3>Time-Saving</h3>
+                            <p>Instantly get matched with cars that suit your needs.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class='bx bx-user-check'></i>
+                            <h3>User-Friendly</h3>
+                            <p>Easy navigation and seamless browsing experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>RideMatch helps you find the perfect car with ease. Explore our collection and filter cars based on your preferences.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="testimonials.html">Client Testimonials</a></li>
+                    <li><a href="contacts.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: <a href="mailto:ridematchhelp@gmail.com">ridematchhelp@gmail.com</a></p>
+                <p>Phone: +63 961 993 7494</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin'></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 RideMatch. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

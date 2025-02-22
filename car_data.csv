@@ -1,0 +1,58 @@
+Brand,Model,Body_Type,Variant,Drive_Train,Engine,Horsepower,Transmission,Fuel_Type,Ground_Clearance,Cargo_space,Seating_Capacity,Price
+Toyota,Vios,Sedan,1.3 J MT,FWD,1.3L ; In-line 4,98.0,5-Speed ; Manual,Gasoline,13.3,326.0,5,732000.0
+Toyota,Vios,Sedan,1.3 XE CVT,FWD,1.3L ; In-line 4,98.0,CVT,Gasoline,13.3,326.0,5,774000.0
+Toyota,Vios,Sedan,1.3 XLE MT,FWD,1.3L ; In-line 4,98.0,5-Speed ; Manual,Gasoline,13.3,326.0,5,862000.0
+Toyota,Vios,Sedan,1.3 XLE CVT,FWD,1.3L ; In-line 4,98.0,CVT,Gasoline,13.3,326.0,5,902000.0
+Toyota,Vios,Sedan,1.5 G MT,FWD,1.5L ; In-line 4,106.0,5-Speed ; Manual,Gasoline,13.3,326.0,5,979000.0
+Toyota,Vios,Sedan,1.5 G CVT,FWD,1.5L ; In-line 4,106.0,CVT,Gasoline,13.3,326.0,5,1039000.0
+Toyota,Hilux,Truck,2.4 4x2 M/T,4x2,2.4L ; 4 Cylinder,148.0,5-Speed ; Manual,Diesel,27.9,435.0,3,885000.0
+Toyota,Hilux,Truck,2.4 J DSL 4x2 M/T,4x2,2.4L ; 4 Cylinder,148.0,5-Speed ; Manual,Diesel,27.9,435.0,5,995000.0
+Toyota,Hilux,Truck,2.4L 4x2 Cargo M/T,2WD,2.4L ; 4 Cylinder,148.0,5-Speed ; Manual,Diesel,27.9,435.0,3,1001000.0
+Toyota,Hilux,Truck,2.4L J 4x4 M/T,2WD,2.4L ; 4 Cylinder,148.0,5-Speed ; Manual,Diesel,27.9,435.0,3,1124000.0
+Toyota,Hilux,Truck,2.4L J 4x4 M/T,4x4,2.4L ; 4 Cylinder,148.0,6-Speed ; Manual,Diesel,27.9,435.0,5,1195000.0
+Toyota,Hilux,Truck,2.4 E DSL 4x2 M/T,4x2,2.4L ; 4 Cylinder,148.0,6-Speed ; Manual,Diesel,27.9,435.0,5,1312000.0
+Toyota,Hilux,Truck,2.4 G DSL 4x2 M/T,4x2,2.4L ; 4 Cylinder,148.0,6-Speed ; Manual,Diesel,27.9,435.0,5,1390000.0
+Toyota,Hilux,Truck,2.4 E 4x2 A/T,4x2,2.4L ; 4 Cylinder,148.0,6-Speed ; Automatic,Diesel,27.9,435.0,5,1392000.0
+Toyota,Hilux,Truck,2.4 G DSL 4x2 A/T,4x2,2.4L ; 4 Cylinder,148.0,6-Speed ; Automatic,Diesel,27.9,435.0,5,1466000.0
+Toyota,Hilux,Truck,2.8 4x4 M/T,4x4,2.8L ; 4 Cylinder,201.0,6-Speed ; Manual,Diesel,27.9,435.0,5,1675000.0
+Toyota,Hilux,Truck,2.8 4x4 A/T,4x4,2.8L ; 4 Cylinder,201.0,6-Speed ; Automatic,Diesel,27.9,435.0,5,2078000.0
+Toyota,Hilux,Truck,GR Sport,4x4,2.8L ; 4 Cylinder,201.0,6-Speed ; Automatic,Diesel,27.9,435.0,5,2172000.0
+Toyota,Raize,Crossover,1.2 E M/T,FWD,1.2L ; In-line 3,87.0,5-Speed ; Manual,Gasoline,20.0,369.0,5,751000.0
+Toyota,Raize,Crossover,1.2 E CVT,FWD,1.2L ; In-line 3,87.0,CVT,Gasoline,20.0,369.0,5,841000.0
+Toyota,Raize,Crossover,1.2 G CVT,FWD,1.2L ; In-line 3,87.0,CVT,Gasoline,20.0,369.0,5,936000.0
+Toyota,Raize,Crossover,1.0 Turbo CVT,FWD,1.0L ; In-line 3,97.0,CVT,Gasoline,20.0,369.0,5,1063000.0
+Toyota,Wigo,Hatchback,1.0 J M/T,FWD,1.0L ; In-line 3,65.0,5-Speed ; Manual,Gasoline,16.0,200.0,5,609000.0
+Toyota,Wigo,Hatchback,1.0 E CVT,FWD,1.0L ; In-line 3,65.0,CVT,Gasoline,16.0,200.0,5,684000.0
+Toyota,Wigo,Hatchback,1.0 G CVT,FWD,1.0L ; In-line 3,65.0,CVT,Gasoline,16.0,200.0,5,729000.0
+Toyota,Fortuner,SUV,2.4 G 4x2 M/T,4x2,2.4L ; In-line 4,148.0,6-Speed ; Manual,Diesel,19.3,200.0,7,1769000.0
+Toyota,Fortuner,SUV,2.4 G 4x2 A/T,4x2,2.4L ; In-line 4,148.0,6-Speed ; Automatic,Diesel,19.3,200.0,7,1861000.0
+Toyota,Fortuner,SUV,2.4 V 4x2 A/T,4x2,2.4L ; In-line 4,148.0,6-Speed ; Automatic,Diesel,19.3,200.0,7,1994000.0
+Toyota,Fortuner,SUV,2.8L Q 4x2 A/T,4x2,2.8L ; In-line 4,201.0,6-Speed ; Automatic,Diesel,19.3,200.0,7,2194000.0
+Toyota,Fortuner,SUV,2.8 L LTD 4x2 A/T,4x2,2.8L ; In-line 4,201.0,6-Speed ; Automatic,Diesel,19.3,200.0,7,2390000.0
+Toyota,Fortuner,SUV,2.8L LTD 4x4 A/T,4x4,2.8L ; In-line 4,201.0,6-Speed ; Automatic,Diesel,19.3,200.0,7,2553000.0
+Toyota,Fortuner,SUV,GR Sport,4x4,2.8L ; In-line 4,201.0,6-Speed ; Automatic,Diesel,19.3,200.0,7,2650000.0
+Toyota,Innova,MPV,2.8 J M/T,RWD,2.8L ; 4 Cylinder,168.0,5-Speed ; Manual,Diesel,17.8,300.0,8,1261000.0
+Toyota,Innova,MPV,2.8 XE A/T,RWD,2.8L ; 4 Cylinder,172.0,6-Speed ; Automatic,Diesel,17.8,300.0,8,1375000.0
+Toyota,Innova,MPV,2.8 E A/T,RWD,2.8L ; 4 Cylinder,172.0,6-Speed ; Automatic,Diesel,17.8,300.0,8,1529000.0
+Toyota,Innova,MPV,2.8 G M/T,RWD,2.8L ; 4 Cylinder,168.0,5-Speed ; Manual,Diesel,17.8,300.0,8,1598000.0
+Toyota,Innova,MPV,2.8 G A/T,RWD,2.8L ; 4 Cylinder,172.0,6-Speed ; Automatic,Diesel,17.8,300.0,8,1668000.0
+Toyota,Innova,MPV,2.8 V A/T,RWD,2.8L ; 4 Cylinder,172.0,6-Speed ; Automatic,Diesel,17.8,300.0,8,1808000.0
+Toyota,Veloz,SUV,1.5L LE,FWD,1.5L ; In-line 4,105.0,CVT,Gasoline,19.0,539.0,7,1098000.0
+Toyota,Veloz,SUV,1.5L G,FWD,1.5L ; In-line 4,105.0,CVT,Gasoline,19.0,539.0,7,1216000.0
+Toyota,Veloz,SUV,1.5L V,FWD,1.5L ; In-line 4,105.0,CVT,Gasoline,19.0,539.0,7,1256000.0
+Toyota,Hiace,Van,Commuter Cargo,2WD,3.0L ; 4 Cylinder,134.0,5-Speed ; Manual,Diesel,17.5,,3,1189000.0
+Toyota,Hiace,Van,3.0 Commuter M/T,2WD,3.0L ; 4 Cylinder,134.0,5-Speed ; Manual,Diesel,17.5,,15,1390000.0
+Toyota,Hiace,Van,Commuter Deluxe,2WD,2.8L ; In-line 4,174.0,6-Speed ; Manual,Diesel,17.5,,15,1851000.0
+Toyota,Hiace,Van,GL Grandia M/T,2WD,2.8L ; In-line 4,174.0,6-Speed ; Manual,Diesel,17.5,,12,2284000.0
+Toyota,Hiace,Van,GL Grandia A/T,2WD,2.8L ; In-line 4,174.0,6-Speed ; Automatic,Diesel,17.5,,12,2360000.0
+Toyota,Hiace,Van,GL Grandia Tourer A/T,2WD,2.8L ; In-line 4,161.0,6-Speed ; Automatic,Diesel,17.5,,14,2521000.0
+Toyota,Hiace,Van,2.8L A/T (Leather),2WD,2.8L ; In-line 4,174.0,6-Speed ; Automatic,Diesel,17.5,,10,2900000.0
+Toyota,Hiace,Van,Super Grandia Elite A/T,2WD,2.8L ; In-line 4,174.0,6-Speed ; Automatic,Diesel,17.5,,10,3291000.0
+Mitsubishi,Mirage G4,Sedan,GLX M/T,FWD,1.2L ; In-line 3,78.0,5-Speed ; Manual,Gasoline,17.0,450.0,5,769000.0
+Mitsubishi,Mirage G4,Sedan,GLX CVT,FWD,1.2L ; In-line 3,78.0,CVT,Gasoline,17.0,450.0,5,819000.0
+Mitsubishi,Mirage G4,Sedan,GLS CVT,FWD,1.2L ; In-line 3,78.0,CVT,Gasoline,17.0,450.0,5,899000.0
+Mitsubishi,Mirage G4,Sedan,GLS Black Series,FWD,1.2L ; In-line 3,78.0,CVT,Gasoline,17.0,450.0,5,909000.0
+Mitsubishi,Mirage G4,Sedan,GLS Sport,FWD,1.2L ; In-line 3,78.0,CVT,Gasoline,17.0,450.0,5,929000.0
+Mitsubishi,Xpander,MPV,GLX M/T,FWD,1.5L ; In-line 4,103.0,5-Speed ; Manual,Gasoline,22.5,1.0,7,
+Mitsubishi,Xpander,MPV,GLX A/T,FWD,1.5L ; In-line 4,103.0,4-Speed ; Automatic,Gasoline,22.5,1.0,7,
+Mitsubishi,Xpander,MPV,GLS A/T,FWD,1.5L ; In-line 4,103.0,4-Speed ; Automatic,Gasoline,22.5,1.0,7,
