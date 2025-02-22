@@ -11,22 +11,7 @@
   <!-- Link to your main CSS -->
   <link rel="stylesheet" type="text/css" href="style.css">
 
-  <!-- Optional inline style for the sidebar slide animation (can move to style.css) -->
-  <style>
-    .SideBar {
-      position: fixed;
-      top: 0;
-      left: -100%;
-      width: 500px;
-      height: 100%;
-      background-color: #fff;
-      transition: left 0.5s ease-in-out;
-      z-index: 1000;
-    }
-    .SideBar.open {
-      left: 0;
-    }
-  </style>
+
 </head>
 <body>
   <!-- Navbar -->
@@ -66,19 +51,17 @@
     <div class="liked"><a href="#"></a></div>
   </header>
 
-  <!-- Main About Content -->
-  <div style="margin-top:10rem;"><!-- ensures content is visible below fixed header -->
-    <!-- 
-      Your about page content goes here. 
-      If you had a heading, images, or paragraphs describing RideMatch, 
-      keep them inside this container.
-    -->
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="about-header">
     <h1 style="text-align:center; color:#b49b66;">About RideMatch</h1>
+    </div>
+    <div class="about-paragraph">
     <p style="text-align:center;">
-      <!-- Example about content. Replace or expand with your actual text. -->
       RideMatch helps you find the perfect car with ease. Explore our collection and filter cars based on your preferences.
     </p>
   </div>
+  </main>
 
   <!-- Footer -->
   <footer>

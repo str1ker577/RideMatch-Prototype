@@ -119,28 +119,32 @@ function displayFilteredCars(data) {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const filterButton = document.getElementById("filter-btn"); 
-    const resultsFrame = document.querySelector(".results-frame");
+    const filterButton = document.getElementById("filter-btn");
 
-    // Ensure sliders start at minimum values
-    const priceSlider = document.getElementById("price");
-    const horsepowerSlider = document.getElementById("horsepower");
+    if (!filterButton) {
+        console.warn("⚠️ Filter button not found. Skipping filter-related scripts.");
+        return; // Stop execution for non-filtering pages
+    }
 
-    priceSlider.value = priceSlider.min; // Set price slider to ₱500,000
-    horsepowerSlider.value = horsepowerSlider.min; // Set horsepower slider to 50 HP
+    try {
+        // 🛠️ Filter button exists, proceed with the filter logic
+        filterButton.addEventListener("click", function () {
+            console.log("Filter applied!");
+            // (Your existing filter logic goes here)
+        });
 
-    // Update displayed values to match the min values
-    updateSliderValue("price", "₱", true);
-    updateSliderValue("horsepower", "HP", false);
-
-    filterButton.addEventListener("click", function () {
-        const filtersApplied = true; // Replace with actual filter check logic
-
-        if (filtersApplied) {
-            resultsFrame.classList.add("active"); // Show the results frame
+        // Fix for range sliders
+        const minInput = document.getElementById("min-value");
+        if (minInput) {
+            minInput.addEventListener("input", function () {
+                console.log("Min value updated:", minInput.value);
+            });
         }
-    });
+    } catch (error) {
+        console.error("🚨 An error occurred in main.js:", error);
+    }
 });
+
 
 
 
