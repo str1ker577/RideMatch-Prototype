@@ -18,18 +18,19 @@ df["Horsepower"] = df["Horsepower"].astype(str).str.extract("(\d+)", expand=Fals
 # Ensure 'Price' is numeric
 df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
 
+
 @app.route('/get_cars', methods=['GET'])
 def get_cars():
     # Extract parameters safely with default values
     brand = request.args.get("brand", "").strip()
     model = request.args.get("model", "").strip()
-    body_type = request.args.get("body-type", "").strip()
-    drive_train = request.args.get("drive-train", "").strip()
+    body_type = request.args.get("body_type", "").strip()
+    drive_train = request.args.get("drive_train", "").strip()
     transmission = request.args.get("transmission", "").strip()
-    fuel_type = request.args.get("fuel-type", "").strip()
-    min_hp = request.args.get("horsepower", type=int, default=50)
-    min_cargo = request.args.get("cargo-space", type=int, default=150)
-    min_price = request.args.get("price", type=int, default=5000)
+    fuel_type = request.args.get("fuel_type", "").strip()
+    min_hp = request.args.get("min_hp", type=int, default=50)
+    min_cargo = request.args.get("min_cargo", type=int, default=150)
+    min_price = request.args.get("min_price", type=int, default=5000)
 
     # Debugging - Log received values
     print("\n🔍 Received Filters:")
@@ -46,40 +47,42 @@ def get_cars():
     # Start filtering
     filtered_df = df.copy()
 
-    if brand.lower() != "all brands" and brand != "":
+    # 🛠 Handle "Any" selection ("" means no filter applied)
+    if brand and brand.lower() != "any":
         filtered_df = filtered_df[filtered_df["Brand"].str.lower() == brand.lower()]
     
-    if model.lower() != "all models" and model != "":
+    if model and model.lower() != "any":
         filtered_df = filtered_df[filtered_df["Model"].str.lower() == model.lower()]
     
-    if body_type != "":
+    if body_type:
         filtered_df = filtered_df[filtered_df["Body Type"].str.lower() == body_type.lower()]
 
-    if drive_train != "":
-        filtered_df = filtered_df[filtered_df["Drive Train"].str.lower() == drive_train.lower()]
+    if drive_train:
+        filtered_df = filtered_df[filtered_df["Drive Train"].str.lower().str.contains(drive_train.lower(), na=False)]
     
-    if transmission != "":
-        filtered_df = filtered_df[filtered_df["Transmission"].str.lower() == transmission.lower()]
+    if transmission:
+        filtered_df = filtered_df[filtered_df["Transmission"].str.lower().str.contains(transmission.lower(), na=False)]
     
-    if fuel_type != "":
-        filtered_df = filtered_df[filtered_df["Fuel Type"].str.lower() == fuel_type.lower()]
+    if fuel_type:
+        filtered_df = filtered_df[filtered_df["Fuel Type"].str.lower().str.contains(fuel_type.lower(), na=False)]
 
+    # 🏎 Apply numerical filters
     filtered_df = filtered_df[
         (filtered_df["Horsepower"] >= min_hp) &
         (filtered_df["Cargo_space"] >= min_cargo) &
         (filtered_df["Price"] >= min_price)
     ]
 
+    # Debugging: Print filtered results
     print("\n📊 Filtered DataFrame:")
     print(filtered_df)
 
+    # Convert DataFrame to JSON
+    filtered_cars = filtered_df.to_dict(orient="records")
+    print("\n📤 Sending response:")
+    print(json.dumps(filtered_cars, indent=4))
 
-    filtered_cars = filtered_df.to_dict(orient="records")  # ✅ Convert DataFrame to list of dictionaries
-    print(json.dumps(filtered_cars, indent=4))  # ✅ Now JSON-safe
-
-
-
-    return jsonify(filtered_df.to_dict(orient="records"))
+    return jsonify(filtered_cars)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
