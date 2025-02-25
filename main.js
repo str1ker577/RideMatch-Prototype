@@ -54,7 +54,14 @@ async function applyFilters() {
     console.log("Min Price:", minPrice);
 
     // Construct API URL
+
+    // Local API Link //
     const url = new URL("http://127.0.0.1:5000/get_cars");
+
+    // Render API Link //
+    //const url = new URL("https://ridematch-tsv7.onrender.com/get_cars");//
+
+    
     if (brand) url.searchParams.append("brand", brand);
     if (driveTrain) url.searchParams.append("drive_train", driveTrain);
     if (transmission) url.searchParams.append("transmission", transmission);
@@ -75,18 +82,28 @@ async function applyFilters() {
 }
 
 function displayFilteredCars(data) {
+    console.log("📊 Displaying cars:", data); // Debugging log
+
     const resultsFrame = document.getElementById("results-frame");
     const resultsBody = document.getElementById("results-body");
 
-    // Ensure the results frame is visible
+    // ✅ Check if elements exist
+    if (!resultsFrame || !resultsBody) {
+        console.error("❌ Results elements not found!"); 
+        return;
+    }
+
+    // ✅ Ensure the results frame is visible
+    resultsFrame.style.display = "block"; 
     resultsFrame.classList.add("active");
 
-    // ✅ Clear only the table body, keeping the header intact
+    // ✅ Clear the table body before inserting new data
     resultsBody.innerHTML = "";
 
     // ✅ Handle case when no results match
     if (data.length === 0) {
         resultsBody.innerHTML = `<tr><td colspan="12" style="text-align: center;">No matching cars found.</td></tr>`;
+        console.warn("⚠️ No cars found for given filters.");
         return;
     }
 
@@ -109,7 +126,10 @@ function displayFilteredCars(data) {
         `;
         resultsBody.appendChild(row);
     });
+
+    console.log("✅ Table updated successfully!");
 }
+
 
 
 
