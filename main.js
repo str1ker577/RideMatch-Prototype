@@ -39,16 +39,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function applyFilters() {
     const brand = document.getElementById("brand").value.trim();
+    const bodyType = document.getElementById("body-type").value.trim();
     const driveTrain = document.getElementById("drive-train").value.trim();
     const transmission = document.getElementById("transmission").value.trim();
+    const fuelType = document.getElementById("fuel-type").value.trim(); 
     const minHp = parseFloat(document.getElementById("horsepower").value) || 50;
     const minCargo = parseFloat(document.getElementById("cargo-space").value) || 150;
     const minPrice = parseFloat(document.getElementById("price").value) || 5000;
 
     console.log("🚀 Filters Applied:");
     console.log("Brand:", brand);
+    console.log("Body Type:", bodyType);
     console.log("Drive Train:", driveTrain);
     console.log("Transmission:", transmission);
+    console.log("Fuel Type:", fuelType);
     console.log("Min HP:", minHp);
     console.log("Min Cargo Space:", minCargo);
     console.log("Min Price:", minPrice);
@@ -63,8 +67,10 @@ async function applyFilters() {
 
     
     if (brand) url.searchParams.append("brand", brand);
+    if (bodyType) url.searchParams.append("body_type", bodyType);
     if (driveTrain) url.searchParams.append("drive_train", driveTrain);
     if (transmission) url.searchParams.append("transmission", transmission);
+    if (fuelType) url.searchParams.append("fuel_type", fuelType); 
     url.searchParams.append("min_hp", minHp);
     url.searchParams.append("min_cargo", minCargo);
     url.searchParams.append("min_price", minPrice);
@@ -119,6 +125,7 @@ function displayFilteredCars(data) {
             <td>${car.Engine || "N/A"}</td>
             <td>${car.Horsepower ? car.Horsepower + " hp" : "N/A"}</td>
             <td>${car.Transmission || "N/A"}</td>
+            <td>${car.Fuel_Type || "N/A"}</td>
             <td>${car.Ground_Clearance ? car.Ground_Clearance + " cm" : "N/A"}</td>
             <td>${car.Cargo_space ? car.Cargo_space + " L" : "N/A"}</td>
             <td>${car.Seating_Capacity && car.Seating_Capacity !== "undefined" ? car.Seating_Capacity : "N/A"}</td>
