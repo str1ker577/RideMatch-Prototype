@@ -67,21 +67,21 @@ Mitsubishi,Triton,Truck,GLX 2WD AT,4x2,2.4L; In-line 4 Cylinder,180,6-Speed; Aut
 Mitsubishi,Triton,Truck,GLX 4x4 MT,4x4,2.4L; In-line 4 Cylinder,,6-Speed; Manual,Diesel,2.22,,5,1561000
 Mitsubishi,Triton,Truck,GLS 2WD AT,4x2,2.4L; In-line 4 Cylinder,,6-Speed; Automatic,Diesel,2.22,,5,1582000
 Mitsubishi,Triton,Truck,Athlete 4x4 AT,4x4,2.4L; In-line 4 Cylinder,,6-Speed; Automatic,Diesel,2.22,,5,1909000
-Mitsubishi,L300,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
+Mitsubishi,L300,Van,Exceed 2.2 Diesel,,2.2L; In-line 4 Cylinder,98,5-Speed ; Manual,Diesel,19.5,1145,3,825000
+Honda,City,Sedan,1.5 E CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,13.4,519,5,973000
+Honda,City,Sedan,1.5 S CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,13.4,519,5,998000
+Honda,City,Sedan,1.5 V CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,13.4,519,5,1073000
+Honda,City,Sedan,1.5 RS CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,13.4,519,5,1128000
+Honda,BR-V,SUV,1.5L S MT,FWD,1.5L; In-line 4 Cylinder,119,6-Speed; Manual,Gasoline,20.7,570,7,1090000
+Honda,BR-V,SUV,1.5L S CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,20.7,570,7,1150000
+Honda,BR-V,SUV,1.5L V CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,20.7,570,7,1295000
+Honda,BR-V,SUV,1.5L VX CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,20.7,570,7,1390000
+Honda,CR-V,SUV,1.5 V Turbo CVT,FWD,1.5L; In-line 4 Cylinder,187,CVT,Gasoline,19.8,1064,7,2100000
+Honda,CR-V,SUV,1.5 VX Turbo CVT,AWD,1.5L; In-line 4 Cylinder,187,CVT,Gasoline,19.8,1064,7,2280000
+Honda,CR-V,SUV,RS eHEV,FWD,2.0L; 4 Cylinder,181,E-CVT,Gasoline,19.8,1064,7,2590000
+Honda,Civic,Sedan,V Turbo CVT,FWD,1.5L; In-line 4 Cylinder,176,CVT,Gasoline,13.4,519,5,1583000
+Honda,Civic,Sedan,RS Turbo CVT,FWD,1.5L; In-line 4 Cylinder,176,CVT,Gasoline,13.4,519,5,1775000
+Honda,Civic,Sedan,RS eHEV,FWD,1.5L; In-line 4 Cylinder,184,CVT,Gasoline,13.4,519,5,1990000
 ,,,,,,,,,,,,
 ,,,,,,,,,,,,
 Ford,Ranger,,,,,,,,,,,
