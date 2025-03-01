@@ -1,3 +1,6 @@
+
+const replitUrl = 'https://your-replit-url.onrender.com'; // REPLIT URL
+
 //////////////////////
 //Side Menu Function//
 //////////////////////
@@ -20,6 +23,98 @@ closeButton.addEventListener('click', () => {
     sidebar.classList.remove('open');
     menuButton.style.display = 'block'; 
     closeButton.style.display = 'none';
+});
+
+
+// Popup functionality
+function togglePopup(popupId) {
+    const popup = document.getElementById(popupId);
+    popup.classList.toggle('active');
+}
+
+// Close popup when clicking outside
+document.addEventListener('click', function(event) {
+    // Don't handle clicks on menu button or sidebar
+    if (event.target.closest('#menu-button') || event.target.closest('#sidebar')) {
+        return;
+    }
+    
+    const popups = document.querySelectorAll('.popup.active');
+    popups.forEach(popup => {
+        if (!popup.contains(event.target) && !event.target.matches('[onclick*="togglePopup"]')) {
+            popup.classList.remove('active');
+        }
+    });
+});
+
+
+const welcomeMessageDiv = document.getElementById('welcome-message');
+
+
+// Handle Signup Form Submission
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = {
+        email: formData.get('email'),
+        password: formData.get('password')
+    };
+
+    try {
+        const response = await fetch(`${replitUrl}/signup`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(data)
+        });
+
+        const result = await response.json();
+        document.getElementById('message').textContent = result.message;
+
+        if (response.status === 201) {
+            
+            togglePopup("login-popup");
+        }
+    } catch (error) {
+        console.error('Error during signup:', error);
+        document.getElementById('message').textContent = 'Signup failed. Please try again.';
+    }
+});
+
+// Handle Login Form Submission
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = {
+        email: formData.get('email'),
+        password: formData.get('password')
+    };
+
+    try {
+        const response = await fetch(`${replitUrl}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(data)
+        });
+
+        const result = await response.json();
+        document.getElementById('message').textContent = result.message;
+
+        if (response.status === 200) {
+            welcomeMessageDiv.innerHTML = `
+                <p>Welcome back, User! We're glad to see you again.</p>
+            `;
+            window.location.href = '/index.html'; // Replace with your dashboard page
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        document.getElementById('message').textContent = 'Login failed. Please try again.';
+    }
 });
 
 
@@ -56,23 +151,23 @@ async function applyFilters() {
     // Construct API URL
 
     // Local API Link //
-    const url = new URL("http://127.0.0.1:5000/get_cars");
+    //const filterUrl = new URL("http://127.0.0.1:5000/get_cars");
 
     // Render API Link //
-    //const url = new URL("https://ridematch-tsv7.onrender.com/get_cars");//
+    const filterUrl = new URL(`${replitUrl}/get_cars`);
 
     
-    if (brand) url.searchParams.append("brand", brand);
-    if (driveTrain) url.searchParams.append("drive_train", driveTrain);
-    if (transmission) url.searchParams.append("transmission", transmission);
-    url.searchParams.append("min_hp", minHp);
-    url.searchParams.append("min_cargo", minCargo);
-    url.searchParams.append("min_price", minPrice);
+    if (brand) filterUrl.searchParams.append("brand", brand);
+    if (driveTrain) filterUrl.searchParams.append("drive_train", driveTrain);
+    if (transmission) filterUrl.searchParams.append("transmission", transmission);
+    filterUrl.searchParams.append("min_hp", minHp);
+    filterUrl.searchParams.append("min_cargo", minCargo);
+    filterUrl.searchParams.append("min_price", minPrice);
 
-    console.log("📤 Sending request to:", url.href);
+    console.log("📤 Sending request to:", filterUrl.href);
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(filterUrl);
         const data = await response.json();
         console.log("📥 Received data:", data);
         displayFilteredCars(data);
@@ -162,7 +257,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+function updateSliderValue(id, unit, isPrice = false) {
+    let value = document.getElementById(id).value;
 
+    // Format price with commas and place the unit on the left
+    if (isPrice) {
+        value = "₱" + parseInt(value).toLocaleString();
+    } else {
+        value = parseInt(value).toLocaleString() + " " + unit;
+    }
+
+    document.getElementById(id + "-value").textContent = value;
+}
+
+// Ensure all sliders display correct formatting when the page loads
+document.addEventListener("DOMContentLoaded", function() {
+    updateSliderValue('price', '₱', true);
+    updateSliderValue('horsepower', 'HP', false);
+});
 
 
 

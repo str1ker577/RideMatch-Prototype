@@ -1,14 +1,106 @@
-import json
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask import Flask, request, jsonify
+from flask_cors import CORS 
 import pandas as pd
+import json
+import requests
+import firebase_admin
+from firebase_admin import credentials, auth
 import numpy as np
+import os
 
 app = Flask(__name__)
 CORS(app)
 
+app.secret_key = os.environ.get('SECRET_KEY', 'fallback_secret_key')
+app.config.from_pyfile('config.py')
+
+cred = credentials.Certificate('serviceAccountKey.json')
+firebase_admin.initialize_app(cred)
+
 # Load CSV data
 df = pd.read_csv('car_data.csv', encoding='utf-8')
+
+@app.route('/')
+def home():
+    return jsonify({"message": "API is available."})
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        try:
+            # Create a new user in Firebase Authentication
+            user = auth.create_user(
+                email=email,
+                password=password
+            )
+            return jsonify({
+                "status": "success",
+                "message": "User created successfully",
+                "user_id": user.uid
+            }), 201  # HTTP 201: Created
+        except Exception as e:
+            return jsonify({
+                "status": "error",
+                "message": str(e)
+            }), 400  # HTTP 400: Bad Request
+
+@app.route('/login', methods=['POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        try:
+            user = auth.get_user_by_email(email)
+            if verify_password(email, password): 
+                return jsonify({
+                    "status": "success",
+                    "message": "Login successful",
+                    "user_id": user.uid
+                }), 200  # HTTP 200: OK
+            else:
+                return jsonify({
+                    "status": "error",
+                    "message": "Invalid credentials"
+                }), 401  # HTTP 401: Unauthorized
+        except Exception as e:
+            return jsonify({
+                "status": "error",
+                "message": str(e)
+            }), 400  # HTTP 400: Bad Request
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    # Logic for logout can be implemented if needed
+    return jsonify({"message": "Logout successful."}), 200
+
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+    return jsonify({"message": "Dashboard access."}), 200
+
+with open('firebaseConfig.json') as f:
+    firebase_config = json.load(f)
+    api_key = firebase_config.get('apiKey')  # Extract API key if available
+
+def verify_password(email, password): 
+    if not api_key:
+        return False  # Prevent login if API key is missing
+     
+    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
+    payload = {
+        "email": email,
+        "password": password,
+        "returnSecureToken": True
+    }
+
+    response = requests.post(url, json=payload)
+    if response.status_code == 200:
+        return True  # Password is correct
+    return False  # Password is incorrect
+
 
 # Ensure all relevant columns are strings before extraction
 df["Cargo_space"] = df["Cargo_space"].astype(str).str.extract("(\d+)", expand=False).astype(float)
