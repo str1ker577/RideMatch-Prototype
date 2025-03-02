@@ -46,6 +46,8 @@ async function applyFilters() {
     const minHp = parseFloat(document.getElementById("horsepower").value) || 50;
     const minCargo = parseFloat(document.getElementById("cargo-space").value) || 150;
     const minPrice = parseFloat(document.getElementById("price").value) || 5000;
+    const minGroundClearance = parseFloat(document.getElementById("ground-clearance").value) || 13.3;
+    const seating = parseInt(document.getElementById("seating").value) || 3;
 
     console.log("🚀 Filters Applied:");
     console.log("Brand:", brand);
@@ -56,6 +58,8 @@ async function applyFilters() {
     console.log("Min HP:", minHp);
     console.log("Min Cargo Space:", minCargo);
     console.log("Min Price:", minPrice);
+    console.log("Min Ground Clearance:", minGroundClearance);
+    console.log("Min Seating Capacity:", seating);
 
     // Construct API URL
 
@@ -74,6 +78,9 @@ async function applyFilters() {
     url.searchParams.append("min_hp", minHp);
     url.searchParams.append("min_cargo", minCargo);
     url.searchParams.append("min_price", minPrice);
+    url.searchParams.append("min_ground_clearance", minGroundClearance);
+    url.searchParams.append("min_seating", seating);
+
 
     console.log("📤 Sending request to:", url.href);
 

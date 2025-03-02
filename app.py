@@ -31,6 +31,8 @@ def get_cars():
     min_hp = request.args.get("min_hp", type=int, default=50)
     min_cargo = request.args.get("min_cargo", type=int, default=150)
     min_price = request.args.get("min_price", type=int, default=5000)
+    min_ground_clearance = request.args.get("min_ground_clearance", type=float, default=13.3)
+    min_seating = request.args.get("min_seating", type=int, default=None)
 
     # Debugging - Log received values
     print("\n🔍 Received Filters:")
@@ -43,12 +45,14 @@ def get_cars():
     print(f"Min HP: {min_hp}")
     print(f"Min Cargo Space: {min_cargo}")
     print(f"Min Price: {min_price}")
+    print(f"Min Ground Clearance: {min_ground_clearance}")
+    print(f"Min Seating: {min_seating}")
 
     # Start filtering
     filtered_df = df.copy()
 
     # 🛠 Handle "Any" selection ("" means no filter applied)
-    if brand and brand.lower() != "any":
+    if brand and brand.lower() not in ["any", "all brands"]:
         filtered_df = filtered_df[filtered_df["Brand"].str.lower() == brand.lower()]
     
     if model and model.lower() != "any":
@@ -70,15 +74,19 @@ def get_cars():
     filtered_df = filtered_df[
         (filtered_df["Horsepower"] >= min_hp) &
         (filtered_df["Cargo_space"] >= min_cargo) &
-        (filtered_df["Price"] >= min_price)
+        (filtered_df["Price"] >= min_price) &
+        (filtered_df["Ground_Clearance"] >= min_ground_clearance)
     ]
+    
+    if min_seating is not None:
+        filtered_df = filtered_df[filtered_df["Seating_Capacity"] >= min_seating]
 
     # Debugging: Print filtered results
     print("\n📊 Filtered DataFrame:")
     print(filtered_df)
 
     # Convert DataFrame to JSON
-    filtered_cars = filtered_df.to_dict(orient="records")
+    filtered_cars = filtered_df.fillna("").to_dict(orient="records")
     print("\n📤 Sending response:")
     print(json.dumps(filtered_cars, indent=4))
 
