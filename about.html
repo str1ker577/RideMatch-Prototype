@@ -4,14 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About Us | RideMatch</title>
-
-  <!-- Link to Boxicons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-
-  <!-- Link to your main CSS -->
   <link rel="stylesheet" type="text/css" href="style.css">
-
-  <!-- Optional inline style for the sidebar slide animation (can move to style.css) -->
   <style>
     .SideBar {
       position: fixed;
@@ -26,56 +20,62 @@
     .SideBar.open {
       left: 0;
     }
+
+    .about-content {
+      width: 90%;
+      margin: 10rem auto 2rem;
+      text-align: center;
+    }
+
+    .about-content h1 {
+      color: #b49b66;
+      margin-bottom: 20px;
+    }
+
+    .about-content p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      .about-content {
+        margin-top: 8rem;
+      }
+    }
   </style>
 </head>
 <body>
   <!-- Navbar -->
   <header>
-    <!-- Centered Logo -->
     <a href="#" class="Logo">
       <img src="resources/Logo2.png" alt="RideMatch">
     </a>
-
-    <!-- Quick Tools (placeholder if needed) -->
     <div class="Quick-Tools"></div>
-
-    <!-- Side Menu Icon -->
     <div class="Side-Menu">
       <i class='bx bx-menu' id='menu-button' style='color:#b49b66'></i>
     </div>
-
-    <!-- SideBar Navigation -->
     <div class="SideBar" id="sidebar">
       <i class='bx bx-arrow-from-right' id="close-button" style='color:#b49b66'></i>
       <ul>
         <div class="SideBar-Icons">
           <i class='bx bx-user' id='user-icon' style='color:#b49b66'></i>
-          <a href="favourites.html">
-            <i class='bx bx-heart' style='color:#b49b66'></i>
-          </a>
+          <a href="favourites.html"><i class='bx bx-heart' style='color:#b49b66'></i></a>
         </div>
         <hr>
-        <!-- Updated nav items -->
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contacts.html">Contacts</a></li>
         <li><a href="testimonials.html">Testimonials</a></li>
       </ul>
     </div>
-
     <div class="liked"><a href="#"></a></div>
   </header>
 
   <!-- Main About Content -->
-  <div style="margin-top:10rem;"><!-- ensures content is visible below fixed header -->
-    <!-- 
-      Your about page content goes here. 
-      If you had a heading, images, or paragraphs describing RideMatch, 
-      keep them inside this container.
-    -->
-    <h1 style="text-align:center; color:#b49b66;">About RideMatch</h1>
-    <p style="text-align:center;">
-      <!-- Example about content. Replace or expand with your actual text. -->
+  <div class="about-content">
+    <h1>About RideMatch</h1>
+    <p>
       RideMatch helps you find the perfect car with ease. Explore our collection and filter cars based on your preferences.
     </p>
   </div>
@@ -116,7 +116,6 @@
     </div>
   </footer>
 
-  <!-- Script for sidebar toggle -->
   <script src="main.js"></script>
 </body>
 </html>
