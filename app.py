@@ -32,7 +32,7 @@ def get_cars():
     min_cargo = request.args.get("min_cargo", type=int, default=150)
     min_price = request.args.get("min_price", type=int, default=5000)
     min_ground_clearance = request.args.get("min_ground_clearance", type=float, default=13.3)
-    min_seating = request.args.get("min_seating", type=int, default=None)
+    seating = request.args.get("seating", type=int, default=None)
 
     # Debugging - Log received values
     print("\n🔍 Received Filters:")
@@ -46,7 +46,7 @@ def get_cars():
     print(f"Min Cargo Space: {min_cargo}")
     print(f"Min Price: {min_price}")
     print(f"Min Ground Clearance: {min_ground_clearance}")
-    print(f"Min Seating: {min_seating}")
+    print(f"Exact Seating Capacity: {seating}") 
 
     # Start filtering
     filtered_df = df.copy()
@@ -78,8 +78,9 @@ def get_cars():
         (filtered_df["Ground_Clearance"] >= min_ground_clearance)
     ]
     
-    if min_seating is not None:
-        filtered_df = filtered_df[filtered_df["Seating_Capacity"] >= min_seating]
+    if seating is not None and seating > 0:
+        filtered_df = filtered_df[filtered_df["Seating_Capacity"] == seating]
+
 
     # Debugging: Print filtered results
     print("\n📊 Filtered DataFrame:")
@@ -91,6 +92,19 @@ def get_cars():
     print(json.dumps(filtered_cars, indent=4))
 
     return jsonify(filtered_cars)
+
+@app.route('/get_models', methods=['GET'])
+def get_models():
+    brand = request.args.get("brand", "").strip()
+
+    if not brand:
+        return jsonify([])  # Return empty list if no brand is selected
+
+    # Get unique models for the selected brand
+    models = df[df["Brand"].str.lower() == brand.lower()]["Model"].unique().tolist()
+
+    return jsonify(models)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
