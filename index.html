@@ -63,7 +63,7 @@
           <option value="Toyota">
           <option value="Honda">
           <option value="Mitsubishi">
-          <option value="Nissan">
+          <option value="Mazda">
           <option value="Ford">
           <option value="Hyundai">
           <option value="Suzuki">
@@ -71,10 +71,11 @@
 
         <!-- Input for Model -->
         <label for="model">Model:</label>
-        <input list="models" id="model" name="model" placeholder="Enter model..." disabled>
+        <input list="models" id="model" name="model" placeholder="Select model..." disabled>
         <datalist id="models">
-          <option value="All Models">
+            <option value="All Models">
         </datalist>
+
 
         <!-- Body Type Drop down box -->
         <label for="body-type">Body Type:</label>
@@ -85,6 +86,9 @@
           <option value="MPV">MPV</option>
           <option value="Hatchback">Hatchback</option>
           <option value="Van">Van</option>
+          <option value="Truck">Truck</option>
+          <option value="Convertible">Convertible</option>
+          <option value="Coupe">Coupe</option>
         </select>
         
         <!-- Drive Train Drop down box -->
@@ -107,6 +111,7 @@
           <option value="Automatic">Automatic</option>
           <option value="Manual">Manual</option>
           <option value="CVT">CVT</option>
+          <option value="E-CVT">E-CVT</option>
         </select>
 
         <!-- Fuel Type Drop down box -->
@@ -126,12 +131,12 @@
 
                 <!--Horse Power Slider-->
                 <label for="horsepower">Horsepower (Hp):</label>
-                <input type="range" id="horsepower" name="horsepower" min="50" max="500" step="10" value="100" oninput="updateSliderValue('horsepower', 'HP', false)">
+                <input type="range" id="horsepower" name="horsepower" min="50" max="300" step="10" value="100" oninput="updateSliderValue('horsepower', 'HP', false)">
                 <span id="horsepower-value">50 HP</span>
 
                 <!--Cargo Space Slider-->
                 <label for="cargo-space">Cargo Space (L):</label>
-                <input type="range" id="cargo-space" name="cargo-space" min="150" max="1000" step="5" value="150" oninput="updateSliderValue('cargo-space', 'L')">
+                <input type="range" id="cargo-space" name="cargo-space" min="100" max="1500" step="5" value="100" oninput="updateSliderValue('cargo-space', 'L')">
                 <span id="cargo-space-value">150L</span>
 
                 <!--Ground Clearance Slider-->
@@ -141,12 +146,12 @@
 
                 <!--Seating Slider-->
                 <label for="seating">Seating Capacity:</label>
-                <input type="range" id="seating" name="seating" min="5" max="15" step="1" value="5" oninput="updateSliderValue('seating')">
-                <span id="seating-value">5 Seats</span>
+                <input type="range" id="seating" name="seating" min="0" max="15" step="1" value="0" oninput="updateSliderValue('seating')">
+                <span id="seating-value">Seats</span>
 
                 <!--Price Slider-->
                 <label for="price">Price (₱):</label>
-                <input type="range" id="price" name="price" min="500000" max="2000000" step="1000" oninput="updateSliderValue('price','₱', true)">
+                <input type="range" id="price" name="price" min="500000" max="3000000" step="1000" oninput="updateSliderValue('price','₱', true)">
                 <span id="price-value">₱500,000</span>
                 
                 <button id="filter-btn" class="filter-btn">Apply Filters</button>
@@ -173,6 +178,7 @@
                     <th>Engine</th>
                     <th>Horsepower</th>
                     <th>Transmission</th>
+                    <th>Fuel Type</th>
                     <th>Ground Clearance</th>
                     <th>Cargo Space</th>
                     <th>Seating Capacity</th>

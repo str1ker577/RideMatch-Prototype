@@ -40,49 +40,75 @@ Toyota,Innova,MPV,2.8 V A/T,RWD,2.8L ; 4 Cylinder,172,6-Speed ; Automatic,Diesel
 Toyota,Veloz,SUV,1.5L LE,FWD,1.5L ; In-line 4,105,CVT,Gasoline,19,539,7,1098000
 Toyota,Veloz,SUV,1.5L G,FWD,1.5L ; In-line 4,105,CVT,Gasoline,19,539,7,1216000
 Toyota,Veloz,SUV,1.5L V,FWD,1.5L ; In-line 4,105,CVT,Gasoline,19,539,7,1256000
-Toyota,Hiace,Van,Commuter Cargo,2WD,3.0L ; 4 Cylinder,134,5-Speed ; Manual,Diesel,17.5,,3,1189000
-Toyota,Hiace,Van,3.0 Commuter M/T,2WD,3.0L ; 4 Cylinder,134,5-Speed ; Manual,Diesel,17.5,,15,1390000
-Toyota,Hiace,Van,Commuter Deluxe,2WD,2.8L ; In-line 4,174,6-Speed ; Manual,Diesel,17.5,,15,1851000
-Toyota,Hiace,Van,GL Grandia M/T,2WD,2.8L ; In-line 4,174,6-Speed ; Manual,Diesel,17.5,,12,2284000
-Toyota,Hiace,Van,GL Grandia A/T,2WD,2.8L ; In-line 4,174,6-Speed ; Automatic,Diesel,17.5,,12,2360000
-Toyota,Hiace,Van,GL Grandia Tourer A/T,2WD,2.8L ; In-line 4,161,6-Speed ; Automatic,Diesel,17.5,,14,2521000
-Toyota,Hiace,Van,2.8L A/T (Leather),2WD,2.8L ; In-line 4,174,6-Speed ; Automatic,Diesel,17.5,,10,2900000
-Toyota,Hiace,Van,Super Grandia Elite A/T,2WD,2.8L ; In-line 4,174,6-Speed ; Automatic,Diesel,17.5,,10,3291000
+Toyota,Hiace,Van,Commuter Cargo,2WD,3.0L ; 4 Cylinder,134,5-Speed ; Manual,Diesel,17.5,6200,3,1189000
+Toyota,Hiace,Van,3.0 Commuter M/T,2WD,3.0L ; 4 Cylinder,134,5-Speed ; Manual,Diesel,17.5,6000,15,1390000
+Toyota,Hiace,Van,Commuter Deluxe,2WD,2.8L ; In-line 4,174,6-Speed ; Manual,Diesel,17.5,6000,15,1851000
+Toyota,Hiace,Van,GL Grandia M/T,2WD,2.8L ; In-line 4,174,6-Speed ; Manual,Diesel,17.5,5500,12,2284000
+Toyota,Hiace,Van,GL Grandia A/T,2WD,2.8L ; In-line 4,174,6-Speed ; Automatic,Diesel,17.5,5500,12,2360000
+Toyota,Hiace,Van,GL Grandia Tourer A/T,2WD,2.8L ; In-line 4,161,6-Speed ; Automatic,Diesel,17.5,6800,14,2521000
+Toyota,Hiace,Van,2.8L A/T (Leather),2WD,2.8L ; In-line 4,174,6-Speed ; Automatic,Diesel,17.5,5500,10,2900000
+Toyota,Hiace,Van,Super Grandia Elite A/T,2WD,2.8L ; In-line 4,174,6-Speed ; Automatic,Diesel,17.5,5500,10,3291000
 Mitsubishi,Mirage G4,Sedan,GLX M/T,FWD,1.2L ; In-line 3,78,5-Speed ; Manual,Gasoline,17,450,5,769000
 Mitsubishi,Mirage G4,Sedan,GLX CVT,FWD,1.2L ; In-line 3,78,CVT,Gasoline,17,450,5,819000
 Mitsubishi,Mirage G4,Sedan,GLS CVT,FWD,1.2L ; In-line 3,78,CVT,Gasoline,17,450,5,899000
 Mitsubishi,Mirage G4,Sedan,GLS Black Series,FWD,1.2L ; In-line 3,78,CVT,Gasoline,17,450,5,909000
 Mitsubishi,Mirage G4,Sedan,GLS Sport,FWD,1.2L ; In-line 3,78,CVT,Gasoline,17,450,5,929000
-Mitsubishi,Xpander,MPV,GLX M/T,FWD,1.5L ; In-line 4,103,5-Speed ; Manual,Gasoline,22.5,,7,
-Mitsubishi,Xpander,MPV,GLX A/T,FWD,1.5L ; In-line 4,103,4-Speed ; Automatic,Gasoline,22.5,,7,
-Mitsubishi,Xpander,MPV,GLS A/T,FWD,1.5L ; In-line 4,103,4-Speed ; Automatic,Gasoline,22.5,,7,
+Mitsubishi,Xpander,MPV,GLX M/T,FWD,1.5L ; In-line 4,103,5-Speed ; Manual,Gasoline,22.5,"1,630",7,1068000
+Mitsubishi,Xpander,MPV,GLX A/T,FWD,1.5L ; In-line 4,103,4-Speed ; Automatic,Gasoline,22.5,"1,630",7,1128000
+Mitsubishi,Xpander,MPV,GLS A/T,FWD,1.5L ; In-line 4,103,4-Speed ; Automatic,Gasoline,22.5,"1,630",7,1216000
 Mitsubishi,Montero Sport,SUV,GLX M/T,4x2,2.4L;  4 Cylinde 16 Valve,179,6-Speed ; Manual,Diesel,2.18,502,7,1568000
 Mitsubishi,Montero Sport,SUV,GLS A/T,4x2,2.4L;  4 Cylinde 16 Valve,179,8-Speed; Automatic,Diesel,2.18,502,7,1899000
 Mitsubishi,Montero Sport,SUV,Black 2WD Series 8A/T,4x2,2.4L;  4 Cylinde 16 Valve,179,8-Speed; Automatic,Diesel,2.18,502,7,2162000
 Mitsubishi,Montero Sport,SUV,Black 4WD Series 8A/T,4x4,2.4L;  4 Cylinde 16 Valve,179,8-Speed; Automatic,Diesel,2.18,502,7,2502000
-Mitsubishi,Triton,Truck,GL 2WD MT,4x2,2.4L; In-line 4 Cylinder,180,6-Speed; Manual,Diesel,2.22,,5,1134000
-Mitsubishi,Triton,Truck,GL 4x4 MT,4WD,2.4L; In-line 4 Cylinder,180,6-Speed; Manual,Diesel,2.22,,5,1157000
-Mitsubishi,Triton,Truck,GLX 2WD MT,4x2,2.4L; In-line 4 Cylinder,180,6-Speed; Manual,Diesel,2.22,,5,1311000
-Mitsubishi,Triton,Truck,GLX 2WD AT,4x2,2.4L; In-line 4 Cylinder,180,6-Speed; Automatic,Diesel,2.22,,5,1383000
-Mitsubishi,Triton,Truck,GLX 4x4 MT,4x4,2.4L; In-line 4 Cylinder,,6-Speed; Manual,Diesel,2.22,,5,1561000
-Mitsubishi,Triton,Truck,GLS 2WD AT,4x2,2.4L; In-line 4 Cylinder,,6-Speed; Automatic,Diesel,2.22,,5,1582000
-Mitsubishi,Triton,Truck,Athlete 4x4 AT,4x4,2.4L; In-line 4 Cylinder,,6-Speed; Automatic,Diesel,2.22,,5,1909000
-Mitsubishi,L300,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
-Ford,Ranger,,,,,,,,,,,
-Ford ,Everest,,,,,,,,,,,
+Mitsubishi,Triton,Truck,GL 2WD MT,4x2,2.4L; In-line 4 Cylinder,180,6-Speed; Manual,Diesel,2.22,2340,5,1134000
+Mitsubishi,Triton,Truck,GL 4x4 MT,4WD,2.4L; In-line 4 Cylinder,180,6-Speed; Manual,Diesel,2.22,2340,5,1157000
+Mitsubishi,Triton,Truck,GLX 2WD MT,4x2,2.4L; In-line 4 Cylinder,180,6-Speed; Manual,Diesel,2.22,2340,5,1311000
+Mitsubishi,Triton,Truck,GLX 2WD AT,4x2,2.4L; In-line 4 Cylinder,180,6-Speed; Automatic,Diesel,2.22,2340,5,1383000
+Mitsubishi,Triton,Truck,GLX 4x4 MT,4x4,2.4L; In-line 4 Cylinder,,6-Speed; Manual,Diesel,2.22,2340,5,1561000
+Mitsubishi,Triton,Truck,GLS 2WD AT,4x2,2.4L; In-line 4 Cylinder,,6-Speed; Automatic,Diesel,2.22,2340,5,1582000
+Mitsubishi,Triton,Truck,Athlete 4x4 AT,4x4,2.4L; In-line 4 Cylinder,,6-Speed; Automatic,Diesel,2.22,2340,5,1909000
+Mitsubishi,L300,Van,Exceed 2.2 Diesel,,2.2L; In-line 4 Cylinder,98,5-Speed ; Manual,Diesel,19.5,1145,3,825000
+Honda,City,Sedan,1.5 E CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,13.4,519,5,973000
+Honda,City,Sedan,1.5 S CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,13.4,519,5,998000
+Honda,City,Sedan,1.5 V CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,13.4,519,5,1073000
+Honda,City,Sedan,1.5 RS CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,13.4,519,5,1128000
+Honda,City,Hatchback,1.5 RS CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,13.4,289,5,1189000
+Honda,Brio,Hatchback,1.2L S MT,FWD,1.2L; In-line 4,89,5-Speed ; Manual,Gasoline,13.7,258,5,735000
+Honda,Brio,Hatchback,1.2L V CVT,FWD,1.2L; In-line 4,89,CVT,Gasoline,13.7,258,5,827000
+Honda,Brio,Hatchback,1.2L RS CVT,FWD,1.2L; In-line 4,89,CVT,Gasoline,13.7,258,5,853000
+Honda,Brio,Hatchback,1.2L RS CVT Black Top,FWD,1.2L; In-line 4,89,CVT,Gasoline,13.7,258,5,863000
+Honda,BR-V,SUV,1.5L S MT,FWD,1.5L; In-line 4 Cylinder,119,6-Speed; Manual,Gasoline,20.7,570,7,1090000
+Honda,BR-V,SUV,1.5L S CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,20.7,570,7,1150000
+Honda,BR-V,SUV,1.5L V CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,20.7,570,7,1295000
+Honda,BR-V,SUV,1.5L VX CVT,FWD,1.5L; In-line 4 Cylinder,119,CVT,Gasoline,20.7,570,7,1390000
+Honda,CR-V,SUV,1.5 V Turbo CVT,FWD,1.5L; In-line 4 Cylinder,187,CVT,Gasoline,19.8,1064,7,2100000
+Honda,CR-V,SUV,1.5 VX Turbo CVT,AWD,1.5L; In-line 4 Cylinder,187,CVT,Gasoline,19.8,1064,7,2280000
+Honda,CR-V,SUV,RS eHEV,FWD,2.0L; 4 Cylinder,181,E-CVT,Gasoline,19.8,1064,7,2590000
+Honda,Civic,Sedan,V Turbo CVT,FWD,1.5L; In-line 4 Cylinder,176,CVT,Gasoline,13.4,519,5,1583000
+Honda,Civic,Sedan,RS Turbo CVT,FWD,1.5L; In-line 4 Cylinder,176,CVT,Gasoline,13.4,519,5,1775000
+Honda,Civic,Sedan,RS eHEV,FWD,1.5L; In-line 4 Cylinder,184,CVT,Gasoline,13.4,519,5,1990000
+Ford,Ranger,Truck,2.0L Turbo XL 4x4 MT,4x4,2.0L; 4 Cylinder,168,6-Speed; Manual,Diesel,23.5,1233,5,1259000
+Ford,Ranger,Truck,2.0L Turbo XLT 4x2 AT,4x2,2.0L; 4 Cylinder,168,6-Speed; Automatic,Diesel,23.5,1233,5,1389000
+Ford,Ranger,Truck,2.0L Turbo Sport 4x2 AT,4x2,2.0L; 4 Cylinder,168,6-Speed; Automatic,Diesel,23.5,1233,5,1504000
+Ford,Ranger,Truck,2.0L Turbo Wildtrak 4x2 AT,4x2,2.0L; 4 Cylinder,168,6-Speed; Automatic,Diesel,23.5,1233,5,1614000
+Ford,Ranger,Truck,2.0L Turbo Sport 4x4 AT,4x4,2.0L; 4 Cylinder,168,6-Speed; Automatic,Diesel,23.5,1233,5,1624000
+Ford,Ranger,Truck,2.0L Bi-Turbo Wildtrak 4x4 AT,4x4,2.0L; 4 Cylinder,168,10-Speed; Automatic,Diesel,23.5,1233,5,1940000
+Ford ,Everest,SUV,2.0L Turbo Trend,4x2,2.0L; 4 Cylinder,168,6-Speed; Automatic,Diesel,22.3,199,7,1829000
+Ford ,Everest,SUV,2.0L Turbo Sport,4x2,2.0L; 4 Cylinder,168,6-Speed; Automatic,Diesel,22.3,199,7,2139000
+Ford ,Everest,SUV,2.0L Turbo Titanium Plus,4x2,2.0L; 4 Cylinder,168,6-Speed; Automatic,Diesel,22.3,199,7,2259000
+Ford ,Everest,SUV,2.0L Bi-Turbo Titanium Plus,4x4,2.0L; 4 Cylinder,207,10-Speed; Automatic,Diesel,22.3,199,7,2555000
+Ford ,Everest,SUV,Wildtrak ,4x2,2.0L; 4 Cylinder,170,6-Speed; Automatic,Diesel,22.3,199,7,2439000
+Mazda,Mazda 2,Hatchback,1.5L Sport,FWD,1.5L ; In-line 4,108,6-Speed; Automatic,Gasoline,14.3,220,5,1250000
+Mazda,Mazda 3,Hatchback,2.0L Sport,FWD,2.0L; In-line 4 Cylinder,153,6-Speed; Automatic,Gasoline,13.5,334,5,1510000
+Mazda,Mazda 3,Hatchback,2.0L HEV,FWD,2.0L; In-line 4 Cylinder,162,6-Speed; Automatic,Gasoline,13.5,334,5,1790000
+Mazda,Mazda 3,Sedan,2.0L Sport,FWD,2.0L; In-line 4 Cylinder,153,6-Speed; Automatic,Gasoline,13.5,454,5,1510000
+Mazda,Mazda 3,Sedan,2.0L HEV,FWD,2.0L; In-line 4 Cylinder,162,6-Speed; Automatic,Gasoline,13.5,454,5,1790000
+Mazda,MX-5,Convertible,23 Anniversary,RWD,2.0L; In-line 4 Cylinder,181,6-Speed; Manual,Gasoline,13.5,130,2,2230000
+Mazda,MX-5,Convertible,SkyActiv-G 2.0L MT,RWD,2.0L; In-line 4 Cylinder,181,6-Speed; Manual,Gasoline,13.5,130,2,2300000
+Mazda,MX-5,Convertible,SkyActiv-G 2.0L AT,RWD,2.0L; In-line 4 Cylinder,181,6-Speed; Manual,Gasoline,13.5,130,2,2350000
+Mazda,MX-5 RF,Coupe,SkyActiv-G 2.0L AT,RWD,2.0L; In-line 4 Cylinder,181,6-Speed; Automatic,Gasoline,13.5,127,2,2550000
+Mazda,CX-3,Crossover,2.0L Sport,FWD,2.0L; In-line 4 Cylinder,148,6-Speed; Automatic,Gasoline,14.5,430,5,1510000
+Mazda,CX-5,Crossover,2.0L 2WD Sport,FWD,2.0L; In-line 4 Cylinder,154,6-Speed; Automatic,Gasoline,18.5,872,5,1950000
+Mazda,CX-5,Crossover,2.5L AWD Sport,AWD,2.5L; In-line 4 Cylinder,187,6-Speed; Automatic,Gasoline,19.3,872,5,2050000
+Mazda,CX-5,Crossover,2.5L AWD Turbo,AWD,2.5L; In-line 4 Cylinder,250,6-Speed; Automatic,Gasoline,19.3,872,5,2430000
+Mazda,CX-30,SUV,2.0L M Hybrid,FWD,2.0L; In-line 4 Cylinder,152,6-Speed; Automatic,Gasoline,18,,5,1995000

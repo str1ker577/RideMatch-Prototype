@@ -18,6 +18,13 @@ df["Horsepower"] = df["Horsepower"].astype(str).str.extract("(\d+)", expand=Fals
 # Ensure 'Price' is numeric
 df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
 
+print("\n✅ CSV Loaded: ", len(df), " rows")
+print("🚀 Unique Body Types:\n", df["Body_Type"].unique())
+
+# Show all Convertible and Coupe rows
+print("\n🔍 Convertible Cars:\n", df[df["Body_Type"].str.lower() == "convertible"])
+print("\n🔍 Coupe Cars:\n", df[df["Body_Type"].str.lower() == "coupe"])
+
 
 @app.route('/get_cars', methods=['GET'])
 def get_cars():
@@ -29,8 +36,10 @@ def get_cars():
     transmission = request.args.get("transmission", "").strip()
     fuel_type = request.args.get("fuel_type", "").strip()
     min_hp = request.args.get("min_hp", type=int, default=50)
-    min_cargo = request.args.get("min_cargo", type=int, default=150)
+    min_cargo = request.args.get("min_cargo", type=int, default=100)
     min_price = request.args.get("min_price", type=int, default=5000)
+    min_ground_clearance = request.args.get("min_ground_clearance", type=float, default=13.3)
+    seating = request.args.get("seating", type=int, default=None)
 
     # Debugging - Log received values
     print("\n🔍 Received Filters:")
@@ -43,46 +52,66 @@ def get_cars():
     print(f"Min HP: {min_hp}")
     print(f"Min Cargo Space: {min_cargo}")
     print(f"Min Price: {min_price}")
+    print(f"Min Ground Clearance: {min_ground_clearance}")
+    print(f"Exact Seating Capacity: {seating}") 
 
     # Start filtering
     filtered_df = df.copy()
 
     # 🛠 Handle "Any" selection ("" means no filter applied)
-    if brand and brand.lower() != "any":
+    if brand and brand.lower() not in ["any", "all brands"]:
         filtered_df = filtered_df[filtered_df["Brand"].str.lower() == brand.lower()]
     
     if model and model.lower() != "any":
         filtered_df = filtered_df[filtered_df["Model"].str.lower() == model.lower()]
     
     if body_type:
-        filtered_df = filtered_df[filtered_df["Body Type"].str.lower() == body_type.lower()]
+        filtered_df = filtered_df[filtered_df["Body_Type"].str.lower() == body_type.lower()]
 
     if drive_train:
-        filtered_df = filtered_df[filtered_df["Drive Train"].str.lower().str.contains(drive_train.lower(), na=False)]
-    
+        filtered_df = filtered_df[filtered_df["Drive_Train"].str.lower().str.contains(drive_train.lower(), na=False)]
+        
     if transmission:
-        filtered_df = filtered_df[filtered_df["Transmission"].str.lower().str.contains(transmission.lower(), na=False)]
+        filtered_df = filtered_df[filtered_df["Transmission"].str.lower() == transmission.lower()]
     
     if fuel_type:
-        filtered_df = filtered_df[filtered_df["Fuel Type"].str.lower().str.contains(fuel_type.lower(), na=False)]
+        filtered_df = filtered_df[filtered_df["Fuel_Type"].str.lower().str.contains(fuel_type.lower(), na=False)]
 
     # 🏎 Apply numerical filters
     filtered_df = filtered_df[
         (filtered_df["Horsepower"] >= min_hp) &
         (filtered_df["Cargo_space"] >= min_cargo) &
-        (filtered_df["Price"] >= min_price)
+        (filtered_df["Price"] >= min_price) &
+        (filtered_df["Ground_Clearance"] >= min_ground_clearance)
     ]
+    
+    if seating is not None and seating > 0:
+        filtered_df = filtered_df[filtered_df["Seating_Capacity"] == seating]
+
 
     # Debugging: Print filtered results
     print("\n📊 Filtered DataFrame:")
     print(filtered_df)
 
     # Convert DataFrame to JSON
-    filtered_cars = filtered_df.to_dict(orient="records")
+    filtered_cars = filtered_df.fillna("").to_dict(orient="records")
     print("\n📤 Sending response:")
     print(json.dumps(filtered_cars, indent=4))
 
     return jsonify(filtered_cars)
+
+@app.route('/get_models', methods=['GET'])
+def get_models():
+    brand = request.args.get("brand", "").strip()
+
+    if not brand:
+        return jsonify([])  # Return empty list if no brand is selected
+
+    # Get unique models for the selected brand
+    models = df[df["Brand"].str.lower() == brand.lower()]["Model"].unique().tolist()
+
+    return jsonify(models)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
