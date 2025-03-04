@@ -75,7 +75,7 @@ async function applyFilters() {
     const transmission = document.getElementById("transmission").value.trim();
     const fuelType = document.getElementById("fuel-type").value.trim(); 
     const minHp = parseFloat(document.getElementById("horsepower").value) || 50;
-    const minCargo = parseFloat(document.getElementById("cargo-space").value) || 150;
+    const minCargo = parseFloat(document.getElementById("cargo-space").value) || 100;
     const minPrice = parseFloat(document.getElementById("price").value) || 5000;
     const minGroundClearance = parseFloat(document.getElementById("ground-clearance").value) || 13.3;
     const seating = parseInt(document.getElementById("seating").value) || 0;

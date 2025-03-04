@@ -18,6 +18,13 @@ df["Horsepower"] = df["Horsepower"].astype(str).str.extract("(\d+)", expand=Fals
 # Ensure 'Price' is numeric
 df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
 
+print("\n✅ CSV Loaded: ", len(df), " rows")
+print("🚀 Unique Body Types:\n", df["Body_Type"].unique())
+
+# Show all Convertible and Coupe rows
+print("\n🔍 Convertible Cars:\n", df[df["Body_Type"].str.lower() == "convertible"])
+print("\n🔍 Coupe Cars:\n", df[df["Body_Type"].str.lower() == "coupe"])
+
 
 @app.route('/get_cars', methods=['GET'])
 def get_cars():
@@ -29,7 +36,7 @@ def get_cars():
     transmission = request.args.get("transmission", "").strip()
     fuel_type = request.args.get("fuel_type", "").strip()
     min_hp = request.args.get("min_hp", type=int, default=50)
-    min_cargo = request.args.get("min_cargo", type=int, default=150)
+    min_cargo = request.args.get("min_cargo", type=int, default=100)
     min_price = request.args.get("min_price", type=int, default=5000)
     min_ground_clearance = request.args.get("min_ground_clearance", type=float, default=13.3)
     seating = request.args.get("seating", type=int, default=None)
