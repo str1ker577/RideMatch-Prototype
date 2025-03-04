@@ -70,9 +70,9 @@ def get_cars():
 
     if drive_train:
         filtered_df = filtered_df[filtered_df["Drive_Train"].str.lower().str.contains(drive_train.lower(), na=False)]
-    
+        
     if transmission:
-        filtered_df = filtered_df[filtered_df["Transmission"].str.lower().str.contains(transmission.lower(), na=False)]
+        filtered_df = filtered_df[filtered_df["Transmission"].str.lower() == transmission.lower()]
     
     if fuel_type:
         filtered_df = filtered_df[filtered_df["Fuel_Type"].str.lower().str.contains(fuel_type.lower(), na=False)]
