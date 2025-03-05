@@ -1,6 +1,3 @@
-
-const replitUrl = 'https://your-replit-url.onrender.com'; // REPLIT URL
-
 //////////////////////
 //Side Menu Function//
 //////////////////////

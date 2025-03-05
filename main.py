@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect, render_template, session
 from flask_cors import CORS 
 import pandas as pd
 import json
@@ -22,7 +22,7 @@ df = pd.read_csv('car_data.csv', encoding='utf-8')
 
 @app.route('/')
 def home():
-    return jsonify({"message": "API is available."})
+    return render_template('index.html')
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -36,16 +36,11 @@ def signup():
                 email=email,
                 password=password
             )
-            return jsonify({
-                "status": "success",
-                "message": "User created successfully",
-                "user_id": user.uid
-            }), 201  # HTTP 201: Created
+            return redirect('/login')
         except Exception as e:
-            return jsonify({
-                "status": "error",
-                "message": str(e)
-            }), 400  # HTTP 400: Bad Request
+            return f"Error: {str(e)}"
+        
+    return render_template('index.html')  # Render the sign-up form
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -54,18 +49,12 @@ def login():
         password = request.form.get('password')
 
         try:
-            user = auth.get_user_by_email(email)
             if verify_password(email, password): 
-                return jsonify({
-                    "status": "success",
-                    "message": "Login successful",
-                    "user_id": user.uid
-                }), 200  # HTTP 200: OK
+                user = auth.get_user_by_email(email)
+                session['user'] = user.uid
+                return redirect('/dashboard')
             else:
-                return jsonify({
-                    "status": "error",
-                    "message": "Invalid credentials"
-                }), 401  # HTTP 401: Unauthorized
+                return "Invalid credentials"
         except Exception as e:
             return jsonify({
                 "status": "error",
@@ -74,12 +63,14 @@ def login():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    # Logic for logout can be implemented if needed
-    return jsonify({"message": "Logout successful."}), 200
+    session.pop('user', None)  
+    return redirect('/login')  
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
-    return jsonify({"message": "Dashboard access."}), 200
+    if 'user' in session:
+        return render_template('index.html')
+    return redirect('/login')
 
 with open('firebaseConfig.json') as f:
     firebase_config = json.load(f)
@@ -100,6 +91,26 @@ def verify_password(email, password):
     if response.status_code == 200:
         return True  # Password is correct
     return False  # Password is incorrect
+
+@app.route('/about')
+def about():
+    render_template('about.html')
+
+@app.route('/compare')
+def about():
+    render_template('compare.html')
+
+@app.route('/contacts')
+def about():
+    render_template('contacts.html')
+
+@app.route('/favourites')
+def about():
+    render_template('facourites.html')
+
+@app.route('/testimonials')
+def about():
+    render_template('testimonials.html')
 
 
 # Ensure all relevant columns are strings before extraction
