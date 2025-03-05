@@ -67,7 +67,7 @@
         </div>
         <hr>
         <!-- Updated nav items -->
-        <li><a href="{{url_for('')}}">Home</a></li>
+        <li><a href="{{url_for('home')}}">Home</a></li>
         <li><a href="{{url_for('about')}}">About Us</a></li>
         <li><a href="{{url_for('contacts')}}">Contacts</a></li>
         <li><a href="{{url_for('testimonials')}}">Testimonials</a></li>
@@ -106,7 +106,7 @@
 
         <!-- Body Type Drop down box -->
         <label for="body-type">Body Type:</label>
-        <select id="body-type" name="body-type">
+        <select id="body-type" name="body_type">
           <option value="">Any Body Type</option>
           <option value="Sedan">Sedan</option>
           <option value="SUV">SUV</option>
@@ -117,7 +117,7 @@
         
         <!-- Drive Train Drop down box -->
         <label for="drive-train">Drive Train:</label>
-        <select id="drive-train" name="drive-train">
+        <select id="drive-train" name="drive_train">
           <option value="" selected disabled>Choose drive train...</option>
           <option value="">All Drive Train Options</option>
           <option value="FWD">Front-Wheel Drive (FWD)</option>
@@ -139,7 +139,7 @@
 
         <!-- Fuel Type Drop down box -->
         <label for="fuel-type">Fuel Type:</label>
-        <select id="fuel-type" name="fuel-type">
+        <select id="fuel-type" name="fuel_type">
           <option value="">Any Fuel Type</option>
           <option value="Gasoline">Gasoline</option>
           <option value="Diesel">Diesel</option>
@@ -177,7 +177,7 @@
                 <input type="range" id="price" name="price" min="500000" max="2000000" step="1000" oninput="updateSliderValue('price','₱', true)">
                 <span id="price-value">₱500,000</span>
                 
-                <button id="filter-btn" class="filter-btn">Apply Filters</button>
+                <button id="filter-btn" class="filter-btn" onclick="applyFilters()">Apply Filters</button>
 
             </div>
         </div>
@@ -231,7 +231,7 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="{{url_for('')}}">Home</a></li>
+                    <li><a href="{{url_for('home')}}">Home</a></li>
                     <li><a href="{{url_for('about')}}">About Us</a></li>
                     <li><a href="{{url_for('testimonials')}}">Client Testimonials</a></li>
                     <li><a href="{{url_for('contacts')}}">Contact Us</a></li>
@@ -256,6 +256,27 @@
             <p>&copy; 2025 RideMatch. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <script>
+      function updateSliderValue(id, unit, isPrice = false) {
+          let value = document.getElementById(id).value;
+
+          // Format price with commas and place the unit on the left
+          if (isPrice) {
+              value = "₱" + parseInt(value).toLocaleString();
+          } else {
+              value = parseInt(value).toLocaleString() + " " + unit;
+          }
+
+          document.getElementById(id + "-value").textContent = value;
+      }
+
+      // Ensure all sliders display correct formatting when the page loads
+      document.addEventListener("DOMContentLoaded", function() {
+          updateSliderValue('price', '₱', true);
+          updateSliderValue('horsepower', 'HP', false);
+      });
+      </script>
  
     <!-- Link to Main.java -->
      <script src="{{url_for('static', filename='main.js')}}"></script>

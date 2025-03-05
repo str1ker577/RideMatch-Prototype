@@ -13,13 +13,13 @@ menuButton.addEventListener('click', () => {
     sidebar.classList.add('open');
     menuButton.style.display = 'none'; 
     closeButton.style.display = 'block';
-});
 
 // Close the sidebar and switch back the icons when close button is clicked
 closeButton.addEventListener('click', () => {
     sidebar.classList.remove('open');
     menuButton.style.display = 'block'; 
     closeButton.style.display = 'none';
+    });
 });
 
 
@@ -124,52 +124,109 @@ document.addEventListener("DOMContentLoaded", function () {
         return; // Stop execution if button is missing
     }
 
-    filterButton.addEventListener("click", function () {
-        applyFilters();
-    });
 });
 
+// ✅ New function to update slider values dynamically
+function updateSliderValue(id, unit = "", isCurrency = false) {
+    const slider = document.getElementById(id);
+    const display = document.getElementById(id + "-value");
+
+    if (slider && display) {
+        // Display initial value
+        if (id === "seating") {
+            display.textContent = slider.value + " seats"; // ✅ Always show 'seats'
+        } else {
+            display.textContent = isCurrency
+                ? "₱" + parseInt(slider.value, 10).toLocaleString()
+                : slider.value + " " + unit;
+        }
+
+        // Update value when slider moves
+        slider.addEventListener("input", function () {
+            if (id === "seating") {
+                display.textContent = slider.value + " seats"; // ✅ Ensures "X seats" is always shown
+            } else {
+                const value = parseInt(slider.value, 10) || 0; 
+                display.textContent = isCurrency
+                    ? "₱" + value.toLocaleString()
+                    : value + " " + unit;
+            }
+        });
+    }
+}
+
+
 async function applyFilters() {
-    const brand = document.getElementById("brand").value.trim();
-    const driveTrain = document.getElementById("drive-train").value.trim();
-    const transmission = document.getElementById("transmission").value.trim();
+    const brand = document.getElementById("brand").value.trim().toLowerCase();
+    const bodyType = document.getElementById("body-type").value.trim().toLowerCase();
+    const driveTrain = document.getElementById("drive-train").value.trim().toLowerCase();
+    const transmission = document.getElementById("transmission").value.trim().toLowerCase();
+    const fuelType = document.getElementById("fuel-type").value.trim().toLowerCase(); 
     const minHp = parseFloat(document.getElementById("horsepower").value) || 50;
-    const minCargo = parseFloat(document.getElementById("cargo-space").value) || 150;
+    const minCargo = parseFloat(document.getElementById("cargo-space").value) || 100;
     const minPrice = parseFloat(document.getElementById("price").value) || 5000;
+    const minGroundClearance = parseFloat(document.getElementById("ground-clearance").value) || 13.3;
+    const seating = parseInt(document.getElementById("seating").value) || 0;
 
     console.log("🚀 Filters Applied:");
+    console.log("Starting applyFilters function..."); // Added debugging log
     console.log("Brand:", brand);
+    console.log("Body Type:", bodyType);
     console.log("Drive Train:", driveTrain);
     console.log("Transmission:", transmission);
+    console.log("Fuel Type:", fuelType);
     console.log("Min HP:", minHp);
     console.log("Min Cargo Space:", minCargo);
     console.log("Min Price:", minPrice);
+    console.log("Min Ground Clearance:", minGroundClearance);
+    console.log("Min Seating Capacity:", seating);
+    console.log("Brand:", brand);
+    console.log("Body Type:", bodyType);
+    console.log("Drive Train:", driveTrain);
+    console.log("Transmission:", transmission);
+    console.log("Fuel Type:", fuelType);
+    console.log("Min HP:", minHp);
+    console.log("Min Cargo Space:", minCargo);
+    console.log("Min Price:", minPrice);
+    console.log("Min Ground Clearance:", minGroundClearance);
+    console.log("Min Seating Capacity:", seating);
 
     // Construct API URL
 
     // Local API Link //
-    //const filterUrl = new URL("http://127.0.0.1:5000/get_cars");
+    const url = new URL("https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev/get_cars");
 
     // Render API Link //
-    const filterUrl = new URL(`${replitUrl}/get_cars`);
+    //const url = new URL("http://127.0.0.1:5000/get_cars");//
 
     
-    if (brand) filterUrl.searchParams.append("brand", brand);
-    if (driveTrain) filterUrl.searchParams.append("drive_train", driveTrain);
-    if (transmission) filterUrl.searchParams.append("transmission", transmission);
-    filterUrl.searchParams.append("min_hp", minHp);
-    filterUrl.searchParams.append("min_cargo", minCargo);
-    filterUrl.searchParams.append("min_price", minPrice);
+    if (brand) url.searchParams.append("brand", brand.charAt(0).toUpperCase() + brand.slice(1));
+    if (bodyType) url.searchParams.append("body_type", bodyType.charAt(0).toUpperCase() + bodyType.slice(1));
+    if (driveTrain) url.searchParams.append("drive_train", driveTrain.charAt(0).toUpperCase() + driveTrain.slice(1));
+    if (transmission) url.searchParams.append("transmission", transmission.charAt(0).toUpperCase() + transmission.slice(1));
+    if (fuelType) url.searchParams.append("fuel_type", fuelType.charAt(0).toUpperCase() + fuelType.slice(1)); 
+    url.searchParams.append("min_hp", minHp);
+    url.searchParams.append("min_cargo", minCargo);
+    url.searchParams.append("min_price", minPrice);
+    url.searchParams.append("min_ground_clearance", minGroundClearance);
+    url.searchParams.append("seating", seating);
 
-    console.log("📤 Sending request to:", filterUrl.href);
+
+    console.log("📤 Sending request to:", url.href);
 
     try {
-        const response = await fetch(filterUrl);
+        const response = await fetch(url);
         const data = await response.json();
         console.log("📥 Received data:", data);
-        displayFilteredCars(data);
+        if (data.length === 0) {
+            console.warn("⚠️ No cars found for given filters.");
+            alert("No matching cars found. Please try different filters.");
+        } else {
+            displayFilteredCars(data);
+        }
     } catch (error) {
         console.error("🚨 Error fetching data:", error);
+        alert("An error occurred while fetching data. Please try again later.");
     }
 }
 
@@ -211,9 +268,10 @@ function displayFilteredCars(data) {
             <td>${car.Engine || "N/A"}</td>
             <td>${car.Horsepower ? car.Horsepower + " hp" : "N/A"}</td>
             <td>${car.Transmission || "N/A"}</td>
+            <td>${car.Fuel_Type || "N/A"}</td>
             <td>${car.Ground_Clearance ? car.Ground_Clearance + " cm" : "N/A"}</td>
             <td>${car.Cargo_space ? car.Cargo_space + " L" : "N/A"}</td>
-            <td>${car.Seating_Capacity && car.Seating_Capacity !== "undefined" ? car.Seating_Capacity : "N/A"}</td>
+            <td>${car.Seating_Capacity ? car.Seating_Capacity + " seats" : "N/A"}</td>
             <td>${car.Price ? "₱" + car.Price.toLocaleString() : "N/A"}</td>
         `;
         resultsBody.appendChild(row);
@@ -221,9 +279,6 @@ function displayFilteredCars(data) {
 
     console.log("✅ Table updated successfully!");
 }
-
-
-
 
 ////////////////////////////////////
 //When Filter is button is Pressed//
@@ -237,44 +292,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // Ensure sliders start at minimum values
     const priceSlider = document.getElementById("price");
     const horsepowerSlider = document.getElementById("horsepower");
+    const seatingSlider = document.getElementById("seating");
 
-    priceSlider.value = priceSlider.min; // Set price slider to ₱500,000
-    horsepowerSlider.value = horsepowerSlider.min; // Set horsepower slider to 50 HP
+    priceSlider.value = priceSlider.min;
+    horsepowerSlider.value = horsepowerSlider.min;
+    seatingSlider.value = "0";
 
     // Update displayed values to match the min values
     updateSliderValue("price", "₱", true);
     updateSliderValue("horsepower", "HP", false);
+    updateSliderValue("seating", "seats", false);
 
     filterButton.addEventListener("click", function () {
-        const filtersApplied = true; // Replace with actual filter check logic
-
-        if (filtersApplied) {
-            resultsFrame.classList.add("active"); // Show the results frame
-        }
+        console.log("Filter button clicked!"); // Added debugging log
+        applyFilters();
+        resultsFrame.classList.add("active"); // Show the results frame
     });
 });
-
-function updateSliderValue(id, unit, isPrice = false) {
-    let value = document.getElementById(id).value;
-
-    // Format price with commas and place the unit on the left
-    if (isPrice) {
-        value = "₱" + parseInt(value).toLocaleString();
-    } else {
-        value = parseInt(value).toLocaleString() + " " + unit;
-    }
-
-    document.getElementById(id + "-value").textContent = value;
-}
-
-// Ensure all sliders display correct formatting when the page loads
-document.addEventListener("DOMContentLoaded", function() {
-    updateSliderValue('price', '₱', true);
-    updateSliderValue('horsepower', 'HP', false);
-});
-
-
-
-
-
-
