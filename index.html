@@ -17,7 +17,7 @@
   <!-- Navbar -->
   <header>
     <!-- Centered Logo -->
-    <a href="#" class="Logo">
+    <a href="index.html" class="Logo">
       <img src="resources/Logo2.png" alt="RideMatch">
     </a>
 
@@ -80,7 +80,8 @@
         <!-- Body Type Drop down box -->
         <label for="body-type">Body Type:</label>
         <select id="body-type" name="body-type">
-          <option value="">Any Body Type</option>
+          <option value="" selected disabled>Choose Body Type</option>
+          <option value="">All Body Types</option>
           <option value="Sedan">Sedan</option>
           <option value="SUV">SUV</option>
           <option value="MPV">MPV</option>
@@ -94,7 +95,7 @@
         <!-- Drive Train Drop down box -->
         <label for="drive-train">Drive Train:</label>
         <select id="drive-train" name="drive-train">
-          <option value="" selected disabled>Choose drive train...</option>
+          <option value="" selected disabled>Choose Drive Train...</option>
           <option value="">All Drive Train Options</option>
           <option value="FWD">Front-Wheel Drive (FWD)</option>
           <option value="RWD">Rear-Wheel Drive (RWD)</option>
@@ -170,6 +171,7 @@
         <table>
             <thead>
                 <tr>
+                    <th></th>
                     <th>Brand</th>
                     <th>Model</th>
                     <th>Body Type</th>
@@ -187,6 +189,9 @@
             </thead>
         </table>
     </div>
+
+    <!-- Container for heart icons -->
+    <div id="heart-container" style="float: left; margin-right: 10px;"></div>
 
     <!-- Scrollable Table Body -->
     <div class="results-inner-frame">

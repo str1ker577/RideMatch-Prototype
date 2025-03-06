@@ -689,3 +689,18 @@ footer {
     }
 }
 
+.heart-icon {
+    position: absolute;
+    left: 10px; /* Adjust spacing */
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+    font-size: 20px;
+}
+
+.heart-icon i {
+    transition: color 0.3s ease-in-out;
+}
+
+.heart-icon.favorited {
+    color: #f21818 !important; /* Red when favorited */
+}

@@ -21,11 +21,6 @@ df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
 print("\n✅ CSV Loaded: ", len(df), " rows")
 print("🚀 Unique Body Types:\n", df["Body_Type"].unique())
 
-# Show all Convertible and Coupe rows
-print("\n🔍 Convertible Cars:\n", df[df["Body_Type"].str.lower() == "convertible"])
-print("\n🔍 Coupe Cars:\n", df[df["Body_Type"].str.lower() == "coupe"])
-
-
 @app.route('/get_cars', methods=['GET'])
 def get_cars():
     # Extract parameters safely with default values
