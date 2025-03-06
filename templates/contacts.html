@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us | RideMatch</title>
+
+  <!-- Link to Boxicons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Link to your main CSS -->
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+
+  <!-- Inline CSS specifically for form layout (you can move to style.css if you prefer) -->
+  <style>
+
+    /* Ensure labels appear above inputs */
+    .filter-right label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #b49b66;
+    }
+    .filter-right input,
+    .filter-right textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 8px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  
+    <!-- Popup Containers -->
+    <div id="login-popup" class="popup">
+      <div class="popup-content">
+          <span class="close-btn" onclick="togglePopup('login-popup')">&times;</span>
+          <h1>Login</h1>
+          <form action="/login" method="POST">
+              <input type="email" name="email" placeholder="Email" required>
+              <input type="password" name="password" placeholder="Password" required>
+              <button type="submit">Login</button>
+          </form>
+          <p>Don't have an account? <a href="javascript:void(0)" onclick="togglePopup('signup-popup'); togglePopup('login-popup')">Sign Up</a></p>
+      </div>
+    </div>
+  
+    <div id="signup-popup" class="popup">
+      <div class="popup-content">
+          <span class="close-btn" onclick="togglePopup('signup-popup')">&times;</span>
+          <h1>Sign Up</h1>
+          <form action="/signup" method="POST">
+              <input type="email" name="email" placeholder="Email" required>
+              <input type="password" name="password" placeholder="Password" required>
+              <button type="submit">Sign Up</button>
+          </form>
+          <p>Already have an account? <a href="javascript:void(0)" onclick="togglePopup('login-popup'); togglePopup('signup-popup')">Login</a></p>
+      </div>
+    </div>
+  <!-- Navbar -->
+  <header>
+    <!-- Centered Logo -->
+    <a href="#" class="Logo">
+      <img src="{{url_for('static', filename='resources/Logo2.png')}}" alt="RideMatch">
+    </a>
+
+    <!-- Side Menu Pop-out-->
+    <div class="Quick-Tools"></div>
+
+    <!-- Side-Menu -->
+    <div class="Side-Menu">
+      <i class='bx bx-menu' id='menu-button' style='color:#b49b66'></i>
+    </div>
+
+    <div class="SideBar" id="sidebar">
+      <i class='bx bx-arrow-from-right' id="close-button" style='color:#b49b66'></i>
+      <ul>
+        <div class="SideBar-Icons">
+          <i class='bx bx-user' id='user-icon' style='color:#b49b66' onclick="togglePopup('login-popup')"></i>
+          <a href="{{url_for('favourites')}}"><i class='bx bx-heart' style='color:#b49b66'></i></a>
+          <a href="{{url_for('compare')}}"><i class="fa-solid fa-scale-balanced" style='color:#b49b66'></i></a>
+        </div>
+        <hr>
+        <!-- Updated nav items -->
+        <li><a href="{{url_for('')}}">Home</a></li>
+        <li><a href="{{url_for('about')}}">About Us</a></li>
+        <li><a href="{{url_for('contacts')}}">Contacts</a></li>
+        <li><a href="{{url_for('testimonials')}}">Testimonials</a></li>
+      </ul>
+    </div>
+
+    <div class="liked"><a href="#"></a></div>
+  </header>
+
+  <!-- Contact Section -->
+  <div class="outer-frame" style="margin-top: 10rem;"><!-- Extra top margin to clear fixed header -->
+    <h2 class="filter-title">Contact Us</h2>
+    <div class="inner-frame">
+      <!-- Left Section: Contact Info -->
+      <div class="filter-left">
+        <h3>Get in Touch</h3>
+        <p>Email: <a href="mailto:ridematchhelp@gmail.com">ridematchhelp@gmail.com</a></p>
+        <p>Phone: +63 961 993 7494</p>
+        <p>Address: 123 RideMatch St., Metro Manila, Philippines</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+
+      <!-- Right Section: Contact Form (Web3Forms) -->
+      <div class="filter-right">
+        <h3>Send Us a Message</h3>
+        <form action="https://api.web3forms.com/submit" method="POST">
+          <!-- Your public access key -->
+          <input type="hidden" name="access_key" value="7be6ee75-b0a5-43bd-b36a-c0194b58f8d8">
+
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+
+          <button type="submit" class="filter-btn">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <p>RideMatch helps you find the perfect car with ease. Explore our collection and filter cars based on your preferences.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="{{url_for('')}}">Home</a></li>
+          <li><a href="{{url_for('about')}}">About Us</a></li>
+          <li><a href="{{url_for('testimonials')}}">Client Testimonials</a></li>
+          <li><a href="{{url_for('contacts')}}">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <p>Email: <a href="mailto:ridematchhelp@gmail.com">ridematchhelp@gmail.com</a></p>
+        <p>Phone: +63 961 993 7494</p>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="#"><i class='bx bxl-facebook'></i></a>
+          <a href="#"><i class='bx bxl-twitter'></i></a>
+          <a href="#"><i class='bx bxl-instagram'></i></a>
+          <a href="#"><i class='bx bxl-linkedin'></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 RideMatch. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Link to your JavaScript (for sidebar open/close) -->
+  <script src="{{url_for('static', filename='main.js')}}"></script>
+</body>
+</html>
