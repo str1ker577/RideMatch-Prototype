@@ -126,54 +126,93 @@ async function applyFilters() {
 }
 
 function displayFilteredCars(data) {
-    console.log("📊 Displaying cars:", data); // Debugging log
+    console.log("📊 Displaying cars:", data);
 
     const resultsFrame = document.getElementById("results-frame");
     const resultsBody = document.getElementById("results-body");
 
-    // ✅ Check if elements exist
     if (!resultsFrame || !resultsBody) {
         console.error("❌ Results elements not found!"); 
         return;
     }
 
-    // ✅ Ensure the results frame is visible
-    resultsFrame.style.display = "block"; 
-    resultsFrame.classList.add("active");
+    resultsFrame.style.display = "block";  
+    setTimeout(() => resultsFrame.classList.add("active"), 50)
 
-    // ✅ Clear the table body before inserting new data
     resultsBody.innerHTML = "";
 
-    // ✅ Handle case when no results match
     if (data.length === 0) {
-        resultsBody.innerHTML = `<tr><td colspan="12" style="text-align: center;">No matching cars found.</td></tr>`;
+        resultsBody.innerHTML = `<tr><td colspan="14" style="text-align: center;">No matching cars found.</td></tr>`;
         console.warn("⚠️ No cars found for given filters.");
         return;
     }
 
-    // ✅ Populate the table with new data
+    let likedCars = JSON.parse(localStorage.getItem("likedCars")) || [];
+
     data.forEach(car => {
+        const carId = `${car.Brand}-${car.Model}`;
+        const isLiked = likedCars.includes(carId);
+
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${car.Brand || "Unknown"}</td>
-            <td>${car.Model || "Unknown"}</td>
-            <td>${car.Body_Type || "N/A"}</td>
-            <td>${car.Variant || "N/A"}</td>
-            <td>${car.Drive_Train || "N/A"}</td>
-            <td>${car.Engine || "N/A"}</td>
-            <td>${car.Horsepower ? car.Horsepower + " hp" : "N/A"}</td>
-            <td>${car.Transmission || "N/A"}</td>
-            <td>${car.Fuel_Type || "N/A"}</td>
-            <td>${car.Ground_Clearance ? car.Ground_Clearance + " cm" : "N/A"}</td>
-            <td>${car.Cargo_space ? car.Cargo_space + " L" : "N/A"}</td>
-            <td>${car.Seating_Capacity ? car.Seating_Capacity + " seats" : "N/A"}</td>
-            <td>${car.Price ? "₱" + car.Price.toLocaleString() : "N/A"}</td>
-        `;
+        <td>${car.Brand || "Unknown"}</td>
+        <td>${car.Model || "Unknown"}</td>
+        <td>${car.Body_Type || "N/A"}</td>
+        <td>${car.Variant || "N/A"}</td>
+        <td>${car.Drive_Train || "N/A"}</td>
+        <td>${car.Engine || "N/A"}</td>
+        <td>${car.Horsepower ? car.Horsepower + " hp" : "N/A"}</td>
+        <td>${car.Transmission || "N/A"}</td>
+        <td>${car.Fuel_Type || "N/A"}</td>
+        <td>${car.Ground_Clearance ? car.Ground_Clearance + " cm" : "N/A"}</td>
+        <td>${car.Cargo_space ? car.Cargo_space + " L" : "N/A"}</td>
+        <td>${car.Seating_Capacity ? car.Seating_Capacity + " seats" : "N/A"}</td>
+        <td>${car.Price ? "₱" + car.Price.toLocaleString() : "N/A"}</td>
+        <td>
+            <div class="heart-container" onclick="toggleLike(this.querySelector('i'), '${car.Model}')">
+                <i class="fa-regular fa-heart like-icon"></i>
+            </div>
+        </td>
+    `;
+    
+
         resultsBody.appendChild(row);
     });
 
+    setupLikeButtons();
     console.log("✅ Table updated successfully!");
 }
+
+
+
+function setupLikeButtons() {
+    document.querySelectorAll(".heart-icon").forEach(icon => {
+        icon.addEventListener("click", function () {
+            const carId = this.dataset.id; 
+            toggleLike(this, carId);
+        });
+    });
+}
+
+function toggleLike(icon, carId) {
+    let likedCars = JSON.parse(localStorage.getItem("likedCars")) || [];
+
+    if (likedCars.includes(carId)) {
+        likedCars = likedCars.filter(id => id !== carId);
+        icon.classList.remove("fa-solid");
+        icon.classList.add("fa-regular");
+        icon.style.color = "#b49b66"; // Default color
+    } else {
+        likedCars.push(carId);
+        icon.classList.remove("fa-regular");
+        icon.classList.add("fa-solid");
+        icon.style.color = "red"; // Change inner color to red
+    }
+
+    localStorage.setItem("likedCars", JSON.stringify(likedCars));
+}
+
+
 
 ////////////////////////////////////
 //When Filter is button is Pressed//
