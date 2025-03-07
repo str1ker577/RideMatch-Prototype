@@ -136,8 +136,8 @@ function displayFilteredCars(data) {
         return;
     }
 
-    resultsFrame.style.display = "block";  
-    setTimeout(() => resultsFrame.classList.add("active"), 50)
+    resultsFrame.style.display = "block"; 
+    resultsFrame.classList.add("active");
 
     resultsBody.innerHTML = "";
 

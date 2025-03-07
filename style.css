@@ -384,7 +384,7 @@ header{
 .results-outer-frame {
     width: 90%;
     margin: 50px auto;
-    margin-top: 5%;
+    margin-top: 10%;
     padding: 20px;
     border: 2px solid #b49b66;
     border-radius: 10px;
@@ -392,20 +392,6 @@ header{
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(18px);
     overflow: hidden;
-}
-
-/* Initially hide it but keep it in place */
-.results-outer-frame {
-    transform: translateY(30px);  /* Slightly below */
-    opacity: 0;
-    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
-    display: block; /* Ensures it's still part of the layout */
-}
-
-/* When active, slide up and fade in */
-.results-outer-frame.active {
-    transform: translateY(0);
-    opacity: 1;
 }
 
 /* Ensure the table layout remains consistent */
@@ -706,7 +692,7 @@ footer {
 .like-cell {
     text-align: center;
     vertical-align: middle;
-    width: 5px; /* Adjust width as needed */
+    width: 10px; /* Adjust width as needed */
 }
 
 .heart-icon {
