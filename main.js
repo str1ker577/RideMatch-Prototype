@@ -184,6 +184,10 @@ function displayFilteredCars(data) {
 }
 
 
+//////////////////////////
+// Heart/Saved Function //
+//////////////////////////
+
 
 function setupLikeButtons() {
     document.querySelectorAll(".heart-icon").forEach(icon => {
@@ -246,9 +250,125 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-//////////////////////////
-// Heart/Saved Function //
-//////////////////////////
+/////////////////////////
+// Comparison Function //
+/////////////////////////
+
+document.addEventListener("DOMContentLoaded", function () {
+    const carColumnsContainer = document.getElementById("car_columns");
+    const comparisonTable = document.querySelector(".comp_table_frame");
+    const specsColumn = document.getElementById("specs_column");
+    const specsColumnWidth = 200; // Fixed width for specs column
+
+    function createAddCarColumn() {
+        const addCarColumn = document.createElement("div");
+        addCarColumn.classList.add("add_car_column");
+
+        const addButton = document.createElement("button");
+        addButton.classList.add("add_car_btn");
+        addButton.textContent = "+ Add Car";
+
+        addButton.addEventListener("click", function () {
+            addCarColumn.replaceWith(createCarColumn());
+            addNewAddCarColumn();
+            updateColumnWidths();
+        });
+
+        addCarColumn.appendChild(addButton);
+        return addCarColumn;
+    }
+
+    function createCarColumn() {
+        const carColumn = document.createElement("div");
+        carColumn.classList.add("car_column");
+
+        // Sample car data
+        carColumn.innerHTML = `
+            <div class="car_title">General</div>
+            <div class="car_spec">Toyota</div>
+            <div class="car_spec">Vios</div>
+            <div class="car_spec">1.3 J MT</div>
+            <div class="car_spec">Sedan</div>
+
+            <div class="car_title">Performance</div>
+            <div class="car_spec">1.3L; In-line 4</div>
+            <div class="car_spec">98 HP</div>
+            <div class="car_spec">5-Speed Manual</div>
+            <div class="car_spec">FWD</div>
+            <div class="car_spec">Gasoline</div>
+
+            <div class="car_title">Dimensions</div>
+            <div class="car_spec">326L</div>
+            <div class="car_spec">13.3cm</div>
+            <div class="car_spec">5</div>
+
+            <div class="car_title">Price</div>
+            <div class="car_spec">₱732,000</div>
+
+            <button class="remove_car">Remove</button>
+        `;
+
+        const removeButton = carColumn.querySelector(".remove_car");
+        removeButton.addEventListener("click", function () {
+            carColumnsContainer.removeChild(carColumn);
+            updateColumnWidths();
+            addNewAddCarColumn();
+        });
+
+        return carColumn;
+    }
+
+    function addNewAddCarColumn() {
+        if (!document.querySelector(".add_car_column")) {
+            carColumnsContainer.appendChild(createAddCarColumn());
+        }
+    }
+
+    function updateColumnWidths() {
+        const totalColumns = carColumnsContainer.children.length;
+        const tableWidth = comparisonTable.clientWidth;
+        const availableWidth = tableWidth - specsColumnWidth; // Keep specs column fixed
+        const columnWidth = Math.max(200, availableWidth / totalColumns);
+
+        // Prevent shrinking of specs column when scrolling
+        specsColumn.style.width = `${specsColumnWidth}px`;
+        specsColumn.style.flexShrink = "0";
+        specsColumn.style.position = "sticky";
+        specsColumn.style.left = "0";
+        specsColumn.style.zIndex = "2";
+
+        // Ensure car columns stay inside the container
+        carColumnsContainer.style.overflowX = "auto"; // Horizontal scroll only
+        carColumnsContainer.style.whiteSpace = "nowrap";
+        carColumnsContainer.style.display = "flex";
+
+        // Adjust column width dynamically
+        Array.from(carColumnsContainer.children).forEach(column => {
+            column.style.width = `${columnWidth}px`;
+            column.style.minWidth = "200px";
+            column.style.flexShrink = "0";
+        });
+
+        // Prevent left-side clipping issue
+        comparisonTable.style.overflowX = "auto";
+    }
+
+    // Initialize with two add car columns
+    carColumnsContainer.appendChild(createAddCarColumn());
+    carColumnsContainer.appendChild(createAddCarColumn());
+    updateColumnWidths();
+
+    // Adjust responsiveness on window resize
+    window.addEventListener("resize", updateColumnWidths);
+});
+
+
+
+
+
+
+
+
 
 
 
