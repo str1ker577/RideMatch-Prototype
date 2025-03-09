@@ -1,3 +1,7 @@
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
+
 //////////////////////
 //Side Menu Function//
 //////////////////////
@@ -47,9 +51,107 @@ document.addEventListener('click', function(event) {
 
 const welcomeMessageDiv = document.getElementById('welcome-message');
 
+//////////////////////
+//COMPARE Function////
+//////////////////////
 
-// Handle Signup Form Submission
-document.getElementById('signupForm').addEventListener('submit', async (e) => {
+async function compareCars() {
+    const car1 = document.getElementById('variant').value; // Updated to get value from variant dropdown
+    const car2 = document.getElementById('variant').value; // Updated to get value from variant dropdown
+
+
+    // Fetch car data from car_data.csv (assuming it's accessible via an API or static file)
+    fetch('./car_data.csv') // Update this path as necessary
+
+        .then(response => response.text())
+        .then(data => {
+            const cars = parseCSV(data); // Function to parse CSV data
+            const car1Data = cars.find(car => car.Variant === car1);
+            const car2Data = cars.find(car => car.Variant === car2);
+
+
+            // Display comparison results
+            const resultsDiv = document.getElementById('comparison-results');
+            resultsDiv.innerHTML = `
+                <h3>Comparison Results</h3>
+                <p><strong>${car1Data.Brand} ${car1Data.Model}</strong>: ${JSON.stringify(car1Data)}</p>
+                <p><strong>${car2Data.Brand} ${car2Data.Model}</strong>: ${JSON.stringify(car2Data)}</p>
+
+            `;
+        })
+        .catch(error => {
+            console.error('Error fetching car data:', error);
+        });
+}
+
+async function populateBrands() {
+    const response = await fetch('./car_data.csv');
+    const data = await response.text();
+    const cars = parseCSV(data);
+    const brandSelect = document.getElementById('brand');
+
+    const brands = [...new Set(cars.map(car => car.Brand))];
+    brands.forEach(brand => {
+        const option = document.createElement('option');
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
+    });
+}
+
+async function populateModels() {
+    const selectedBrand = document.getElementById('brand').value;
+    const response = await fetch('./car_data.csv');
+    const data = await response.text();
+    const cars = parseCSV(data);
+    const modelSelect = document.getElementById('model');
+    modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
+
+    const models = [...new Set(cars.filter(car => car.Brand === selectedBrand).map(car => car.Model))];
+    models.forEach(model => {
+        const option = document.createElement('option');
+        option.value = model;
+        option.textContent = model;
+        modelSelect.appendChild(option);
+    });
+}
+
+async function populateVariants() {
+    const selectedModel = document.getElementById('model').value;
+    const response = await fetch('./car_data.csv');
+    const data = await response.text();
+    const cars = parseCSV(data);
+    const variantSelect = document.getElementById('variant');
+    variantSelect.innerHTML = '<option value="">Select Variant</option>'; // Reset variants
+
+    const variants = [...new Set(cars.filter(car => car.Model === selectedModel).map(car => car.Variant))];
+    variants.forEach(variant => {
+        const option = document.createElement('option');
+        option.value = variant;
+        option.textContent = variant;
+        variantSelect.appendChild(option);
+    });
+}
+
+function parseCSV(data) {
+    const lines = data.split('\n');
+    const result = [];
+    const headers = lines[0].split(',');
+
+    for (let i = 1; i < lines.length; i++) {
+        const obj = {};
+        const currentLine = lines[i].split(',');
+
+        for (let j = 0; j < headers.length; j++) {
+            obj[headers[j].trim()] = currentLine[j].trim();
+        }
+        result.push(obj);
+    }
+    return result;
+}
+
+
+document.getElementById('signupForm').addEventListener('submit', async (e) => {    
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -157,6 +259,9 @@ function updateSliderValue(id, unit = "", isCurrency = false) {
 
 
 async function applyFilters() {
+
+    console.log("apply filters clicked");
+
     const brand = document.getElementById("brand").value.trim().toLowerCase();
     const bodyType = document.getElementById("body-type").value.trim().toLowerCase();
     const driveTrain = document.getElementById("drive-train").value.trim().toLowerCase();
@@ -194,11 +299,10 @@ async function applyFilters() {
     // Construct API URL
 
     // Local API Link //
-    const url = new URL("https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev/get_cars");
+    //const url = new URL("https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev/get_cars");
 
     // Render API Link //
-    //const url = new URL("http://127.0.0.1:5000/get_cars");//
-
+    const url = new URL("http://127.0.0.1:5000/get_cars");//
     
     if (brand) url.searchParams.append("brand", brand.charAt(0).toUpperCase() + brand.slice(1));
     if (bodyType) url.searchParams.append("body_type", bodyType.charAt(0).toUpperCase() + bodyType.slice(1));
@@ -303,9 +407,49 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSliderValue("horsepower", "HP", false);
     updateSliderValue("seating", "seats", false);
 
-    filterButton.addEventListener("click", function () {
-        console.log("Filter button clicked!"); // Added debugging log
-        applyFilters();
-        resultsFrame.classList.add("active"); // Show the results frame
-    });
+    // Removed the filter button event listener since it's handled in index.html
+
 });
+
+
+///////////////////////
+//FAVOURITES Function//
+///////////////////////
+
+
+async function addToFave(itemId, itemName, price) {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please sign in first!");
+      return;
+    }
+
+    const response = await fetch("http://127.0.0.1:5000/add-to-fave", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uid: user.uid,
+          item_id: itemId,
+          item_name: itemName,
+          price: price,
+        }),
+    });
+
+    const data = await response.json();
+    console.log("Cart updated:", data.cart);
+    }
+
+
+async function loadFaves() {
+    const user = auth.currentUser;
+    if (!user) return;
+    
+    const response = await fetch("http://127.0.0.1:5000/get-faves", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid: user.uid }),
+    });
+    
+    const data = await response.json();
+    console.log("User Favourites:", data.cart);
+}

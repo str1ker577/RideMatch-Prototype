@@ -98,7 +98,23 @@ def verify_password(email, password):
         return True  # Password is correct
     return False  # Password is incorrect
 
-@app.route('/about')
+@app.route('/save_user_data', methods=['POST'])  # New route to save user data
+def save_user_data():
+    if 'user' in session:
+        user_id = session['user']
+        user_data = request.json  # Get user data from the request
+
+        # Initialize Firestore
+        db = firebase_admin.firestore.client()
+        
+        # Save user data to Firestore
+        db.collection('users').document(user_id).set(user_data)
+        
+        return jsonify({"status": "success", "message": "User data saved successfully."}), 200
+    return jsonify({"status": "error", "message": "User not authenticated."}), 403
+
+@app.route('/about')  
+
 def about():
     render_template('about.html')
 

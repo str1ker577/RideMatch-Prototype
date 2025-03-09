@@ -95,6 +95,35 @@
 
 
 <div class="wrapper">
+  <h2>Compare Cars</h2>
+  <form id="compare-form">
+    <label for="brand">Select Brand:</label>
+    <select id="brand" name="brand" onchange="populateBrands()">
+      <option value="">Select Brand</option>
+      <!-- Populate with car brands from car_data.csv -->
+    </select>
+
+    <label for="model">Select Model:</label>
+    <select id="model" name="model" onchange="populateModels()">
+      <option value="">Select Model</option>
+      <!-- Populate with car models based on selected brand -->
+    </select>
+
+    <label for="variant">Select Variant:</label>
+    <select id="variant" name="variant" onchange="populateVariants">
+      <option value="">Select Variant</option>
+      <!-- Populate with car variants based on selected model -->
+    </select>
+
+    <button type="button" onclick="compareCars()">Compare</button>
+  </form>
+
+  
+    <div id="comparison-results" style="margin-top: 20px;">
+
+    <!-- Comparison results will be displayed here -->
+  </div>
+
 
 </div>
 
@@ -136,5 +165,75 @@
   
   <!-- Link to Main.js -->
   <script src="{{url_for('static', filename='main.js')}}"></script>
+  <script>
+    async function populateBrands() {
+      const response = await fetch('./car_data.csv');
+      const data = await response.text();
+      const cars = parseCSV(data);
+      const brandSelect = document.getElementById('brand');
+
+      const brands = [...new Set(cars.map(car => car.Brand))];
+      brands.forEach(brand => {
+        const option = document.createElement('option');
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
+      });
+    }
+
+    async function populateModels() {
+      const selectedBrand = document.getElementById('brand').value;
+      const response = await fetch('./car_data.csv');
+      const data = await response.text();
+      const cars = parseCSV(data);
+      const modelSelect = document.getElementById('model');
+      modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
+
+      const models = [...new Set(cars.filter(car => car.Brand === selectedBrand).map(car => car.Model))];
+      models.forEach(model => {
+        const option = document.createElement('option');
+        option.value = model;
+        option.textContent = model;
+        modelSelect.appendChild(option);
+      });
+    }
+
+    async function populateVariants() {
+      const selectedModel = document.getElementById('model').value;
+      const response = await fetch('./car_data.csv');
+      const data = await response.text();
+      const cars = parseCSV(data);
+      const variantSelect = document.getElementById('variant');
+      variantSelect.innerHTML = '<option value="">Select Variant</option>'; // Reset variants
+
+      const variants = [...new Set(cars.filter(car => car.Model === selectedModel).map(car => car.Variant))];
+      variants.forEach(variant => {
+        const option = document.createElement('option');
+        option.value = variant;
+        option.textContent = variant;
+        variantSelect.appendChild(option);
+      });
+    }
+
+    function parseCSV(data) {
+      const lines = data.split('\n');
+      const result = [];
+      const headers = lines[0].split(',');
+
+      for (let i = 1; i < lines.length; i++) {
+          const obj = {};
+          const currentLine = lines[i].split(',');
+
+          for (let j = 0; j < headers.length; j++) {
+              obj[headers[j].trim()] = currentLine[j].trim();
+          }
+          result.push(obj);
+      }
+      return result;
+    }
+
+    document.addEventListener('DOMContentLoaded', populateBrands);
+  </script>
+
 </body>
 </html>
