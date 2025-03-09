@@ -407,7 +407,6 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSliderValue("horsepower", "HP", false);
     updateSliderValue("seating", "seats", false);
 
-    // Removed the filter button event listener since it's handled in index.html
 
 });
 
