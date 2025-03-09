@@ -4,7 +4,7 @@ import pandas as pd
 import json
 import requests
 import firebase_admin
-from firebase_admin import credentials, auth
+from firebase_admin import credentials, auth, firestore
 import numpy as np
 import os
 
@@ -18,6 +18,8 @@ cred = credentials.Certificate('serviceAccountKey.json')  # Initialize Firebase 
 print("✅ Firebase credentials initialized.")
 firebase_admin.initialize_app(cred)
 
+db = firestore.client()
+
 # Load CSV data
 df = pd.read_csv('car_data.csv', encoding='utf-8')
 
@@ -30,12 +32,14 @@ def home():
 def signup():
     if request.method == 'POST':
         email = request.form.get('email')
+        username = request.form.get('username')
         password = request.form.get('password')
 
         try:
             # Create a new user in Firebase Authentication
             user = auth.create_user(
                 email=email,
+                display_name=username,
                 password=password
             )
             app.logger.info("✅ User signed up successfully, redirecting to login.")
@@ -58,9 +62,10 @@ def login():
                 session['user'] = user.uid
                 app.logger.info("✅ User logged in successfully, redirecting to dashboard.")
 
-                return redirect('/dashboard')  # Redirect to dashboard after login
+                return render_template('index.html',  name="{user.display_name}")            
             else:
-                return "Invalid credentials"
+                return render_template('index.html', error="Incorrect password. Please try again.")
+
         except Exception as e:
             return jsonify({
                 "status": "error",
@@ -71,15 +76,6 @@ def login():
 def logout():
     session.pop('user', None)  
     return redirect('/login')  
-
-@app.route('/dashboard', methods=['GET'])  # Dashboard route
-def dashboard():
-    if 'user' in session:
-        print("🔍 Rendering home page.")
-    return render_template('index.html')  # Render the home page
-    app.logger.info("🔍 User accessed dashboard.")
-
-    return redirect('/login')  # Redirect to login if not authenticated
 
 with open('firebaseConfig.json') as f:
     firebase_config = json.load(f)
@@ -130,7 +126,18 @@ def contacts():
 
 @app.route('/favourites')
 def favourites():
-    return render_template('favourites.html')
+    if 'user' in session:
+        user_id = session['user']
+        user_data = request.json  # Get user data from the request
+
+        # Initialize Firestore
+        db = firebase_admin.firestore.client()
+        
+        # Save user data to Firestore
+        db.collection('users').document(user_id).set(user_data)
+        
+        return render_template('favourites.html')
+    return redirect('/login')
 
 @app.route('/testimonials')
 def testimonials():

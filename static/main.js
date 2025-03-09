@@ -3,7 +3,12 @@
 //////////////////////
 
 
+const baseUrl = "http://127.0.0.1:5000"; // Base URL for API requests
+
+//const baseUrl = "https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev"; // Base URL for API requests
+
 // Get elements for toggling sidebar and menu button
+
 const menuButton = document.getElementById('menu-button');
 const closeButton = document.getElementById('close-button');
 const sidebar = document.getElementById('sidebar');
@@ -210,13 +215,8 @@ async function applyFilters() {
     console.log("Min Ground Clearance:", minGroundClearance);
     console.log("Min Seating Capacity:", seating);
 
-    // Construct API URL
-
-    // Local API Link //
-    //const url = new URL("https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev/get_cars");
-
     // Render API Link //
-    const url = new URL("http://127.0.0.1:5000/get_cars");//
+    const url = new URL(`${baseUrl}/get_cars`);//
     
     if (brand) url.searchParams.append("brand", brand.charAt(0).toUpperCase() + brand.slice(1)); // Append brand filter if specified
 
@@ -352,7 +352,8 @@ async function compareCars() {
     }
 
     console.log("Fetching specs for variant:", selectedVariant);
-    const response = await fetch(`/get_specs?variant=${selectedVariant}`);
+    const response = await fetch(`${baseUrl}/get_specs?variant=${selectedVariant}`);
+
     const specs = await response.json();
 
     if (Object.keys(specs).length === 0) {
@@ -418,7 +419,8 @@ async function populateModels() {
     const selectedBrand = document.getElementById('brand').value;
     if (!selectedBrand) return; // Exit if no brand is selected
 
-    const response = await fetch(`/get_models?brand=${selectedBrand}`);
+    const response = await fetch(`${baseUrl}/get_models?brand=${selectedBrand}`);
+
     const models = await response.json();
     const modelSelect = document.getElementById('model');
     modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
@@ -435,7 +437,8 @@ async function populateVariants() {
     const selectedModel = document.getElementById('model').value;
     if (!selectedModel) return; // Exit if no model is selected
 
-    const response = await fetch(`/get_variants?model=${selectedModel}`);
+    const response = await fetch(`${baseUrl}/get_variants?model=${selectedModel}`);
+
     const variants = await response.json();
     
     const variantSelect = document.getElementById('variant');
@@ -447,4 +450,47 @@ async function populateVariants() {
         option.textContent = variant;
         variantSelect.appendChild(option);
     });
+}
+
+
+///////////////////////
+//FAVOURITES Function//
+///////////////////////
+
+
+async function addToFave(itemId, itemName, price) {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please sign in first!");
+      return;
+    }
+
+    const response = await fetch("http://127.0.0.1:5000/add-to-fave", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uid: user.uid,
+          item_id: itemId,
+          item_name: itemName,
+          price: price,
+        }),
+    });
+
+    const data = await response.json();
+    console.log("Cart updated:", data.cart);
+    }
+
+
+async function loadFaves() {
+    const user = auth.currentUser;
+    if (!user) return;
+    
+    const response = await fetch("http://127.0.0.1:5000/get-faves", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid: user.uid }),
+    });
+    
+    const data = await response.json();
+    console.log("User Favourites:", data.cart);
 }
