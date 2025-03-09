@@ -183,54 +183,48 @@ def get_cars():
     print(f"Min Price: {min_price}")
     print(f"Min Ground Clearance: {min_ground_clearance}")
     print(f"Exact Seating Capacity: {seating}") 
+    filtered_df = df.copy()  # Create a copy of the DataFrame for filtering
 
-    # Start filtering
-    print(f"Brand: {repr(brand)}")
-    print(f"Model: {repr(model)}")
-    print(f"Body Type: {repr(body_type)}")
-    print(f"Drive Train: {repr(drive_train)}")
-    print(f"Transmission: {repr(transmission)}")
-    print(f"Fuel Type: {repr(fuel_type)}")
-    print(f"Min HP: {min_hp}")
-    print(f"Min Cargo Space: {min_cargo}")
-    print(f"Min Price: {min_price}")
-    print(f"Min Ground Clearance: {min_ground_clearance}")
-    print(f"Exact Seating Capacity: {seating}") 
-    filtered_df = df.copy()
 
     # 🛠 Handle "Any" selection ("" means no filter applied)
-    if brand and brand.lower() not in ["any", "all brands"]:
+    if brand and brand.lower() not in ["any", "all brands"]:  # Filter by brand if specified
+
         filtered_df = filtered_df[filtered_df["Brand"].str.lower() == brand.lower()]
     
-    if model and model.lower() != "any":
+    if model and model.lower() != "any":  # Filter by model if specified
+
         filtered_df = filtered_df[filtered_df["Model"].str.lower() == model.lower()]
     
-    if body_type:
+    if body_type:  # Filter by body type if specified
+
         filtered_df = filtered_df[filtered_df["Body_Type"].str.lower() == body_type.lower()]
 
-    if drive_train:
+    if drive_train:  # Filter by drive train if specified
+
         filtered_df = filtered_df[filtered_df["Drive_Train"].str.lower().str.contains(drive_train.lower(), na=False)]
         
-    if transmission:
+    if transmission:  # Filter by transmission if specified
+
         filtered_df = filtered_df[filtered_df["Transmission"].str.lower() == transmission.lower()]
     
-    if fuel_type:
+    if fuel_type:  # Filter by fuel type if specified
+
         filtered_df = filtered_df[filtered_df["Fuel_Type"].str.lower().str.contains(fuel_type.lower(), na=False)]
 
     # 🏎 Apply numerical filters
-    filtered_df = filtered_df[
+    filtered_df = filtered_df[  # Apply numerical filters
         (filtered_df["Horsepower"] >= min_hp) &
         (filtered_df["Cargo_space"] >= min_cargo) &
         (filtered_df["Price"] >= min_price) &
         (filtered_df["Ground_Clearance"] >= min_ground_clearance)
     ]
     
-    if seating is not None and seating > 0:
+    if seating is not None and seating > 0:  # Filter by seating capacity if specified
+
         filtered_df = filtered_df[filtered_df["Seating_Capacity"] == seating]
 
 
     # Debugging: Print filtered results
-    print("\n📊 Filtered DataFrame:")
     print("\n📊 Filtered DataFrame:")
     print(filtered_df)
 
