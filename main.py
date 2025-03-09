@@ -38,7 +38,8 @@ def signup():
                 email=email,
                 password=password
             )
-            print("✅ User signed up successfully, redirecting to login.")
+            app.logger.info("✅ User signed up successfully, redirecting to login.")
+
             return redirect('/login')  # Redirect to login after signup
         except Exception as e:
             return f"Error: {str(e)}"
@@ -55,7 +56,8 @@ def login():
             if verify_password(email, password): 
                 user = auth.get_user_by_email(email)
                 session['user'] = user.uid
-                print("✅ User logged in successfully, redirecting to dashboard.")
+                app.logger.info("✅ User logged in successfully, redirecting to dashboard.")
+
                 return redirect('/dashboard')  # Redirect to dashboard after login
             else:
                 return "Invalid credentials"
@@ -75,7 +77,8 @@ def dashboard():
     if 'user' in session:
         print("🔍 Rendering home page.")
     return render_template('index.html')  # Render the home page
-    print("🔍 User accessed dashboard.")
+    app.logger.info("🔍 User accessed dashboard.")
+
     return redirect('/login')  # Redirect to login if not authenticated
 
 with open('firebaseConfig.json') as f:
@@ -113,26 +116,25 @@ def save_user_data():
         return jsonify({"status": "success", "message": "User data saved successfully."}), 200
     return jsonify({"status": "error", "message": "User not authenticated."}), 403
 
-@app.route('/about')  
-
+@app.route('/about')
 def about():
-    render_template('about.html')
+    return render_template('about.html')
 
 @app.route('/compare')
 def compare():
-    render_template('compare.html')
+    return render_template('compare.html')
 
 @app.route('/contacts')
 def contacts():
-    render_template('contacts.html')
+    return render_template('contacts.html')
 
 @app.route('/favourites')
 def favourites():
-    render_template('favourites.html')
+    return render_template('favourites.html')
 
 @app.route('/testimonials')
 def testimonials():
-    render_template('testimonials.html')
+    return render_template('testimonials.html')
 
 
 # Ensure all relevant columns are strings before extraction
@@ -143,20 +145,11 @@ df["Horsepower"] = df["Horsepower"].astype(str).str.extract("(\d+)", expand=Fals
 # Ensure 'Price' is numeric
 df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
 
-print("\n✅ CSV Loaded: ", len(df), " rows")  # Log number of rows loaded
-
-print("🚀 Unique Body Types:\n", df["Body_Type"].unique())
-
-# Show all Convertible and Coupe rows
-print("\n🔍 Convertible Cars:\n", df[df["Body_Type"].str.lower() == "sedan"])
-print("\n🔍 Coupe Cars:\n", df[df["Body_Type"].str.lower() == "coupe"])
-
-
-
 @app.route('/get_cars', methods=['GET'])  # Get cars route
 def get_cars():
     # Debugging - Log received values
-    print("\n🔍 Received Filters:")  # Log received filters
+    app.logger.info("\n🔍 Received Filters:")  # Log received filters
+
     # Extract parameters safely with default values
     brand = request.args.get("brand", "").strip()
     model = request.args.get("model", "").strip()
@@ -170,19 +163,6 @@ def get_cars():
     min_ground_clearance = request.args.get("min_ground_clearance", type=float, default=13.3)
     seating = request.args.get("seating", type=int, default=None)
 
-    # Debugging - Log received values
-    print("\n🔍 Received Filters:")  # Log received filters
-    print(f"Brand: {repr(brand)}")
-    print(f"Model: {repr(model)}")
-    print(f"Body Type: {repr(body_type)}")
-    print(f"Drive Train: {repr(drive_train)}")
-    print(f"Transmission: {repr(transmission)}")
-    print(f"Fuel Type: {repr(fuel_type)}")
-    print(f"Min HP: {min_hp}")
-    print(f"Min Cargo Space: {min_cargo}")
-    print(f"Min Price: {min_price}")
-    print(f"Min Ground Clearance: {min_ground_clearance}")
-    print(f"Exact Seating Capacity: {seating}") 
     filtered_df = df.copy()  # Create a copy of the DataFrame for filtering
 
 
@@ -225,15 +205,13 @@ def get_cars():
 
 
     # Debugging: Print filtered results
-    print("\n📊 Filtered DataFrame:")
+    app.logger.info("\n📊 Filtered DataFrame:")
+
     print(filtered_df)
 
     # Convert DataFrame to JSON
     filtered_cars = filtered_df.fillna("").to_dict(orient="records")
-    print("\n📤 Sending response with filtered cars.")
-    print(json.dumps(filtered_cars, indent=4))
 
-    print("\n📤 Sending response with filtered cars.")
     return jsonify(filtered_cars)  # Return the filtered cars as JSON
 
 @app.route('/get_models', methods=['GET'])
@@ -247,6 +225,46 @@ def get_models():
     models = df[df["Brand"].str.lower() == brand.lower()]["Model"].unique().tolist()
 
     return jsonify(models)
+
+@app.route('/get_variants', methods=['GET'])
+def get_variants():
+    model = request.args.get("model", "").strip()
+
+    if not model:
+        return jsonify([])  # Return empty list if no brand is selected
+
+    # Get unique models for the selected brand
+    variants = df[df["Model"].str.lower() == model.lower()]["Variant"].unique().tolist()
+
+    return jsonify(variants)
+
+@app.route('/get_specs', methods=['GET'])
+def get_specs():
+    variant = request.args.get("variant", "").strip()
+
+    if not variant:
+        return jsonify({})  # Return empty object if no variant is provided
+
+    # Filter the dataframe to get the specifications of the given variant
+    specs = df[df["Variant"].str.lower() == variant.lower()].iloc[0]
+    
+    # Create a dictionary with the required specifications
+    car_specs = {
+        "Brand": str(specs["Brand"]),
+        "Model": str(specs["Model"]),
+        "Engine": str(specs["Engine"]),
+        "Horsepower": int(specs["Horsepower"]),
+        "Drive Train": str(specs["Drive_Train"]),
+        "Transmission": str(specs["Transmission"]),
+        "Body Type": str(specs["Body_Type"]),
+        "Fuel Type": str(specs["Fuel_Type"]),
+        "Ground Clearance": float(specs["Ground_Clearance"]),
+        "Seating Capacity": int(specs["Seating_Capacity"]),
+        "Cargo Space": int(specs["Cargo_space"]),
+        "Price": float(specs["Price"])
+    }
+
+    return jsonify(car_specs)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

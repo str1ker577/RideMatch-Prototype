@@ -83,7 +83,7 @@
         </div>
         <hr>
         <!-- Updated nav items -->
-        <li><a href="{{url_for('')}}">Home</a></li>
+        <li><a href="{{url_for('home')}}">Home</a></li>
         <li><a href="{{url_for('about')}}">About Us</a></li>
         <li><a href="{{url_for('contacts')}}">Contacts</a></li>
         <li><a href="{{url_for('testimonials')}}">Testimonials</a></li>
@@ -93,40 +93,51 @@
     <div class="liked"><a href="#"></a></div>
   </header>
 
+  <div class="outer-frame" style="margin-top:10rem;">
+    <h2 class="filter-title">Compare Cars</h2>
+    <div class="inner-frame">
+      <div class="filter-left">
+        <form id="compare-form">
+          <label for="brand">Select Brand:</label>
+          <select id="brand" name="brand" onchange="populateModels()">
 
-<div class="wrapper">
-  <h2>Compare Cars</h2>
-  <form id="compare-form">
-    <label for="brand">Select Brand:</label>
-    <select id="brand" name="brand" onchange="populateBrands()">
-      <option value="">Select Brand</option>
-      <!-- Populate with car brands from car_data.csv -->
-    </select>
+            <option value="" selected disabled>Select Brand</option>
+            <option value="Toyota">Toyota</option>
+            <option value="Honda">Honda</option>
+            <option value="Mitsubishi">Mitsubishi</option>
+            <option value="Mazda">Mazda</option>
+            <option value="Ford">Ford</option>
+            <option value="Hyundai">Hyundai</option>
+            <option value="Suzuki">Suzuki</option>
+          </select>
 
-    <label for="model">Select Model:</label>
-    <select id="model" name="model" onchange="populateModels()">
-      <option value="">Select Model</option>
-      <!-- Populate with car models based on selected brand -->
-    </select>
+          <label for="model">Select Model:</label>
+          <select id="model" name="model" onchange="populateVariants()">
+            <option value="">Select Model</option>
+            <!-- Populate with car models based on selected brand -->
+          </select>
 
-    <label for="variant">Select Variant:</label>
-    <select id="variant" name="variant" onchange="populateVariants">
-      <option value="">Select Variant</option>
-      <!-- Populate with car variants based on selected model -->
-    </select>
+          <label for="variant">Select Variant:</label>
+          <select id="variant" name="variant">
+            <option value="">Select Variant</option>
+            <!-- Populate with car variants based on selected model -->
+          </select>
 
-    <button type="button" onclick="compareCars()">Compare</button>
-  </form>
-
-  
-    <div id="comparison-results" style="margin-top: 20px;">
-
-    <!-- Comparison results will be displayed here -->
+          <button class="compare_btn" type="button" onclick="compareCars()">Compare Cars</button>
+        </form>
+      </div>
+    </div>
   </div>
 
-
-</div>
-
+  <div class="wrapper">
+    <div class="comp_table_frame">
+      <div class="comp_table_content">
+        <div id="comparison-container">
+          <!-- CAR SPECS HERE -->
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Footer -->
   <footer>
     <div class="footer-container">
@@ -137,7 +148,7 @@
       <div class="footer-section">
         <h3>Quick Links</h3>
         <ul>
-          <li><a href="{{url_for('')}}">Home</a></li>
+          <li><a href="{{url_for('home')}}">Home</a></li>
           <li><a href="{{url_for('about')}}">About Us</a></li>
           <li><a href="{{url_for('testimonials')}}">Client Testimonials</a></li>
           <li><a href="{{url_for('contacts')}}">Contact Us</a></li>
@@ -151,10 +162,17 @@
       <div class="footer-section">
         <h3>Follow Us</h3>
         <div class="social-icons">
-          <a href="#"><i class='bx bxl-facebook'></i></a>
-          <a href="#"><i class='bx bxl-twitter'></i></a>
-          <a href="#"><i class='bx bxl-instagram'></i></a>
-          <a href="#"><i class='bx bxl-linkedin'></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61573973933095&mibextid=LQQJ4d&rdid=URdqqHEOsH0kR36P&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18gKTe9eNT%2F%3Fmibextid%3DLQQJ4d" 
+          target="_blank" 
+          rel="noopener noreferrer">
+          <i class='bx bxl-facebook'></i>
+          </a>
+          <a href="https://x.com/ridematch_help" target="_blank" rel="noopener noreferrer">
+            <i class='bx bxl-twitter'></i>
+          </a>
+          <a href="https://www.instagram.com/ridematch_support/" target="_blank" rel="noopener noreferrer">
+            <i class='bx bxl-instagram'></i>
+          </a>
         </div>
       </div>
     </div>
@@ -165,75 +183,5 @@
   
   <!-- Link to Main.js -->
   <script src="{{url_for('static', filename='main.js')}}"></script>
-  <script>
-    async function populateBrands() {
-      const response = await fetch('./car_data.csv');
-      const data = await response.text();
-      const cars = parseCSV(data);
-      const brandSelect = document.getElementById('brand');
-
-      const brands = [...new Set(cars.map(car => car.Brand))];
-      brands.forEach(brand => {
-        const option = document.createElement('option');
-        option.value = brand;
-        option.textContent = brand;
-        brandSelect.appendChild(option);
-      });
-    }
-
-    async function populateModels() {
-      const selectedBrand = document.getElementById('brand').value;
-      const response = await fetch('./car_data.csv');
-      const data = await response.text();
-      const cars = parseCSV(data);
-      const modelSelect = document.getElementById('model');
-      modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
-
-      const models = [...new Set(cars.filter(car => car.Brand === selectedBrand).map(car => car.Model))];
-      models.forEach(model => {
-        const option = document.createElement('option');
-        option.value = model;
-        option.textContent = model;
-        modelSelect.appendChild(option);
-      });
-    }
-
-    async function populateVariants() {
-      const selectedModel = document.getElementById('model').value;
-      const response = await fetch('./car_data.csv');
-      const data = await response.text();
-      const cars = parseCSV(data);
-      const variantSelect = document.getElementById('variant');
-      variantSelect.innerHTML = '<option value="">Select Variant</option>'; // Reset variants
-
-      const variants = [...new Set(cars.filter(car => car.Model === selectedModel).map(car => car.Variant))];
-      variants.forEach(variant => {
-        const option = document.createElement('option');
-        option.value = variant;
-        option.textContent = variant;
-        variantSelect.appendChild(option);
-      });
-    }
-
-    function parseCSV(data) {
-      const lines = data.split('\n');
-      const result = [];
-      const headers = lines[0].split(',');
-
-      for (let i = 1; i < lines.length; i++) {
-          const obj = {};
-          const currentLine = lines[i].split(',');
-
-          for (let j = 0; j < headers.length; j++) {
-              obj[headers[j].trim()] = currentLine[j].trim();
-          }
-          result.push(obj);
-      }
-      return result;
-    }
-
-    document.addEventListener('DOMContentLoaded', populateBrands);
-  </script>
-
 </body>
 </html>

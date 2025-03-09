@@ -88,22 +88,48 @@
         <label for="brand">Brand:</label>
         <input list="brands" id="brand" name="brand" placeholder="Enter brand...">
         <datalist id="brands">
-          <option value="All Brands">
-          <option value="Toyota">
-          <option value="Honda">
-          <option value="Mitsubishi">
-          <option value="Mazda">
-          <option value="Ford">
-          <option value="Hyundai">
-          <option value="Suzuki">
+          <option value="All Brands">All Brands</option>
+          <option value="Toyota">Toyota</option>
+          <option value="Honda">Honda</option>
+          <option value="Mitsubishi">Mitsubishi</option>
+          <option value="Mazda">Mazda</option>
+          <option value="Ford">Ford</option>
+          <option value="Hyundai">Hyundai</option>
+          <option value="Suzuki">Suzuki</option>
         </datalist>
 
         <!-- Input for Model -->
-        <label for="model">Model:</label>
-        <input list="models" id="model" name="model" placeholder="Select model..." disabled>
-        <datalist id="models">
-          <option value="All Models">
-        </datalist>
+        <label for="Model">Model:</label>
+        <select id="model" name="model">
+          <option	 value="" selected disabled>	All Models	</option>
+          <option	 value="Vios">	Vios	</option>
+          <option	 value="Hilux">	Hilux	</option>
+          <option	 value="Raize">	Raize	</option>
+          <option	 value="Wigo">	Wigo	</option>
+          <option	 value="Fortuner">	Fortuner	</option>
+          <option	 value="Innova">	Innova	</option>
+          <option	 value="Veloz">	Veloz	</option>
+          <option	 value="Hiace">	Hiace	</option>
+          <option	 value="Mirage G4">	Mirage G4	</option>
+          <option	 value="Xpander">	Xpander	</option>
+          <option	 value="Montero Sport">	Montero Sport	</option>
+          <option	 value="Triton">	Triton	</option>
+          <option	 value="L300">	L300	</option>
+          <option	 value="City">	City	</option>
+          <option	 value="Brio">	Brio	</option>
+          <option	 value="BR-V">	BR-V	</option>
+          <option	 value="CR-V">	CR-V	</option>
+          <option	 value="Civic">	Civic	</option>
+          <option	 value="Ranger">	Ranger	</option>
+          <option	 value="Everest">	Everest	</option>
+          <option	 value="Mazda 2">	Mazda 2	</option>
+          <option	 value="Mazda 3">	Mazda 3	</option>
+          <option	 value="MX-5">	MX-5	</option>
+          <option	 value="MX-5 RF">	MX-5 RF	</option>
+          <option	 value="CX-3">	CX-3	</option>
+          <option	 value="CX-5">	CX-5	</option>
+          <option	 value="CX-30">	CX-30	</option>
+        </select>
 
         <!-- Body Type Drop down box -->
         <label for="body-type">Body Type:</label>
@@ -223,7 +249,7 @@
     <!-- Scrollable Table Body -->
     <div class="results-inner-frame">
         <table class="results-table">
-            <tbody id="results-body">
+            <tbody id="car-specs">
                 <!-- Filtered car data will be inserted here -->
             </tbody>
         </table>

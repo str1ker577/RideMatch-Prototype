@@ -345,58 +345,84 @@ document.addEventListener("DOMContentLoaded", function () {
 //////////////////////
 
 async function compareCars() {
-    const car1 = document.getElementById('variant').value; // Updated to get value from variant dropdown
-    const car2 = document.getElementById('variant').value; // Updated to get value from variant dropdown
+    const selectedVariant = document.getElementById('variant').value; // Get value from variant dropdown
+    if (!selectedVariant) {
+        console.warn("No variant selected.");
+        return; // Exit if no variant is selected
+    }
 
+    console.log("Fetching specs for variant:", selectedVariant);
+    const response = await fetch(`/get_specs?variant=${selectedVariant}`);
+    const specs = await response.json();
 
-    // Fetch car data from car_data.csv (assuming it's accessible via an API or static file)
-    fetch('./car_data.csv') // Update this path as necessary
+    if (Object.keys(specs).length === 0) {
+        alert('No specifications found for this variant.');
+        return;
+    }
 
-        .then(response => response.text())
-        .then(data => {
-            const cars = parseCSV(data); // Function to parse CSV data
-            const car1Data = cars.find(car => car.Variant === car1);
-            const car2Data = cars.find(car => car.Variant === car2);
+    const container = document.getElementById('comparison-container');
 
+    // If this is the first car, create the specification title column
+    let titleColumn = document.getElementById('title-column');
+    if (!titleColumn) {
+        titleColumn = document.createElement('div');
+        titleColumn.id = 'title-column';
+        titleColumn.classList.add('column', 'title-column');
 
-            // Display comparison results
-            const resultsDiv = document.getElementById('comparison-results');
-            resultsDiv.innerHTML = `
-                <h3>Comparison Results</h3>
-                <p><strong>${car1Data.Brand} ${car1Data.Model}</strong>: ${JSON.stringify(car1Data)}</p>
-                <p><strong>${car2Data.Brand} ${car2Data.Model}</strong>: ${JSON.stringify(car2Data)}</p>
+        const emptyTitleDiv = document.createElement('div');
+        emptyTitleDiv.classList.add('car-title');
+        titleColumn.appendChild(emptyTitleDiv);
 
-            `;
-        })
-        .catch(error => {
-            console.error('Error fetching car data:', error);
-        });
-}
+        for (const key of Object.keys(specs)) {
+            const titleDiv = document.createElement('div');
+            titleDiv.classList.add('spec-title');
+            titleDiv.textContent = key;
+            titleColumn.appendChild(titleDiv);
+        }
 
-async function populateBrands() {
-    const response = await fetch('./car_data.csv');
-    const data = await response.text();
-    const cars = parseCSV(data);
-    const brandSelect = document.getElementById('brand');
+        container.appendChild(titleColumn);
+    }
 
-    const brands = [...new Set(cars.map(car => car.Brand))];
-    brands.forEach(brand => {
-        const option = document.createElement('option');
-        option.value = brand;
-        option.textContent = brand;
-        brandSelect.appendChild(option);
+    // Check if this car was already added to avoid duplicates
+    if (document.getElementById(`car-${selectedVariant}`)) {
+        alert(`${selectedVariant} is already in the comparison.`);
+        return;
+    }
+
+    // Create a new column for this car
+    const carColumn = document.createElement('div');
+    carColumn.id = `car-${selectedVariant}`;
+    carColumn.classList.add('column');
+
+    // Add car name at the top
+    const carTitle = document.createElement('div');
+    carTitle.classList.add('car-title');
+    carTitle.textContent = selectedVariant;
+    carColumn.appendChild(carTitle);
+
+    // Add specs for this car
+    Object.values(specs).forEach(value => {
+        const specDiv = document.createElement('div');
+        specDiv.id = 'specs_column';
+        specDiv.classList.add('spec-value');
+        specDiv.textContent = value;
+        carColumn.appendChild(specDiv);
     });
+
+    // Append the new car column next to existing ones
+    container.appendChild(carColumn);
 }
+
 
 async function populateModels() {
     const selectedBrand = document.getElementById('brand').value;
-    const response = await fetch('./car_data.csv');
-    const data = await response.text();
-    const cars = parseCSV(data);
+    if (!selectedBrand) return; // Exit if no brand is selected
+
+    const response = await fetch(`/get_models?brand=${selectedBrand}`);
+    const models = await response.json();
     const modelSelect = document.getElementById('model');
     modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
 
-    const models = [...new Set(cars.filter(car => car.Brand === selectedBrand).map(car => car.Model))];
     models.forEach(model => {
         const option = document.createElement('option');
         option.value = model;
@@ -407,13 +433,14 @@ async function populateModels() {
 
 async function populateVariants() {
     const selectedModel = document.getElementById('model').value;
-    const response = await fetch('./car_data.csv');
-    const data = await response.text();
-    const cars = parseCSV(data);
-    const variantSelect = document.getElementById('variant');
-    variantSelect.innerHTML = '<option value="">Select Variant</option>'; // Reset variants
+    if (!selectedModel) return; // Exit if no model is selected
 
-    const variants = [...new Set(cars.filter(car => car.Model === selectedModel).map(car => car.Variant))];
+    const response = await fetch(`/get_variants?model=${selectedModel}`);
+    const variants = await response.json();
+    
+    const variantSelect = document.getElementById('variant');
+    variantSelect.innerHTML = '<option value="">Select Variant</option>'; // Reset models
+
     variants.forEach(variant => {
         const option = document.createElement('option');
         option.value = variant;

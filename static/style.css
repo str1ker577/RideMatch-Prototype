@@ -117,6 +117,7 @@ header{
     box-shadow: var(--box-shadow);
     border-radius: 1rem;
 }
+
 .SideBar{
     position: fixed;
     top: 0;
@@ -193,7 +194,6 @@ header{
     color: var(--second-color);
     display: flex;
     column-gap: 2.4rem;
-    cursor: pointer;
 }
 
 .SideBar.open{
@@ -243,6 +243,86 @@ header{
 .Quick-Tools i:hover{
     transform: translateY(-5px);
 }
+
+/* Popup Styles */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1001;
+}
+
+.popup.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup-content {
+    background: var(--background-color);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--second-color);
+}
+
+.popup-content h1 {
+    color: var(--second-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.popup-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.popup-content input {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
+}
+
+.popup-content button {
+    background: var(--second-color);
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.popup-content p {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.popup-content a {
+    color: var(--second-color);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 /***********************/
 /* Filter System Frame */
 /***********************/
@@ -375,6 +455,7 @@ header{
 .outer-frame {
     flex: 1;
 }
+
 
 /*************************/
 /* Results Frame Styling */
@@ -830,4 +911,265 @@ footer {
     color: var(--second-color);
     text-decoration: underline;
     cursor: pointer;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#brand, #model, #variant {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/**********************/
+/*Compare Page Styling*/
+/**********************/
+.comp_table_frame {
+    width: 95%;
+    margin: 50px auto;
+    margin-top: 10%;
+    padding: 20px;
+    border: 2px solid #b49b66;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(18px);
+    overflow-x: auto; /* Allows horizontal scrolling */
+    display: flex;
+    position: relative; /* Prevents unwanted shifting */
+    white-space: nowrap;
+}
+
+.comp_table_content {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 15px;
+    overflow-x: auto;
+    gap: 20px;
+}
+
+.comp_spec_column {
+    width: 200px !important; 
+    min-width: 200px !important;
+    max-width: 200px !important;
+    flex: none !important;  
+    position: sticky;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 10;
+    background: #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#specs_column {
+    width: 200px !important; 
+    min-width: 200px !important; 
+    max-width: 200px !important;
+    flex: none !important;
+    position: sticky;
+    left: 0;
+    background: rgba(255, 255, 255, 0.9); 
+    z-index: 2;
+}
+
+/* Column Titles Styling */
+.spec_title, .car_title {
+    font-size: 16px; 
+    font-weight: bold;
+    padding-left: 10px;
+    color: inherit; /* For .spec_title, #333; for .car_title, use var(--second-color) if desired */
+    border-bottom: 2px solid #bbb;
+    box-sizing: border-box;
+    height: 40px;       
+    line-height: 40px;   
+    margin: 0;           
+}
+
+.car_title {
+    text-align: left;
+    font-weight: bold;
+    color: var(--second-color); 
+    border-bottom: 2px solid #bbb;
+    padding-bottom: 5px;
+    padding: 0px 10px; /* Remove bottom padding */
+    height: 40px;
+    line-height: 40px; /* Ensure it aligns with .spec_title */
+}
+
+/* Ensure rows in both columns have same height */
+.spec, .car_spec {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    height: 40px;         
+    min-height: 40px;
+    margin: 0;            
+}
+
+#car_columns {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    flex-grow: 1;
+    gap: 20px;
+}
+
+.car_column {
+    font-size: 16px; 
+    width: 200px;
+    text-align: center;
+    border-left: 2px solid #ddd;
+    padding: 0px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    min-width: 150px; /* Ensures each column has enough width */
+}
+
+.car_display {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.car_header {
+    font-weight: bold;
+    background: var(--second-color);
+    color: white;
+
+    border-radius: 4px;
+}
+
+.car_spec {
+    font-size: 16px; 
+    padding: 8px 0;
+    padding-left: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+}
+
+.car_column, .add_car_column {
+    min-width: 200px;  
+    flex-shrink: 0; 
+    border-left: 2px solid #b49b66;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+/* Add car column styling */ 
+.add_car_row {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px 0;
+    border-bottom: 2px solid #b49b66;
+    margin-left: 95px;
+}
+
+/* Add car button and dropdown styling */
+.add_car_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.add_car_btn {
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: none;
+    background: var(--second-color);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.add_car_column {
+    width: 200px;
+    height: 100%;
+    text-align: center;
+    padding: 10px;
+    background: white;
+    justify-content: center; /* Centers vertically */
+    align-items: center; /* Centers horizontally */
+}
+
+#savedCarsDropdown {
+    padding: 5px;
+    font-size: 14px;
+}
+
+.remove_car {
+    color: red;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+#comparison-container{
+    display: flex; /* Ensures columns are added horizontally */
+    gap: 10px;
+    overflow-x: auto; /* Allows scrolling if too many cars */
+    padding: 10px;
+}
+
+/* Preserve spacing when browser shrinks */
+@media (max-width: 768px) {
+    .comp_table_frame {
+        overflow-x: auto;
+        margin-top: 25%;
+    }
+
+    #specs_column {
+        position: sticky;
+        width: 200px;
+        display: block;
+    }
+
+    #car_columns {
+        flex-wrap: nowrap; /* Prevent stacking */
+        overflow-x: auto; /* Scroll horizontally */
+    }
+
+    .car_column, .add_car_column {
+        width: auto; /* Adjust width dynamically */
+    }
+}
+
+.compare_btn {
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: none;
+    background: var(--second-color);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.compare_btn:hover {
+    background: #9e8a56;
 }
