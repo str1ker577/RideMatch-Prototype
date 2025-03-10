@@ -3,7 +3,7 @@
 //////////////////////
 
 
-const baseUrl = "http://127.0.0.1:5000"; // Base URL for API requests
+const baseUrl = `http://127.0.0.1:5000`; // Base URL for API requests
 
 //const baseUrl = "https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev"; // Base URL for API requests
 
@@ -216,7 +216,7 @@ async function applyFilters() {
     console.log("Min Seating Capacity:", seating);
 
     // Render API Link //
-    const url = new URL(`${baseUrl}/get_cars`);//
+    const url = new URL(`http://127.0.0.1:5000/get_cars`);//
     
     if (brand) url.searchParams.append("brand", brand.charAt(0).toUpperCase() + brand.slice(1)); // Append brand filter if specified
 
@@ -256,10 +256,12 @@ async function applyFilters() {
 }
 
 function displayFilteredCars(data) {
-    console.log("📊 Displaying cars:", data); // Debugging log
+    console.log("📊 Displaying cars data:", data); // Debugging log
+
 
     const resultsFrame = document.getElementById("results-frame");
-    const resultsBody = document.getElementById("results-body");
+    const resultsBody = document.getElementById("car-specs");
+
 
     // ✅ Check if elements exist
     if (!resultsFrame || !resultsBody) {
@@ -283,7 +285,6 @@ function displayFilteredCars(data) {
     }
 
     data.forEach(car => {
-        const carId = `${car.Brand}-${car.Model}`;
 
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -301,7 +302,7 @@ function displayFilteredCars(data) {
         <td>${car.Seating_Capacity ? car.Seating_Capacity + " seats" : "N/A"}</td>
         <td>${car.Price ? "₱" + car.Price.toLocaleString() : "N/A"}</td>
         <td>
-            <div class="heart-container" onclick="toggleLike(this.querySelector('i'), '${car.Model}')">
+            <div class="heart-container">
                 <i class="fa-regular fa-heart like-icon"></i>
             </div>
         </td>
@@ -316,7 +317,7 @@ function displayFilteredCars(data) {
 
 ////////////////////////////////////
 //When Filter is button is Pressed//
-////////////////////////////////////
+//////////////////////////////////////
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -370,9 +371,8 @@ async function compareCars() {
         titleColumn.id = 'title-column';
         titleColumn.classList.add('column', 'title-column');
 
-        const emptyTitleDiv = document.createElement('div');
-        emptyTitleDiv.classList.add('car-title');
-        titleColumn.appendChild(emptyTitleDiv);
+        // Removed the empty title div to ensure proper alignment
+
 
         for (const key of Object.keys(specs)) {
             const titleDiv = document.createElement('div');
@@ -457,6 +457,33 @@ async function populateVariants() {
 //FAVOURITES Function//
 ///////////////////////
 
+async function setupLikeButtons() {
+    const likeIcons = document.querySelectorAll('.like-icon');
+
+    likeIcons.forEach(icon => {
+        icon.addEventListener('click', async function() {
+            const variant = this.closest('tr').querySelector('td:nth-child(4)').textContent; // Get the variant from the row
+            const isLiked = this.classList.toggle('fa-solid'); // Toggle the filled heart icon
+
+            // Send request to Firestore to add/remove from favorites
+            const user = auth.currentUser;
+            if (!user) {
+                alert("Please sign in first!");
+                return;
+            }
+
+            const response = await fetch(`${baseUrl}/toggle-fave`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ uid: user.uid, variant: variant, liked: isLiked })
+            });
+
+            if (!response.ok) {
+                console.error('Failed to update favorites');
+            }
+        });
+    });
+}
 
 async function addToFave(itemId, itemName, price) {
     const user = auth.currentUser;
@@ -465,7 +492,7 @@ async function addToFave(itemId, itemName, price) {
       return;
     }
 
-    const response = await fetch("http://127.0.0.1:5000/add-to-fave", {
+    const response = await fetch(`${baseUrl}/add-to-fave`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -485,7 +512,7 @@ async function loadFaves() {
     const user = auth.currentUser;
     if (!user) return;
     
-    const response = await fetch("http://127.0.0.1:5000/get-faves", {
+    const response = await fetch(`${baseUrl}/get-faves`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ uid: user.uid }),

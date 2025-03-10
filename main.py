@@ -97,21 +97,6 @@ def verify_password(email, password):
         return True  # Password is correct
     return False  # Password is incorrect
 
-@app.route('/save_user_data', methods=['POST'])  # New route to save user data
-def save_user_data():
-    if 'user' in session:
-        user_id = session['user']
-        user_data = request.json  # Get user data from the request
-
-        # Initialize Firestore
-        db = firebase_admin.firestore.client()
-        
-        # Save user data to Firestore
-        db.collection('users').document(user_id).set(user_data)
-        
-        return jsonify({"status": "success", "message": "User data saved successfully."}), 200
-    return jsonify({"status": "error", "message": "User not authenticated."}), 403
-
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -124,20 +109,17 @@ def compare():
 def contacts():
     return render_template('contacts.html')
 
-@app.route('/favourites')
+@app.route('/favourites', methods=['POST'])
 def favourites():
     if 'user' in session:
         user_id = session['user']
-        user_data = request.json  # Get user data from the request
+        variant = request.json.get('variant')  # Get the variant from the request
 
-        # Initialize Firestore
-        db = firebase_admin.firestore.client()
-        
-        # Save user data to Firestore
-        db.collection('users').document(user_id).set(user_data)
+        # Save the variant to Firestore under the user's favorites
+        db.collection('users').document(user_id).collection('favorites').add({'variant': variant})
         
         return render_template('favourites.html')
-    return redirect('/login')
+    return render_template('index.html')
 
 @app.route('/testimonials')
 def testimonials():
@@ -151,6 +133,19 @@ df["Horsepower"] = df["Horsepower"].astype(str).str.extract("(\d+)", expand=Fals
 
 # Ensure 'Price' is numeric
 df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
+
+@app.route('/get-faves', methods=['POST'])  # Get favorites route
+def get_faves():
+    if 'user' in session:
+        user_id = session['user']
+        favorites_ref = db.collection('users').document(user_id).collection('favorites')
+        favorites = favorites_ref.stream()
+
+        favorite_variants = []
+        for favorite in favorites:
+            favorite_variants.append(favorite.to_dict())
+
+        return jsonify(favorite_variants)  # Return the list of favorite variants
 
 @app.route('/get_cars', methods=['GET'])  # Get cars route
 def get_cars():
@@ -272,6 +267,28 @@ def get_specs():
     }
 
     return jsonify(car_specs)
+
+@app.route('/toggle-fave', methods=['POST'])
+def toggle_fave():
+ if 'user' in session:
+        user_id = session['user']
+        variant = request.json.get('variant')  # Get the variant from the request
+
+        # Reference to the user's favorites in Firestore
+        favorites_ref = db.collection('users').document(user_id).collection('favorites')
+        
+        # Check if the variant is already favorited
+        existing_fave = favorites_ref.where('variant', '==', variant).get()
+        
+        if existing_fave:
+            # If it exists, remove it
+            for fave in existing_fave:
+                favorites_ref.document(fave.id).delete()
+            return jsonify({"status": "removed", "variant": variant}), 200  # Return removed status
+        else:
+            # If it doesn't exist, add it
+            favorites_ref.add({'variant': variant})
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

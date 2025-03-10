@@ -96,11 +96,42 @@
   <!-- Favorites Section -->
   <div class="outer-frame" style="margin-top:10rem;">
     <h2 class="filter-title">Your Favorite Cars</h2>
-    <!-- Insert your favorites list or dynamic content here -->
-    <p style="text-align:center; color:#b49b66;">
-      <!-- Example text. Replace with your own or remove if you're dynamically generating favorites. -->
-      Here are the cars you've marked as favorites.
-    </p>
+    <div id="favorites-list">
+        <p style="text-align:center; color:#b49b66;">
+          Here are the cars you've marked as favorites.
+        </p>
+        <ul id="favorites-items"></ul>
+    </div>
+    <script>
+        const baseUrl = 'http://127.0.0.1:5000';
+
+        async function loadFavorites() {
+            const response = await fetch(`${baseUrl}/get-faves`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ uid: auth.currentUser.uid })
+            });
+            const favorites = await response.json();
+            const favoritesList = document.getElementById("favorites-items");
+            favoritesList.innerHTML = ""; // Clear existing items
+
+            for (const car of favorites) {
+                const variantResponse = await fetch(`${baseUrl}/get_variants?model=${car.variant}`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" }
+                });
+                const variantData = await variantResponse.json();
+
+                const listItem = document.createElement("li");
+                listItem.textContent = `${variantData.Brand} ${variantData.Model} - ${variantData.Price}`; // Display full details
+
+                favoritesList.appendChild(listItem);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadFavorites);
+    </script>
+
   </div>
 
   <!-- Footer -->
