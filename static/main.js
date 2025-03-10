@@ -3,24 +3,32 @@
 //////////////////////
 
 
+const baseUrl = `http://127.0.0.1:5000`; // Base URL for API requests
+
+//const baseUrl = "https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev"; // Base URL for API requests
+
+
+
 // Get elements for toggling sidebar and menu button
+
+
 const menuButton = document.getElementById('menu-button');
 const closeButton = document.getElementById('close-button');
 const sidebar = document.getElementById('sidebar');
 
-// Toggle the sidebar visibility and menu button icon
 menuButton.addEventListener('click', () => {
     sidebar.classList.add('open');
     menuButton.style.display = 'none'; 
     closeButton.style.display = 'block';
+});
 
 // Close the sidebar and switch back the icons when close button is clicked
 closeButton.addEventListener('click', () => {
     sidebar.classList.remove('open');
     menuButton.style.display = 'block'; 
     closeButton.style.display = 'none';
-    });
 });
+
 
 
 // Popup functionality
@@ -47,9 +55,25 @@ document.addEventListener('click', function(event) {
 
 const welcomeMessageDiv = document.getElementById('welcome-message');
 
+function parseCSV(data) {
+    const lines = data.split('\n');
+    const result = [];
+    const headers = lines[0].split(',');
 
-// Handle Signup Form Submission
-document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    for (let i = 1; i < lines.length; i++) {
+        const obj = {};
+        const currentLine = lines[i].split(',');
+
+        for (let j = 0; j < headers.length; j++) {
+            obj[headers[j].trim()] = currentLine[j].trim();
+        }
+        result.push(obj);
+    }
+    return result;
+}
+
+
+document.getElementById('signupForm').addEventListener('submit', async (e) => {    
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -157,6 +181,9 @@ function updateSliderValue(id, unit = "", isCurrency = false) {
 
 
 async function applyFilters() {
+
+    console.log("apply filters clicked");
+
     const brand = document.getElementById("brand").value.trim().toLowerCase();
     const bodyType = document.getElementById("body-type").value.trim().toLowerCase();
     const driveTrain = document.getElementById("drive-train").value.trim().toLowerCase();
@@ -191,20 +218,19 @@ async function applyFilters() {
     console.log("Min Ground Clearance:", minGroundClearance);
     console.log("Min Seating Capacity:", seating);
 
-    // Construct API URL
-
-    // Local API Link //
-    const url = new URL("https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev/get_cars");
-
     // Render API Link //
-    //const url = new URL("http://127.0.0.1:5000/get_cars");//
-
+    const url = new URL(`http://127.0.0.1:5000/get_cars`);//
     
-    if (brand) url.searchParams.append("brand", brand.charAt(0).toUpperCase() + brand.slice(1));
-    if (bodyType) url.searchParams.append("body_type", bodyType.charAt(0).toUpperCase() + bodyType.slice(1));
-    if (driveTrain) url.searchParams.append("drive_train", driveTrain.charAt(0).toUpperCase() + driveTrain.slice(1));
-    if (transmission) url.searchParams.append("transmission", transmission.charAt(0).toUpperCase() + transmission.slice(1));
-    if (fuelType) url.searchParams.append("fuel_type", fuelType.charAt(0).toUpperCase() + fuelType.slice(1)); 
+    if (brand) url.searchParams.append("brand", brand.charAt(0).toUpperCase() + brand.slice(1)); // Append brand filter if specified
+
+    if (bodyType) url.searchParams.append("body_type", bodyType.charAt(0).toUpperCase() + bodyType.slice(1)); // Append body type filter if specified
+
+    if (driveTrain) url.searchParams.append("drive_train", driveTrain.charAt(0).toUpperCase() + driveTrain.slice(1)); // Append drive train filter if specified
+
+    if (transmission) url.searchParams.append("transmission", transmission.charAt(0).toUpperCase() + transmission.slice(1)); // Append transmission filter if specified
+
+    if (fuelType) url.searchParams.append("fuel_type", fuelType.charAt(0).toUpperCase() + fuelType.slice(1)); // Append fuel type filter if specified
+
     url.searchParams.append("min_hp", minHp);
     url.searchParams.append("min_cargo", minCargo);
     url.searchParams.append("min_price", minPrice);
@@ -212,10 +238,12 @@ async function applyFilters() {
     url.searchParams.append("seating", seating);
 
 
-    console.log("📤 Sending request to:", url.href);
+    console.log("📤 Sending request to:", url.href); // Log the request URL
+
 
     try {
-        const response = await fetch(url);
+    const response = await fetch(url); // Fetch data from the constructed URL
+
         const data = await response.json();
         console.log("📥 Received data:", data);
         if (data.length === 0) {
@@ -231,10 +259,12 @@ async function applyFilters() {
 }
 
 function displayFilteredCars(data) {
-    console.log("📊 Displaying cars:", data); // Debugging log
+    console.log("📊 Displaying cars data:", data); // Debugging log
+
 
     const resultsFrame = document.getElementById("results-frame");
-    const resultsBody = document.getElementById("results-body");
+    const resultsBody = document.getElementById("car-specs");
+
 
     // ✅ Check if elements exist
     if (!resultsFrame || !resultsBody) {
@@ -243,7 +273,8 @@ function displayFilteredCars(data) {
     }
 
     // ✅ Ensure the results frame is visible
-    resultsFrame.style.display = "block"; 
+    resultsFrame.style.display = "block"; // Make results frame visible
+
     resultsFrame.classList.add("active");
 
     // ✅ Clear the table body before inserting new data
@@ -256,33 +287,40 @@ function displayFilteredCars(data) {
         return;
     }
 
-    // ✅ Populate the table with new data
     data.forEach(car => {
+
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${car.Brand || "Unknown"}</td>
-            <td>${car.Model || "Unknown"}</td>
-            <td>${car.Body_Type || "N/A"}</td>
-            <td>${car.Variant || "N/A"}</td>
-            <td>${car.Drive_Train || "N/A"}</td>
-            <td>${car.Engine || "N/A"}</td>
-            <td>${car.Horsepower ? car.Horsepower + " hp" : "N/A"}</td>
-            <td>${car.Transmission || "N/A"}</td>
-            <td>${car.Fuel_Type || "N/A"}</td>
-            <td>${car.Ground_Clearance ? car.Ground_Clearance + " cm" : "N/A"}</td>
-            <td>${car.Cargo_space ? car.Cargo_space + " L" : "N/A"}</td>
-            <td>${car.Seating_Capacity ? car.Seating_Capacity + " seats" : "N/A"}</td>
-            <td>${car.Price ? "₱" + car.Price.toLocaleString() : "N/A"}</td>
-        `;
+        <td>${car.Brand || "Unknown"}</td>
+        <td>${car.Model || "Unknown"}</td>
+        <td>${car.Body_Type || "N/A"}</td>
+        <td>${car.Variant || "N/A"}</td>
+        <td>${car.Drive_Train || "N/A"}</td>
+        <td>${car.Engine || "N/A"}</td>
+        <td>${car.Horsepower ? car.Horsepower + " hp" : "N/A"}</td>
+        <td>${car.Transmission || "N/A"}</td>
+        <td>${car.Fuel_Type || "N/A"}</td>
+        <td>${car.Ground_Clearance ? car.Ground_Clearance + " cm" : "N/A"}</td>
+        <td>${car.Cargo_space ? car.Cargo_space + " L" : "N/A"}</td>
+        <td>${car.Seating_Capacity ? car.Seating_Capacity + " seats" : "N/A"}</td>
+        <td>${car.Price ? "₱" + car.Price.toLocaleString() : "N/A"}</td>
+        <td>
+            <div class="heart-container">
+                <i class="fa-regular fa-heart" id="like-icon"></i>
+            </div>
+        </td>
+    `;
         resultsBody.appendChild(row);
     });
+
+    setupLikeButtons();
 
     console.log("✅ Table updated successfully!");
 }
 
 ////////////////////////////////////
 //When Filter is button is Pressed//
-////////////////////////////////////
+//////////////////////////////////////
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -303,9 +341,188 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSliderValue("horsepower", "HP", false);
     updateSliderValue("seating", "seats", false);
 
-    filterButton.addEventListener("click", function () {
-        console.log("Filter button clicked!"); // Added debugging log
-        applyFilters();
-        resultsFrame.classList.add("active"); // Show the results frame
-    });
 });
+
+
+//////////////////////
+//COMPARE Function////
+//////////////////////
+
+async function compareCars() {
+    const selectedVariant = document.getElementById('variant').value; // Get value from variant dropdown
+    if (!selectedVariant) {
+        console.warn("No variant selected.");
+        return; // Exit if no variant is selected
+    }
+
+    console.log("Fetching specs for variant:", selectedVariant);
+    const response = await fetch(`${baseUrl}/get_specs?variant=${selectedVariant}`);
+
+    const specs = await response.json();
+
+    if (Object.keys(specs).length === 0) {
+        alert('No specifications found for this variant.');
+        return;
+    }
+
+    const container = document.getElementById('comparison-container');
+
+    // If this is the first car, create the specification title column
+    let titleColumn = document.getElementById('title-column');
+    if (!titleColumn) {
+        titleColumn = document.createElement('div');
+        titleColumn.id = 'title-column';
+        titleColumn.classList.add('column', 'title-column');
+
+        // Removed the empty title div to ensure proper alignment
+
+
+        for (const key of Object.keys(specs)) {
+            const titleDiv = document.createElement('div');
+            titleDiv.classList.add('spec-title');
+            titleDiv.textContent = key;
+            titleColumn.appendChild(titleDiv);
+        }
+
+        container.appendChild(titleColumn);
+    }
+
+    // Check if this car was already added to avoid duplicates
+    if (document.getElementById(`car-${selectedVariant}`)) {
+        alert(`${selectedVariant} is already in the comparison.`);
+        return;
+    }
+
+    // Create a new column for this car
+    const carColumn = document.createElement('div');
+    carColumn.id = `car-${selectedVariant}`;
+    carColumn.classList.add('column');
+
+    // Add car name at the top
+    const carTitle = document.createElement('div');
+    carTitle.classList.add('car-title');
+    carTitle.textContent = selectedVariant;
+    carColumn.appendChild(carTitle);
+
+    // Add specs for this car
+    Object.values(specs).forEach(value => {
+        const specDiv = document.createElement('div');
+        specDiv.id = 'specs_column';
+        specDiv.classList.add('spec-value');
+        specDiv.textContent = value;
+        carColumn.appendChild(specDiv);
+    });
+
+    // Append the new car column next to existing ones
+    container.appendChild(carColumn);
+}
+
+
+async function populateModels() {
+    const selectedBrand = document.getElementById('brand').value;
+    if (!selectedBrand) return; // Exit if no brand is selected
+
+    const response = await fetch(`${baseUrl}/get_models?brand=${selectedBrand}`);
+
+    const models = await response.json();
+    const modelSelect = document.getElementById('model');
+    modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
+
+    models.forEach(model => {
+        const option = document.createElement('option');
+        option.value = model;
+        option.textContent = model;
+        modelSelect.appendChild(option);
+    });
+}
+
+async function populateVariants() {
+    const selectedModel = document.getElementById('model').value;
+    if (!selectedModel) return; // Exit if no model is selected
+
+    const response = await fetch(`${baseUrl}/get_variants?model=${selectedModel}`);
+
+    const variants = await response.json();
+    
+    const variantSelect = document.getElementById('variant');
+    variantSelect.innerHTML = '<option value="">Select Variant</option>'; // Reset models
+
+    variants.forEach(variant => {
+        const option = document.createElement('option');
+        option.value = variant;
+        option.textContent = variant;
+        variantSelect.appendChild(option);
+    });
+}
+
+
+///////////////////////
+//FAVOURITES Function//
+///////////////////////
+
+async function setupLikeButtons() {
+const likeIcons = document.querySelectorAll('.like-icon'); // Change to class selector
+
+
+    likeIcons.forEach(icon => {
+        icon.addEventListener('click', async function() {
+            const variant = this.closest('tr').querySelector('td:nth-child(4)').textContent; // Get the variant from the row
+            const isLiked = this.classList.toggle('fa-solid'); // Toggle the filled heart icon
+
+            // Send request to Firestore to add/remove from favorites
+            const user = firebaseAuth.currentUser;
+            if (!user) {
+                alert("Please sign in first!");
+                return;
+            }
+
+            const response = await fetch(`${baseUrl}/toggle-fave`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ variant: variant, liked: isLiked })
+
+            });
+
+            if (!response.ok) {
+                console.error('Failed to update favorites');
+            }
+        });
+    });
+}
+
+async function addToFave(itemId, itemName, price) {
+    const user = firebaseAuth.currentUser;
+    if (!user) {
+      alert("Please sign in first!");
+      return;
+    }
+
+    const response = await fetch(`${baseUrl}/add-to-fave`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uid: user.uid,
+          item_id: itemId,
+          item_name: itemName,
+          price: price,
+        }),
+    });
+
+    const data = await response.json();
+    console.log("Cart updated:", data.cart);
+    }
+
+
+async function loadFaves() {
+    const user = firebaseAuth.currentUser;
+    if (!user) return;
+    
+    const response = await fetch(`${baseUrl}/get-faves`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid: user.uid }),
+    });
+    
+    const data = await response.json();
+    console.log("User Favourites:", data.cart);
+}

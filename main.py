@@ -4,7 +4,7 @@ import pandas as pd
 import json
 import requests
 import firebase_admin
-from firebase_admin import credentials, auth
+from firebase_admin import credentials, auth, firestore
 import numpy as np
 import os
 
@@ -18,6 +18,8 @@ cred = credentials.Certificate('serviceAccountKey.json')  # Initialize Firebase 
 print("✅ Firebase credentials initialized.")
 firebase_admin.initialize_app(cred)
 
+db = firestore.client()
+
 # Load CSV data
 df = pd.read_csv('car_data.csv', encoding='utf-8')
 
@@ -30,93 +32,89 @@ def home():
 def signup():
     if request.method == 'POST':
         email = request.form.get('email')
+        username = request.form.get('username')
         password = request.form.get('password')
+
+        if not email or not username or not password:
+            return jsonify({"status": "error", "message": "All fields are required."}), 400
+
+        try:
+            # Check if user already exists
+            user = auth.get_user_by_email(email)
+            return jsonify({"status": "error", "message": "Email already in use."}), 400
+        except firebase_admin.auth.UserNotFoundError:
+            pass  # Proceed with user creation if not found
 
         try:
             # Create a new user in Firebase Authentication
             user = auth.create_user(
                 email=email,
+                display_name=username,
                 password=password
             )
-            print("✅ User signed up successfully, redirecting to login.")
-            return redirect('/login')  # Redirect to login after signup
+            app.logger.info("✅ User signed up successfully.")
+
+            return jsonify({"status": "success", "message": "User signed up successfully! Please log in."}), 200
         except Exception as e:
-            return f"Error: {str(e)}"
-        
-    return render_template('index.html')  # Render the sign-up form
+            return jsonify({"status": "error", "message": f"Signup failed: {str(e)}"}), 400
+
 
 @app.route('/login', methods=['POST'])  # Login route
 def login():
-    if request.method == 'POST':
+   if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
 
-        try:
-            if verify_password(email, password): 
-                user = auth.get_user_by_email(email)
-                session['user'] = user.uid
-                print("✅ User logged in successfully, redirecting to dashboard.")
-                return redirect('/dashboard')  # Redirect to dashboard after login
-            else:
-                return "Invalid credentials"
-        except Exception as e:
-            return jsonify({
-                "status": "error",
-                "message": str(e)
-            }), 400  # HTTP 400: Bad Request
+        url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
+        payload = {
+            "email": email,
+            "password": password,
+            "returnSecureToken": True
+        }
+
+        response = requests.post(url, json=payload)
+        if response.status_code == 200:
+            user_data = response.json()
+            session['user'] = user_data['localId']  # Use Firebase UID
+            session['idToken'] = user_data['idToken']  # Store token for authentication
+            session['name'] = user_data['display_name']
+
+            print("Logged in!")
+            return render_template('index.html', name=session['name'])  # Display username
+        else:
+            print("Incorrect password!")
+            return render_template('index.html', error="Incorrect credentials.")
 
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user', None)  
     return redirect('/login')  
 
-@app.route('/dashboard', methods=['GET'])  # Dashboard route
-def dashboard():
-    if 'user' in session:
-        print("🔍 Rendering home page.")
-    return render_template('index.html')  # Render the home page
-    print("🔍 User accessed dashboard.")
-    return redirect('/login')  # Redirect to login if not authenticated
-
 with open('firebaseConfig.json') as f:
     firebase_config = json.load(f)
     api_key = firebase_config.get('apiKey')  # Extract API key if available
 
-def verify_password(email, password): 
-    if not api_key:
-        return False  # Prevent login if API key is missing
-     
-    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
-    payload = {
-        "email": email,
-        "password": password,
-        "returnSecureToken": True
-    }
-
-    response = requests.post(url, json=payload)
-    if response.status_code == 200:
-        return True  # Password is correct
-    return False  # Password is incorrect
-
 @app.route('/about')
 def about():
-    render_template('about.html')
+    return render_template('about.html')
 
 @app.route('/compare')
 def compare():
-    render_template('compare.html')
+    return render_template('compare.html')
 
 @app.route('/contacts')
 def contacts():
-    render_template('contacts.html')
+    return render_template('contacts.html')
 
-@app.route('/favourites')
+@app.route('/favourites', methods=['GET', 'POST'])
 def favourites():
-    render_template('favourites.html')
+    if 'user' in session:
+        return render_template('favourites.html')
+    return render_template('index.html')
 
 @app.route('/testimonials')
 def testimonials():
-    render_template('testimonials.html')
+    return render_template('testimonials.html')
 
 
 # Ensure all relevant columns are strings before extraction
@@ -127,20 +125,24 @@ df["Horsepower"] = df["Horsepower"].astype(str).str.extract("(\d+)", expand=Fals
 # Ensure 'Price' is numeric
 df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
 
-print("\n✅ CSV Loaded: ", len(df), " rows")  # Log number of rows loaded
+@app.route('/get-faves', methods=['POST'])  # Get favorites route
+def get_faves():
+    if 'user' in session:
+        user_id = session['user']
+        favorites_ref = db.collection('users').document(user_id).collection('favorites')
+        favorites = favorites_ref.stream()
 
-print("🚀 Unique Body Types:\n", df["Body_Type"].unique())
+        favorite_variants = []
+        for favorite in favorites:
+            favorite_variants.append(favorite.to_dict())
 
-# Show all Convertible and Coupe rows
-print("\n🔍 Convertible Cars:\n", df[df["Body_Type"].str.lower() == "sedan"])
-print("\n🔍 Coupe Cars:\n", df[df["Body_Type"].str.lower() == "coupe"])
-
-
+        return jsonify(favorite_variants)  # Return the list of favorite variants
 
 @app.route('/get_cars', methods=['GET'])  # Get cars route
 def get_cars():
     # Debugging - Log received values
-    print("\n🔍 Received Filters:")  # Log received filters
+    app.logger.info("\n🔍 Received Filters:")  # Log received filters
+
     # Extract parameters safely with default values
     brand = request.args.get("brand", "").strip()
     model = request.args.get("model", "").strip()
@@ -154,76 +156,55 @@ def get_cars():
     min_ground_clearance = request.args.get("min_ground_clearance", type=float, default=13.3)
     seating = request.args.get("seating", type=int, default=None)
 
-    # Debugging - Log received values
-    print("\n🔍 Received Filters:")  # Log received filters
-    print(f"Brand: {repr(brand)}")
-    print(f"Model: {repr(model)}")
-    print(f"Body Type: {repr(body_type)}")
-    print(f"Drive Train: {repr(drive_train)}")
-    print(f"Transmission: {repr(transmission)}")
-    print(f"Fuel Type: {repr(fuel_type)}")
-    print(f"Min HP: {min_hp}")
-    print(f"Min Cargo Space: {min_cargo}")
-    print(f"Min Price: {min_price}")
-    print(f"Min Ground Clearance: {min_ground_clearance}")
-    print(f"Exact Seating Capacity: {seating}") 
+    filtered_df = df.copy()  # Create a copy of the DataFrame for filtering
 
-    # Start filtering
-    print(f"Brand: {repr(brand)}")
-    print(f"Model: {repr(model)}")
-    print(f"Body Type: {repr(body_type)}")
-    print(f"Drive Train: {repr(drive_train)}")
-    print(f"Transmission: {repr(transmission)}")
-    print(f"Fuel Type: {repr(fuel_type)}")
-    print(f"Min HP: {min_hp}")
-    print(f"Min Cargo Space: {min_cargo}")
-    print(f"Min Price: {min_price}")
-    print(f"Min Ground Clearance: {min_ground_clearance}")
-    print(f"Exact Seating Capacity: {seating}") 
-    filtered_df = df.copy()
 
     # 🛠 Handle "Any" selection ("" means no filter applied)
-    if brand and brand.lower() not in ["any", "all brands"]:
+    if brand and brand.lower() not in ["any", "all brands"]:  # Filter by brand if specified
+
         filtered_df = filtered_df[filtered_df["Brand"].str.lower() == brand.lower()]
     
-    if model and model.lower() != "any":
+    if model and model.lower() != "any":  # Filter by model if specified
+
         filtered_df = filtered_df[filtered_df["Model"].str.lower() == model.lower()]
     
-    if body_type:
+    if body_type:  # Filter by body type if specified
+
         filtered_df = filtered_df[filtered_df["Body_Type"].str.lower() == body_type.lower()]
 
-    if drive_train:
+    if drive_train:  # Filter by drive train if specified
+
         filtered_df = filtered_df[filtered_df["Drive_Train"].str.lower().str.contains(drive_train.lower(), na=False)]
         
-    if transmission:
+    if transmission:  # Filter by transmission if specified
+
         filtered_df = filtered_df[filtered_df["Transmission"].str.lower() == transmission.lower()]
     
-    if fuel_type:
+    if fuel_type:  # Filter by fuel type if specified
+
         filtered_df = filtered_df[filtered_df["Fuel_Type"].str.lower().str.contains(fuel_type.lower(), na=False)]
 
     # 🏎 Apply numerical filters
-    filtered_df = filtered_df[
+    filtered_df = filtered_df[  # Apply numerical filters
         (filtered_df["Horsepower"] >= min_hp) &
         (filtered_df["Cargo_space"] >= min_cargo) &
         (filtered_df["Price"] >= min_price) &
         (filtered_df["Ground_Clearance"] >= min_ground_clearance)
     ]
     
-    if seating is not None and seating > 0:
+    if seating is not None and seating > 0:  # Filter by seating capacity if specified
+
         filtered_df = filtered_df[filtered_df["Seating_Capacity"] == seating]
 
 
     # Debugging: Print filtered results
-    print("\n📊 Filtered DataFrame:")
-    print("\n📊 Filtered DataFrame:")
+    app.logger.info("\n📊 Filtered DataFrame:")
+
     print(filtered_df)
 
     # Convert DataFrame to JSON
     filtered_cars = filtered_df.fillna("").to_dict(orient="records")
-    print("\n📤 Sending response with filtered cars.")
-    print(json.dumps(filtered_cars, indent=4))
 
-    print("\n📤 Sending response with filtered cars.")
     return jsonify(filtered_cars)  # Return the filtered cars as JSON
 
 @app.route('/get_models', methods=['GET'])
@@ -237,6 +218,68 @@ def get_models():
     models = df[df["Brand"].str.lower() == brand.lower()]["Model"].unique().tolist()
 
     return jsonify(models)
+
+@app.route('/get_variants', methods=['GET'])
+def get_variants():
+    model = request.args.get("model", "").strip()
+
+    if not model:
+        return jsonify([])  # Return empty list if no brand is selected
+
+    # Get unique models for the selected brand
+    variants = df[df["Model"].str.lower() == model.lower()]["Variant"].unique().tolist()
+
+    return jsonify(variants)
+
+@app.route('/get_specs', methods=['GET'])
+def get_specs():
+    variant = request.args.get("variant", "").strip()
+
+    if not variant:
+        return jsonify({})  # Return empty object if no variant is provided
+
+    # Filter the dataframe to get the specifications of the given variant
+    specs = df[df["Variant"].str.lower() == variant.lower()].iloc[0]
+    
+    # Create a dictionary with the required specifications
+    car_specs = {
+        "Brand": str(specs["Brand"]),
+        "Model": str(specs["Model"]),
+        "Engine": str(specs["Engine"]),
+        "Horsepower": int(specs["Horsepower"]),
+        "Drive Train": str(specs["Drive_Train"]),
+        "Transmission": str(specs["Transmission"]),
+        "Body Type": str(specs["Body_Type"]),
+        "Fuel Type": str(specs["Fuel_Type"]),
+        "Ground Clearance": float(specs["Ground_Clearance"]),
+        "Seating Capacity": int(specs["Seating_Capacity"]),
+        "Cargo Space": int(specs["Cargo_space"]),
+        "Price": float(specs["Price"])
+    }
+
+    return jsonify(car_specs)
+
+@app.route('/toggle-fave', methods=['POST'])
+def toggle_fave():
+    if 'user' in session:
+        user_id = session['user']
+        variant = request.json.get('variant')  # Get the variant from the request
+
+        # Reference to the user's favorites in Firestore
+        favorites_ref = db.collection('users').document(user_id).collection('favorites')
+        
+        # Check if the variant is already favorited
+        existing_fave = favorites_ref.where('variant', '==', variant).get()
+        
+        if existing_fave:
+            # If it exists, remove it
+            for fave in existing_fave:
+                favorites_ref.document(fave.id).delete()
+            return jsonify({"status": "removed", "variant": variant}), 200  # Return removed status
+        else:
+            # If it doesn't exist, add it
+            favorites_ref.add({'variant': variant})
+            return jsonify({"status": "added", "variant": variant}), 200  # Return added status
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
