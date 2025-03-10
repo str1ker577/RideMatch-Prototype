@@ -7,7 +7,10 @@ const baseUrl = `http://127.0.0.1:5000`; // Base URL for API requests
 
 //const baseUrl = "https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev"; // Base URL for API requests
 
+
+
 // Get elements for toggling sidebar and menu button
+
 
 const menuButton = document.getElementById('menu-button');
 const closeButton = document.getElementById('close-button');
@@ -303,7 +306,7 @@ function displayFilteredCars(data) {
         <td>${car.Price ? "₱" + car.Price.toLocaleString() : "N/A"}</td>
         <td>
             <div class="heart-container">
-                <i class="fa-regular fa-heart like-icon"></i>
+                <i class="fa-regular fa-heart" id="like-icon"></i>
             </div>
         </td>
     `;
@@ -458,7 +461,8 @@ async function populateVariants() {
 ///////////////////////
 
 async function setupLikeButtons() {
-    const likeIcons = document.querySelectorAll('.like-icon');
+const likeIcons = document.querySelectorAll('.like-icon'); // Change to class selector
+
 
     likeIcons.forEach(icon => {
         icon.addEventListener('click', async function() {
@@ -466,7 +470,7 @@ async function setupLikeButtons() {
             const isLiked = this.classList.toggle('fa-solid'); // Toggle the filled heart icon
 
             // Send request to Firestore to add/remove from favorites
-            const user = auth.currentUser;
+            const user = firebaseAuth.currentUser;
             if (!user) {
                 alert("Please sign in first!");
                 return;
@@ -475,7 +479,8 @@ async function setupLikeButtons() {
             const response = await fetch(`${baseUrl}/toggle-fave`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ uid: user.uid, variant: variant, liked: isLiked })
+                body: JSON.stringify({ variant: variant, liked: isLiked })
+
             });
 
             if (!response.ok) {
@@ -486,7 +491,7 @@ async function setupLikeButtons() {
 }
 
 async function addToFave(itemId, itemName, price) {
-    const user = auth.currentUser;
+    const user = firebaseAuth.currentUser;
     if (!user) {
       alert("Please sign in first!");
       return;
@@ -509,7 +514,7 @@ async function addToFave(itemId, itemName, price) {
 
 
 async function loadFaves() {
-    const user = auth.currentUser;
+    const user = firebaseAuth.currentUser;
     if (!user) return;
     
     const response = await fetch(`${baseUrl}/get-faves`, {

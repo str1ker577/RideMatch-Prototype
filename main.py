@@ -35,6 +35,16 @@ def signup():
         username = request.form.get('username')
         password = request.form.get('password')
 
+        if not email or not username or not password:
+            return jsonify({"status": "error", "message": "All fields are required."}), 400
+
+        try:
+            # Check if user already exists
+            user = auth.get_user_by_email(email)
+            return jsonify({"status": "error", "message": "Email already in use."}), 400
+        except firebase_admin.auth.UserNotFoundError:
+            pass  # Proceed with user creation if not found
+
         try:
             # Create a new user in Firebase Authentication
             user = auth.create_user(
@@ -42,35 +52,38 @@ def signup():
                 display_name=username,
                 password=password
             )
-            app.logger.info("✅ User signed up successfully, redirecting to login.")
+            app.logger.info("✅ User signed up successfully.")
 
-            return redirect('/login')  # Redirect to login after signup
+            return jsonify({"status": "success", "message": "User signed up successfully! Please log in."}), 200
         except Exception as e:
-            return f"Error: {str(e)}"
-        
-    return render_template('index.html')  # Render the sign-up form
+            return jsonify({"status": "error", "message": f"Signup failed: {str(e)}"}), 400
+
 
 @app.route('/login', methods=['POST'])  # Login route
 def login():
-    if request.method == 'POST':
+   if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
 
-        try:
-            if verify_password(email, password): 
-                user = auth.get_user_by_email(email)
-                session['user'] = user.uid
-                app.logger.info("✅ User logged in successfully, redirecting to dashboard.")
+        url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
+        payload = {
+            "email": email,
+            "password": password,
+            "returnSecureToken": True
+        }
 
-                return render_template('index.html',  name="{user.display_name}")            
-            else:
-                return render_template('index.html', error="Incorrect password. Please try again.")
+        response = requests.post(url, json=payload)
+        if response.status_code == 200:
+            user_data = response.json()
+            session['user'] = user_data['localId']  # Use Firebase UID
+            session['idToken'] = user_data['idToken']  # Store token for authentication
+            session['name'] = user_data['display_name']
 
-        except Exception as e:
-            return jsonify({
-                "status": "error",
-                "message": str(e)
-            }), 400  # HTTP 400: Bad Request
+            print("Logged in!")
+            return render_template('index.html', name=session['name'])  # Display username
+        else:
+            print("Incorrect password!")
+            return render_template('index.html', error="Incorrect credentials.")
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -80,22 +93,6 @@ def logout():
 with open('firebaseConfig.json') as f:
     firebase_config = json.load(f)
     api_key = firebase_config.get('apiKey')  # Extract API key if available
-
-def verify_password(email, password): 
-    if not api_key:
-        return False  # Prevent login if API key is missing
-     
-    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
-    payload = {
-        "email": email,
-        "password": password,
-        "returnSecureToken": True
-    }
-
-    response = requests.post(url, json=payload)
-    if response.status_code == 200:
-        return True  # Password is correct
-    return False  # Password is incorrect
 
 @app.route('/about')
 def about():
@@ -109,15 +106,9 @@ def compare():
 def contacts():
     return render_template('contacts.html')
 
-@app.route('/favourites', methods=['POST'])
+@app.route('/favourites', methods=['GET', 'POST'])
 def favourites():
     if 'user' in session:
-        user_id = session['user']
-        variant = request.json.get('variant')  # Get the variant from the request
-
-        # Save the variant to Firestore under the user's favorites
-        db.collection('users').document(user_id).collection('favorites').add({'variant': variant})
-        
         return render_template('favourites.html')
     return render_template('index.html')
 
@@ -270,7 +261,7 @@ def get_specs():
 
 @app.route('/toggle-fave', methods=['POST'])
 def toggle_fave():
- if 'user' in session:
+    if 'user' in session:
         user_id = session['user']
         variant = request.json.get('variant')  # Get the variant from the request
 
@@ -288,7 +279,7 @@ def toggle_fave():
         else:
             # If it doesn't exist, add it
             favorites_ref.add({'variant': variant})
-
+            return jsonify({"status": "added", "variant": variant}), 200  # Return added status
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -119,12 +119,12 @@
 
     <div class="liked"><a href="#"></a></div>
   </header>
-  {% if name %}
-    <div class="filter-title">Welcome Back, {{ name }}!</div>
-  {% endif %}
   <!-- Outer Frame (with border and shadow) -->
   <div class="outer-frame" style="margin-top:10rem;">
     <h2 class="filter-title">Filter</h2>
+    {% if name %} 
+      <div class="welcome-message">Welcome Back, {{ name }}!</div>
+    {% endif %}
     <!-- Inner Frame (contains all the filter options) -->
     <div class="inner-frame">
       <!-- Left Section: Brand, Model, etc. -->
@@ -366,7 +366,8 @@
       </script>
  
     <!-- Link to Main.java -->
-     <script src="{{url_for('static', filename='main.js')}}"></script>
+    <script src="{{url_for('static', filename='main.js')}}"></script>
+
     
 </body>
 </html>

@@ -348,6 +348,17 @@ header{
     font-size: 24px;
 }
 
+.welcome-message {
+    display: block; /* Ensure the welcome message is displayed */
+    text-align: left;
+    color: #b49b66;
+    font-size: 24px;
+    margin-bottom: 20px;
+    position: absolute;
+    left: 1rem;
+}
+
+
 /* Inner Frame Styling */
 .inner-frame {
     display: flex;
