@@ -31,6 +31,7 @@ body, html{
 :root{
     --main-color: #161f48;
     --second-color: #b49b66;
+    --highlight-color: #9e8a56;
     --background-color: #fff;
     --text-color: #02171d;
     --text-background-color: #ebeff2;
@@ -1112,3 +1113,169 @@ footer {
 .compare_btn:hover {
     background: #9e8a56;
 }
+
+
+/* Outer Frame (Main Container) */
+.outer-fave-frame {
+    width: 70%;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #b49b66;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(18px);
+}
+
+/* Title & Printer Icon Row */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Car Title */
+.car-title {
+    text-align: center;
+    color: #b49b66;
+    font-size: 24px;
+    flex-grow: 1;
+}
+
+/* Printer Icon */
+.header-row i {
+    font-size: 1.8rem;
+    color: #b49b66 !important;
+    cursor: pointer;
+    transition: all .55s ease;
+}
+
+.header-row i:hover {
+    transform: translateY(-3px);
+}
+
+/* Horizontal Line Under Title */
+.header-divider {
+    width: 100%;
+    height: 2px;
+    background-color: #b49b66;
+    margin-bottom: 15px;
+}
+
+/* Inner Frame: Image + Specs */
+.inner-fave-frame {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Image Container */
+.img-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+/* Image Frame */
+.img-fave-frame {
+    width: 100%;
+    border: 2px solid #b49b66;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Image Styling (Fixes Gap Issue) */
+.img-fave-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Dropdown Below Image (Centered) */
+.bottom-options {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Dropdown Styling */
+.variant-dropdown {
+    padding: 10px;
+    border: 2px solid #b49b66;
+    border-radius: 5px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #b49b66;
+    width: 50%;
+    max-width: 200px;
+    text-align: center;
+}
+
+/* Right Side: Specs */
+.spec-fave-frame {
+    width: 50%;
+    padding-left: 20px;
+}
+
+/* Spec Card Container */
+.spec-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Individual Spec Card */
+.spec-card {
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid #b49b66;
+    color: var(--second-color);
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    min-width: 120px;
+    flex: 1 1 calc(33.33% - 10px);
+}
+
+.spec-card br + span {
+    color: black; /* Toyota text color */
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .inner-fave-frame {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .img-container {
+        width: 100%;
+    }
+
+    .spec-fave-frame {
+        width: 100%;
+        padding-left: 0;
+        margin-top: 20px;
+    }
+
+    .spec-card {
+        flex: 1 1 calc(50% - 10px);
+    }
+}
+
+@media (max-width: 600px) {
+    .spec-card {
+        flex: 1 1 100%;
+    }
+
+    .variant-dropdown {
+        width: 80%;
+    }
+}
+
