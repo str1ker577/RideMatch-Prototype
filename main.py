@@ -23,15 +23,15 @@ db = firestore.client()
 # Load CSV data
 df = pd.read_csv('car_data.csv', encoding='utf-8')
 
-# Serve images from the "resources" folder
-@app.route('/resources/<path:filename>')
-def serve_resources(filename):
-    return send_from_directory(os.path.join(app.root_path, 'resources'), filename)
-
 @app.route('/')  # Home route
 def home():
     print("🔍 Rendering home page.")
     return render_template('index.html')  # Render the home page
+
+# Serve images from the "resources" folder
+@app.route('/resources/<path:filename>')
+def serve_resources(filename):
+    return send_from_directory(os.path.join(app.root_path, 'resources'), filename)
 
 @app.route('/signup', methods=['POST'])  # Signup route
 def signup():
