@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, redirect, render_template, session
+from flask import Flask, request, jsonify, redirect, render_template, send_from_directory, session
 from flask_cors import CORS 
 import pandas as pd
 import json
@@ -27,6 +27,11 @@ df = pd.read_csv('car_data.csv', encoding='utf-8')
 def home():
     print("🔍 Rendering home page.")
     return render_template('index.html')  # Render the home page
+
+# Serve images from the "resources" folder
+@app.route('/resources/<path:filename>')
+def serve_resources(filename):
+    return send_from_directory(os.path.join(app.root_path, 'resources'), filename)
 
 @app.route('/signup', methods=['POST'])  # Signup route
 def signup():
