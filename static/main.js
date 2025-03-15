@@ -53,8 +53,6 @@ document.addEventListener('click', function(event) {
 });
 
 
-const welcomeMessageDiv = document.getElementById('welcome-message');
-
 function parseCSV(data) {
     const lines = data.split('\n');
     const result = [];
@@ -71,73 +69,6 @@ function parseCSV(data) {
     }
     return result;
 }
-
-
-document.getElementById('signupForm').addEventListener('submit', async (e) => {    
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const data = {
-        email: formData.get('email'),
-        password: formData.get('password')
-    };
-
-    try {
-        const response = await fetch(`${replitUrl}/signup`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(data)
-        });
-
-        const result = await response.json();
-        document.getElementById('message').textContent = result.message;
-
-        if (response.status === 201) {
-            
-            togglePopup("login-popup");
-        }
-    } catch (error) {
-        console.error('Error during signup:', error);
-        document.getElementById('message').textContent = 'Signup failed. Please try again.';
-    }
-});
-
-// Handle Login Form Submission
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const data = {
-        email: formData.get('email'),
-        password: formData.get('password')
-    };
-
-    try {
-        const response = await fetch(`${replitUrl}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(data)
-        });
-
-        const result = await response.json();
-        document.getElementById('message').textContent = result.message;
-
-        if (response.status === 200) {
-            welcomeMessageDiv.innerHTML = `
-                <p>Welcome back, User! We're glad to see you again.</p>
-            `;
-            window.location.href = '/index.html'; // Replace with your dashboard page
-        }
-    } catch (error) {
-        console.error('Error during login:', error);
-        document.getElementById('message').textContent = 'Login failed. Please try again.';
-    }
-});
-
 
 
 document.addEventListener("DOMContentLoaded", function () {

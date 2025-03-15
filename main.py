@@ -37,10 +37,11 @@ def serve_resources(filename):
 def signup():
     if request.method == 'POST':
         email = request.form.get('email')
-        username = request.form.get('username')
         password = request.form.get('password')
 
-        if not email or not username or not password:
+
+
+        if not email or not password:
             return jsonify({"status": "error", "message": "All fields are required."}), 400
 
         try:
@@ -54,7 +55,6 @@ def signup():
             # Create a new user in Firebase Authentication
             user = auth.create_user(
                 email=email,
-                display_name=username,
                 password=password
             )
             app.logger.info("✅ User signed up successfully.")
@@ -82,13 +82,13 @@ def login():
             user_data = response.json()
             session['user'] = user_data['localId']  # Use Firebase UID
             session['idToken'] = user_data['idToken']  # Store token for authentication
-            session['name'] = user_data['display_name']
 
             print("Logged in!")
-            return render_template('index.html', name=session['name'])  # Display username
+            return jsonify({"status": "success", "message": "Welcome User!"}), 200
         else:
             print("Incorrect password!")
-            return render_template('index.html', error="Incorrect credentials.")
+            return jsonify({"status": "error", "message": "Incorrect credentials."}), 400
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
