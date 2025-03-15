@@ -475,9 +475,8 @@ header{
 /* OUTER FRAME - Wraps the entire results section */
 .results-outer-frame {
     width: 90%;
-    width: 90%;
     margin: 50px auto;
-    margin-top: 10%;
+    margin-top: 5%; /* Reduced margin to avoid large gaps */
     padding: 20px;
     border: 2px solid #b49b66;
     border-radius: 10px;
@@ -487,142 +486,121 @@ header{
     overflow: hidden;
 }
 
-
-/* Ensure the table layout remains consistent */
+/* ✅ Ensures table layout consistency */
 table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* Keeps columns uniform */
+    table-layout: fixed;
 }
 
-/* Separate scrollable header & body */
-.table-header {
-    overflow-x: auto; /* Enables horizontal scrolling */
-    white-space: nowrap; /* Prevents text from wrapping */
+/* ✅ Scrollable Table Wrapper */
+.scrollable-table {
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
 }
 
-/* Keep header fixed at the top */
+/* ✅ Table Container - Handles scrolling */
+.table-container {
+    max-height: 600px; /* Increased height for better visibility */
+    overflow-y: auto;
+    overflow-x: auto;
+    border-radius: 10px;
+    display: block;
+}
+
+/* ✅ Header - Stays Fixed at the Top */
 .table-header {
     position: sticky;
-    top: 50px; /* Below title */
+    top: 0; /* Ensures it sticks properly */
     z-index: 100;
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
 }
 
-/* Ensure both header and body tables have the same column width */
+/* ✅ Ensure table header and body stay aligned */
 .table-header table,
 .results-table {
     width: 100%;
-    table-layout: fixed; /* Keeps columns uniform */
+    table-layout: fixed;
     border-collapse: collapse;
 }
 
-/* Ensure all text is centered properly */
+/* ✅ Styling for Table Header */
 .table-header th,
 .results-table td {
     padding: 12px;
-    text-align: center; /* Center text properly */
+    text-align: center;
     font-size: 16px;
     height: 50px;
     white-space: nowrap; /* Prevents text from wrapping */
-    overflow: visible; 
-    text-overflow: clip; 
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds "..." if text is too long */
 }
 
-/* Adjust Column Widths */
-.table-header th:nth-child(1), /* Brand */
-.results-table td:nth-child(1) {
-    width: 90px; /* Allocate more space for engine details */
+/* ✅ Keep table header visible */
+.results-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: var(--second-color);
+    color: white;
+    font-weight: bold;
+    border-bottom: 2px solid var(--second-color);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.table-header th:nth-child(2), /* Model */
-.results-table td:nth-child(2) {
-    width: 120px; /* Allocate more space for engine details */
+/* ✅ Ensure header cells match body width */
+.results-table thead th {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    height: 50px;
+    background: var(--second-color);
+    position: sticky;
+    top: 0;
+    z-index: 40;
 }
 
-.table-header th:nth-child(3), /* Body Type */
-.results-table td:nth-child(3) {
-    width: 110px; /* Allocate more space for engine details */
+/* ✅ Table Body Styling */
+.results-table tbody {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(18px);
 }
 
-.table-header th:nth-child(4), /* Variant */
-.results-table td:nth-child(4) {
-    width: 220px; /* Allocate more space for engine details */
+/* ✅ Column Adjustments */
+.results-table th,
+.results-table td {
+    white-space: nowrap; /* Prevents text wrapping */
+    padding: 10px;
+    text-align: center;
 }
 
-.table-header th:nth-child(5), /* Drive Train */
-.results-table td:nth-child(5) {
-    width: 110px; /* Allocate more space for engine details */
-}
-
-.table-header th:nth-child(6), /* Engine */
-.results-table td:nth-child(6) {
-    width: 180px; /* Allocate more space for engine details */
-}
-
-.table-header th:nth-child(7), /* Horsepower */
-.results-table td:nth-child(7) {
-    width: 120px; /* Slightly wider for readability */
-}
-
-.table-header th:nth-child(8), /* Transmission */
+/* ✅ Adjust Key Column Widths to Prevent Overlap */
+.results-table th:nth-child(4), /* Variant */
+.results-table td:nth-child(4),
+.results-table th:nth-child(6), /* Engine */
+.results-table td:nth-child(6),
+.results-table th:nth-child(8), /* Transmission */
 .results-table td:nth-child(8) {
-    width: 160px; /* Allocate more space for engine details */
+    min-width: 150px; /* Ensures enough space */
 }
 
-.table-header th:nth-child(9), /* Fuel Type */
-.results-table td:nth-child(9) {
-    width: 120px; /* Allocate more space for engine details */
+/* ✅ Reduce width of last column (Like button) */
+.results-table th:last-child,
+.results-table td:last-child {
+    width: 50px; /* Makes it smaller */
 }
 
-.table-header th:nth-child(10), /* Ground Clearance */
-.results-table td:nth-child(10) {
-    width: 70px; /* Allocate more space for engine details */
-}
-
-.table-header th:nth-child(11), /* Cargo Space */
-.results-table td:nth-child(11) {
-    width: 110px; /* Allocate more space for engine details */
-}
-
-.table-header th:nth-child(12), /* Seating Capacity */
-.results-table td:nth-child(12) {
-    width: 70px; /* Allocate more space for engine details */
-}
-
-.table-header th:nth-child(13), /* Price */
-.results-table td:nth-child(13) {
-    width: 180px; /* Allocate more space for engine details */
-}
-
-/* Scrollable Table Body */
-.results-inner-frame {
-    max-height: 600px; /* Increased height for better visibility */
-    overflow-y: auto; /* Ensure vertical scrolling */
-    border-radius: 10px;
-}
-
-.scrollable-table {
-    overflow-x: auto;
-    width: 100%;
-    max-width: 100%; /* Ensure it doesn't exceed the container */
-}
-
-
-.table-header, .results-table {
-    width: 100%; /* Ensure both tables take the full width */
-}
-
-/* Minimal Scrollbar Styling */
+/* ✅ Minimal Scrollbar Styling */
 .results-inner-frame::-webkit-scrollbar,
 .table-header::-webkit-scrollbar {
-    height: 6px; /* Thin scrollbar */
+    height: 6px;
 }
 
 .results-inner-frame::-webkit-scrollbar-thumb,
 .table-header::-webkit-scrollbar-thumb {
-    background: #b49b66; /* Matches theme color */
+    background: #b49b66;
     border-radius: 3px;
 }
 
@@ -631,7 +609,7 @@ table {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Ensure Responsiveness */
+/* ✅ Ensure Responsiveness */
 @media (max-width: 768px) {
     .results-inner-frame {
         overflow-x: auto;
@@ -639,11 +617,11 @@ table {
     }
 
     table {
-        min-width: 1000px; /* Ensures scrolling instead of breaking layout */
+        min-width: 1000px;
     }
 }
 
-/* Title Styling */
+/* ✅ Title Styling */
 .results-title {
     text-align: center;
     font-size: 24px;
@@ -656,57 +634,6 @@ table {
     position: sticky;
     top: 0;
     z-index: 50;
-}
-
-/* TABLE HEADER - Fixed at the top */
-.table-header {
-    position: sticky;
-    top: 50px; /* Below title */
-    z-index: 20;
-    width: 100%;
-    background: var(--second-color); /* Solid gold */
-    color: white;
-    font-weight: bold;
-    border-bottom: 2px solid var(--second-color);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Ensure header row stays visible */
-.table-header th {
-    padding: 12px;
-    text-align: center;
-    font-size: 16px;
-    height: 50px;
-    position: sticky;
-    top: 50px; /* Aligns with table-header */
-    background: var(--second-color);
-    z-index: 30;
-}
-
-/* INNER FRAME - Holds the scrollable table */
-.results-inner-frame {
-    max-height: 600px; /* Increased height for better visibility */
-    overflow-y: auto; /* Ensure vertical scrolling */
-    border-radius: 10px;
-}
-
-/* TABLE BODY */
-.results-table {
-    width: 100%;
-    table-layout: fixed;
-}
-
-/* Ensure table body is visible */
-.results-table tbody {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(18px);
-}
-
-.results-table td {
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-    color: black;
 }
 
 /* CAR CARD STYLING */
