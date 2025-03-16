@@ -31,22 +31,29 @@ closeButton.addEventListener('click', () => {
 
 // Popup functionality
 function togglePopup(popupId) {
+    console.log(`Toggling popup with ID: ${popupId}`);
     const popup = document.getElementById(popupId);
+    console.log(`Popup element: ${popup}`);
     popup.classList.toggle('active');
+    console.log(`Popup class list: ${popup.classList}`);
 }
 
 // Close popup when clicking outside
 document.addEventListener('click', function(event) {
     // Don't handle clicks on menu button or sidebar
-    if (event.target.closest('#menu-button') || event.target.closest('#sidebar')) {
+    if (
+        event.target.closest('#menu-button') || 
+        event.target.closest('#sidebar') || 
+        event.target.closest('.popup-content') ||  // Prevent closing if clicking inside popup
+        event.target.matches('[onclick*="togglePopup"]') ||  // Prevent closing if clicking a toggle button
+        event.target.closest('.card')  // Prevent closing when clicking on car cards
+    ) {
         return;
     }
-    
-    const popups = document.querySelectorAll('.popup.active');
-    popups.forEach(popup => {
-        if (!popup.contains(event.target) && !event.target.matches('[onclick*="togglePopup"]')) {
-            popup.classList.remove('active');
-        }
+
+    // Close only if clicking outside
+    document.querySelectorAll('.popup.active').forEach(popup => {
+        popup.classList.remove('active');
     });
 });
 
@@ -325,6 +332,8 @@ function displayFilteredCars(data) {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+    loadFavorites(); // Call loadFavorites to populate favorites on page load
+
     const filterButton = document.getElementById("filter-btn"); 
     const resultsFrame = document.querySelector(".results-frame");
 
@@ -368,23 +377,11 @@ async function compareCars() {
 
     const container = document.getElementById('comparison-container');
 
-    // If this is the first car, create the specification title column
     let titleColumn = document.getElementById('title-column');
     if (!titleColumn) {
         titleColumn = document.createElement('div');
         titleColumn.id = 'title-column';
         titleColumn.classList.add('column', 'title-column');
-
-        // Removed the empty title div to ensure proper alignment
-
-
-        for (const key of Object.keys(specs)) {
-            const titleDiv = document.createElement('div');
-            titleDiv.classList.add('spec-title');
-            titleDiv.textContent = key;
-            titleColumn.appendChild(titleDiv);
-        }
-
         container.appendChild(titleColumn);
     }
 
@@ -399,23 +396,40 @@ async function compareCars() {
     carColumn.id = `car-${selectedVariant}`;
     carColumn.classList.add('column');
 
+    if (specs['Image']) {
+        const img = document.createElement('img');
+        img.src = specs['Image'];
+        console.log(specs['Image']);
+        img.alt = `Image of ${selectedVariant}`;
+        carColumn.appendChild(img);
+    }
+
     // Add car name at the top
     const carTitle = document.createElement('div');
     carTitle.classList.add('car-title');
     carTitle.textContent = selectedVariant;
     carColumn.appendChild(carTitle);
 
-    // Add specs for this car
-    Object.values(specs).forEach(value => {
-        const specDiv = document.createElement('div');
-        specDiv.id = 'specs_column';
-        specDiv.classList.add('spec-value');
-        specDiv.textContent = value;
-        carColumn.appendChild(specDiv);
-    });
-
     // Append the new car column next to existing ones
     container.appendChild(carColumn);
+
+    for (const key of Object.keys(specs)) {
+        const titleDiv = document.createElement('div');
+        titleDiv.classList.add('spec-title');
+        titleDiv.textContent = key;
+        titleColumn.appendChild(titleDiv);
+
+        const specDiv = document.createElement('div');
+        specDiv.classList.add('spec-value');
+
+        // Skip adding the Image spec
+        if (key === 'Image') {
+            continue;
+        }
+
+        specDiv.textContent = specs[key];
+        carColumn.appendChild(specDiv);
+    }
 }
 
 
@@ -499,29 +513,59 @@ async function loadFavorites() {
             headers: { "Content-Type": "application/json" }
         });
         const variantData = await variantResponse.json();
-        console.log(variantData);
-        const listItem = document.createElement("li");
-        listItem.textContent = `${variantData.Brand} ${variantData.Model} - ${variantData.Price}`; // Display full details
-
-        favoritesList.appendChild(listItem);
 
         const cardContainer = document.getElementById("card-container");
 
         const card = document.createElement("div");
         card.classList.add("card");
 
-        const imagePath = `/static/resources/$`
-
         card.innerHTML = `
-            <img src="https://via.placeholder.com/250x150" alt="Car1">
-            <div class="name">John Doe</div>
+            <img src="${variantData.Image}" alt="${variantData.Model}">
+            <div class="name">${variantData.Brand} ${variantData.Model}</div>
         `;
 
-        card.addEventListener("click", function() {
-            alert("Card Clicked!");
+        card.addEventListener("click", function () {
+            console.log("Card clicked - Populating popup");
+            console.log(variantData);
+            // Populate the popup with the selected car's details
+            document.querySelector(".car-title").textContent = `${variantData.Brand} ${variantData.Model}`;
+            document.querySelector(".img-fave-frame img").src = variantData.Image;
+            document.querySelector(".spec-fave-frame .spec-card-container").innerHTML = `
+                <div class="spec-card"><strong class="spec-label">Brand</strong><br><span class="spec-value">${variantData.Brand}</span></div>
+                <div class="spec-card"><strong class="spec-label">Model</strong><br><span class="spec-value">${variantData.Model}</span></div>
+                <div class="spec-card"><strong class="spec-label">Body Type</strong><br><span class="spec-value">${variantData.BodyType}</span></div>
+                <div class="spec-card"><strong class="spec-label">Variant</strong><br><span class="spec-value">${car.Variant}</span></div>
+                <div class="spec-card"><strong class="spec-label">Drive Train</strong><br><span class="spec-value">${variantData.DriveTrain}</span></div>
+                <div class="spec-card"><strong class="spec-label">Engine</strong><br><span class="spec-value">${variantData.Engine}</span></div>
+                <div class="spec-card"><strong class="spec-label">Horsepower</strong><br><span class="spec-value">${variantData.Horsepower}</span></div>
+                <div class="spec-card"><strong class="spec-label">Transmission</strong><br><span class="spec-value">${variantData.Transmission}</span></div>
+                <div class="spec-card"><strong class="spec-label">Fuel Type</strong><br><span class="spec-value">${variantData.FuelType}</span></div>
+                <div class="spec-card"><strong class="spec-label">Ground Clearance</strong><br><span class="spec-value">${variantData.GroundClearance}</span></div>
+                <div class="spec-card"><strong class="spec-label">Cargo Space</strong><br><span class="spec-value">${variantData.CargoSpace}</span></div>
+                <div class="spec-card"><strong class="spec-label">Seating Capacity</strong><br><span class="spec-value">${variantData.SeatingCapacity}</span></div>
+                <div class="spec-card"><strong class="spec-label">Price</strong><br><span class="spec-value">${variantData.Price}</span></div>
+            `;
+
+            // Open the popup
+            togglePopup("card-popup");
         });
 
         cardContainer.appendChild(card);
         
     }
+}
+
+
+function printPopup() {
+    const printContent = document.getElementById("printable-popup").innerHTML;
+    const originalContent = document.body.innerHTML;
+
+    // Replace the whole page content with the popup content
+    document.body.innerHTML = printContent;
+    
+    window.print(); // Open print dialog
+
+    // Restore original page content after printing
+    document.body.innerHTML = originalContent;
+    location.reload(); // Reload to restore event listeners
 }

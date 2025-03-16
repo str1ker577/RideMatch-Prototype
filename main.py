@@ -233,6 +233,16 @@ def get_variants():
 
     return jsonify(variants)
 
+IMAGE_FOLDER = os.path.join(app.static_folder, "resources")
+
+def find_car_image(model):
+    model = ''.join(e for e in model if e.isalnum())
+
+    for filename in os.listdir(IMAGE_FOLDER):
+        if filename.lower().startswith(model.lower()):  # Case-insensitive match
+            return f"/static/resources/{filename}"  # Return correct image path
+    return "/static/resources/tesr.png"  # Fallback image if no match is found
+
 @app.route('/get_specs', methods=['GET'])
 def get_specs():
     variant = request.args.get("variant", "").strip()
@@ -243,20 +253,23 @@ def get_specs():
     # Filter the dataframe to get the specifications of the given variant
     specs = df[df["Variant"].str.lower() == variant.lower()].iloc[0]
     
+    image_path = find_car_image(str(specs["Model"]))
+    print(image_path)
     # Create a dictionary with the required specifications
     car_specs = {
         "Brand": str(specs["Brand"]),
         "Model": str(specs["Model"]),
         "Engine": str(specs["Engine"]),
         "Horsepower": int(specs["Horsepower"]),
-        "Drive Train": str(specs["Drive_Train"]),
+        "DriveTrain": str(specs["Drive_Train"]),
         "Transmission": str(specs["Transmission"]),
-        "Body Type": str(specs["Body_Type"]),
-        "Fuel Type": str(specs["Fuel_Type"]),
-        "Ground Clearance": float(specs["Ground_Clearance"]),
-        "Seating Capacity": int(specs["Seating_Capacity"]),
-        "Cargo Space": int(specs["Cargo_space"]),
-        "Price": float(specs["Price"])
+        "BodyType": str(specs["Body_Type"]),
+        "FuelType": str(specs["Fuel_Type"]),
+        "GroundClearance": float(specs["Ground_Clearance"]),
+        "SeatingCapacity": int(specs["Seating_Capacity"]),
+        "CargoSpace": int(specs["Cargo_space"]),
+        "Price": float(specs["Price"]),
+        "Image": image_path
     }
 
     return jsonify(car_specs)
