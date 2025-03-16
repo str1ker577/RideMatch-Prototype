@@ -39,8 +39,6 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
 
-
-
         if not email or not password:
             return jsonify({"status": "error", "message": "All fields are required."}), 400
 
@@ -269,22 +267,29 @@ def toggle_fave():
     if 'user' in session:
         user_id = session['user']
         variant = request.json.get('variant')  # Get the variant from the request
+        liked = request.json.get('liked')  # Get the liked status from the request
 
-        # Reference to the user's favorites in Firestore
+        # Reference to the user's favorites in Firestore, ensuring user is logged in
         favorites_ref = db.collection('users').document(user_id).collection('favorites')
-        
-        # Check if the variant is already favorited
+
+        # Check if the variant is already in favorites
         existing_fave = favorites_ref.where('variant', '==', variant).get()
-        
+
         if existing_fave:
-            # If it exists, remove it
-            for fave in existing_fave:
-                favorites_ref.document(fave.id).delete()
-            return jsonify({"status": "removed", "variant": variant}), 200  # Return removed status
+            # If it exists and liked is False, remove it
+            if not liked:
+                for fave in existing_fave:
+                    favorites_ref.document(fave.id).delete()
+                return jsonify({"status": "removed", "variant": variant, "liked": False}), 200  # Return status of removal
         else:
-            # If it doesn't exist, add it
-            favorites_ref.add({'variant': variant})
-            return jsonify({"status": "added", "variant": variant}), 200  # Return added status
+            # If it doesn't exist and liked is True, add it
+            if liked:
+                favorites_ref.add({'variant': variant})
+                return jsonify({"status": "added", "variant": variant, "liked": True}), 200  # Return status of addition
+
+        return jsonify({"status": "no change", "variant": variant, "liked": liked}), 200  # Return status if no change
+    else:
+        return jsonify({"error": "User not logged in"}), 401  # Return error if user is not logged in
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

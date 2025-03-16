@@ -237,14 +237,16 @@ function displayFilteredCars(data) {
         <td>${car.Price ? "₱" + car.Price.toLocaleString() : "N/A"}</td>
         <td>
             <div class="heart-container">
-                <i class="fa-regular fa-heart" id="like-icon"></i>
+                <i class="fa-regular fa-heart" id="like-icon" onclick="addToFave(event, '${car.Variant}')"></i>
+
+
             </div>
         </td>
     `;
         resultsBody.appendChild(row);
     });
 
-    setupLikeButtons();
+    //setupLikeButtons();
 
     console.log("✅ Table updated successfully!");
 }
@@ -257,6 +259,11 @@ function displayFilteredCars(data) {
 document.addEventListener("DOMContentLoaded", function () {
     const filterButton = document.getElementById("filter-btn"); 
     const resultsFrame = document.querySelector(".results-frame");
+
+    if (!filterButton) {
+        console.error("🚨 Error: Filter button not found! Check your HTML.");
+        return; // Stop execution if button is missing
+    }
 
     // Ensure sliders start at minimum values
     const priceSlider = document.getElementById("price");
@@ -390,13 +397,13 @@ async function populateVariants() {
 ///////////////////////
 //FAVOURITES Function//
 ///////////////////////
-
+/*
 async function setupLikeButtons() {
 const likeIcons = document.querySelectorAll('.like-icon'); // Change to class selector
 
-
     likeIcons.forEach(icon => {
         icon.addEventListener('click', async function() {
+            console.log("like icon clicked!")
             const variant = this.closest('tr').querySelector('td:nth-child(4)').textContent; // Get the variant from the row
             const isLiked = this.classList.toggle('fa-solid'); // Toggle the filled heart icon
 
@@ -406,6 +413,7 @@ const likeIcons = document.querySelectorAll('.like-icon'); // Change to class se
                 alert("Please sign in first!");
                 return;
             }
+            
 
             const response = await fetch(`${baseUrl}/toggle-fave`, {
                 method: 'POST',
@@ -420,40 +428,48 @@ const likeIcons = document.querySelectorAll('.like-icon'); // Change to class se
         });
     });
 }
+*/
+async function addToFave(event, variant) {
 
-async function addToFave(itemId, itemName, price) {
-    const user = firebaseAuth.currentUser;
-    if (!user) {
-      alert("Please sign in first!");
-      return;
-    }
+    const isLiked = event.target.classList.contains('fa-solid');
+    const likedStatus = !isLiked;
 
-    const response = await fetch(`${baseUrl}/add-to-fave`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          uid: user.uid,
-          item_id: itemId,
-          item_name: itemName,
-          price: price,
-        }),
+    const response = await fetch(`${baseUrl}/toggle-fave`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ variant: variant, liked: likedStatus })
     });
-
+    
     const data = await response.json();
-    console.log("Cart updated:", data.cart);
+    console.log(data);
+    if (data.liked) {
+        // Change to solid icon
+        event.target.classList.toggle('fa-solid');
+    } else {
+        // Change to outline icon
+        event.target.classList.toggle('fa-solid');
     }
 
-
-async function loadFaves() {
-    const user = firebaseAuth.currentUser;
-    if (!user) return;
-    
+}
+async function loadFavorites() {
     const response = await fetch(`${baseUrl}/get-faves`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ uid: user.uid }),
     });
-    
-    const data = await response.json();
-    console.log("User Favourites:", data.cart);
+    const favorites = await response.json();
+    const favoritesList = document.getElementById("favorites-items");
+    favoritesList.innerHTML = ""; // Clear existing items
+
+    for (const car of favorites) {
+        const variantResponse = await fetch(`${baseUrl}/get_variants?model=${car.variant}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+        const variantData = await variantResponse.json();
+
+        const listItem = document.createElement("li");
+        listItem.textContent = `${variantData.Brand} ${variantData.Model} - ${variantData.Price}`; // Display full details
+
+        favoritesList.appendChild(listItem);
+    }
 }
