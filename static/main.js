@@ -546,13 +546,35 @@ async function loadFavorites() {
                 <div class="spec-card"><strong class="spec-label">Price</strong><br><span class="spec-value">${variantData.Price}</span></div>
             `;
 
+            populateColors(variantData.Model);
+
             // Open the popup
             togglePopup("card-popup");
+
         });
 
         cardContainer.appendChild(card);
         
     }
+}
+
+async function populateColors(model) {
+    const selectedModel = model;
+    if (!selectedModel) return; // Exit if no model is selected
+
+    const response = await fetch(`${baseUrl}/get_colors?model=${selectedModel}`);
+
+    const colors = await response.json();
+
+    const colorSelect = document.querySelector('.variant-dropdown');
+    colorSelect.innerHTML = '<option value="">Select Color</option>'; // Reset colors
+
+    colors.forEach(color => {
+        const option = document.createElement('option');
+        option.value = color;
+        option.textContent = color;
+        colorSelect.appendChild(option);
+    });
 }
 
 

@@ -235,6 +235,21 @@ def get_variants():
 
 IMAGE_FOLDER = os.path.join(app.static_folder, "resources")
 
+def find_colors(model):
+    colors = []
+    for filename in os.listdir(IMAGE_FOLDER):
+        if filename.startswith(model) and '_' in filename:
+            color = filename.split('_')[1].split('.')[0]
+            colors.append(color)
+    return colors
+
+    
+@app.route('/get_colors', methods=['GET'])
+def get_colors():
+    model = request.args.get("model", "").strip()
+    colors = find_colors(model)
+    return jsonify(colors)
+
 def find_car_image(model):
     model = ''.join(e for e in model if e.isalnum())
 
