@@ -100,7 +100,7 @@
   </header>
   
     <!-- Centered Logo -->
-    <a href="#" class="Logo">
+    <a href="{{url_for('home')}}" class="Logo">
       <img src="{{url_for('static', filename='resources/Logo2.png')}}" alt="RideMatch">
     </a>
 
@@ -132,16 +132,40 @@
     <div class="liked"><a href="#"></a></div>
   </header>
 
-  <!-- Main Testimonials Content -->
-   <div class="wrapper">
-  <div style="margin-top:10rem;">
-    <h2 style="text-align:center; color:#b49b66;">Client Testimonials</h2>
-    <p style="text-align:center;">
-      <!-- Replace or expand with actual testimonial content -->
-      Our clients love us! Read what they have to say below.
-    </p>
+<!-- Main Testimonials Content -->
+<div class="testimonials-content">
+  <h2>Client Testimonials</h2>
+  <p>Our clients love us! Read what they have to say below.</p>
+
+  <!-- Testimonial Cards -->
+  <div class="testimonial-card">
+    <div class="testimonial-images">
+      <img src="resources/testimonial1.jpg" alt="John Doe">
+      <img src="resources/car1.jpg" alt="Car Bought by John Doe">
+    </div>
+    <h3>John Doe</h3>
+    <p>"RideMatch helped me find the perfect car for my family. The filters made it so easy to narrow down my options!"</p>
+  </div>
+
+  <div class="testimonial-card">
+    <div class="testimonial-images">
+      <img src="resources/testimonial2.jpg" alt="Jane Smith">
+      <img src="resources/car2.jpg" alt="Car Bought by Jane Smith">
+    </div>
+    <h3>Jane Smith</h3>
+    <p>"I was able to find a car that fit my budget and preferences in just a few clicks. Highly recommend RideMatch!"</p>
+  </div>
+
+  <div class="testimonial-card">
+    <div class="testimonial-images">
+      <img src="resources/testimonial3.jpg" alt="Mike Johnson">
+      <img src="resources/car3.jpg" alt="Car Bought by Mike Johnson">
+    </div>
+    <h3>Mike Johnson</h3>
+    <p>"The customer service was excellent, and the website is very user-friendly. I found my dream car thanks to RideMatch."</p>
   </div>
 </div>
+
 
 
   <!-- Footer -->

@@ -15,22 +15,60 @@
   <!-- Inline CSS specifically for form layout (you can move to style.css if you prefer) -->
   <style>
 
-    /* Ensure labels appear above inputs */
+.outer-frame {
+      width: 90%;
+      margin: 10rem auto 2rem;
+      padding: 20px;
+      border: 2px solid #b49b66;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(18px);
+    }
+
+    .inner-frame {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .filter-left, .filter-right {
+      flex: 1;
+      min-width: 300px;
+    }
+
     .filter-right label {
       display: block;
       margin-bottom: 6px;
       font-weight: bold;
       color: #b49b66;
     }
-    .filter-right input,
-    .filter-right textarea {
-      display: block;
+
+    .filter-right input, .filter-right textarea {
       width: 100%;
       margin-bottom: 12px;
       padding: 8px;
       box-sizing: border-box;
       border-radius: 4px;
       border: 1px solid #ccc;
+    }
+
+    .filter-right button {
+      background-color: #b49b66;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .outer-frame {
+        margin-top: 8rem;
+      }
+      .inner-frame {
+        flex-direction: column;
+      }
     }
 
 
@@ -123,18 +161,18 @@
       <p class="welcome-title"></p>
     </header>
 
-  <!-- Contact Section -->
-  <div class="outer-frame" style="margin-top: 10rem;"><!-- Extra top margin to clear fixed header -->
-    <h2 class="filter-title">Contact Us</h2>
-    <div class="inner-frame">
-      <!-- Left Section: Contact Info -->
-      <div class="filter-left">
-        <h3>Get in Touch</h3>
-        <p>Email: <a href="mailto:ridematchhelp@gmail.com">ridematchhelp@gmail.com</a></p>
-        <p>Phone: +63 961 993 7494</p>
-        <p>Address: 123 RideMatch St., Metro Manila, Philippines</p>
-        <div class="contacts-social-icons">
-          <a href="https://www.facebook.com/profile.php?id=61573973933095&mibextid=LQQJ4d&rdid=URdqqHEOsH0kR36P&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18gKTe9eNT%2F%3Fmibextid%3DLQQJ4d" 
+<!-- Contact Section -->
+<div class="outer-frame">
+  <h2 class="filter-title">Contact Us</h2>
+  <div class="inner-frame">
+    <!-- Left Section: Contact Info -->
+    <div class="filter-left">
+      <h3>Get in Touch</h3>
+      <p>Email: <a href="mailto:ridematchhelp@gmail.com">ridematchhelp@gmail.com</a></p>
+      <p>Phone: +63 961 993 7494</p>
+      <p>Address: 123 RideMatch St., Metro Manila, Philippines</p>
+      <div class="contacts-social-icons">
+        <a href="https://www.facebook.com/profile.php?id=61573973933095&mibextid=LQQJ4d&rdid=URdqqHEOsH0kR36P&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18gKTe9eNT%2F%3Fmibextid%3DLQQJ4d" 
           target="_blank" 
           rel="noopener noreferrer">
           <i class='bx bxl-facebook'></i>
@@ -144,30 +182,26 @@
           </a>
           <a href="https://www.instagram.com/ridematch_support/" target="_blank" rel="noopener noreferrer">
             <i class='bx bxl-instagram'></i>
-          </a>        </div>
-      </div>
-
-      <!-- Right Section: Contact Form (Web3Forms) -->
-      <div class="filter-right">
-        <h3>Send Us a Message</h3>
-        <form action="https://api.web3forms.com/submit" method="POST">
-          <!-- Your public access key -->
-          <input type="hidden" name="access_key" value="7be6ee75-b0a5-43bd-b36a-c0194b58f8d8">
-
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required>
-
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required>
-
-          <label for="message">Message:</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
-
-          <button type="submit" class="filter-btn">Submit</button>
-        </form>
+          </a>
       </div>
     </div>
+
+    <!-- Right Section: Contact Form -->
+    <div class="filter-right">
+      <h3>Send Us a Message</h3>
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="7be6ee75-b0a5-43bd-b36a-c0194b58f8d8">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+        <button type="submit" class="filter-btn">Submit</button>
+      </form>
+    </div>
   </div>
+</div>
 
   <!-- Footer -->
   <footer>
