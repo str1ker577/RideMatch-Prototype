@@ -82,10 +82,10 @@ def login():
             session['idToken'] = user_data['idToken']  # Store token for authentication
 
             print("Logged in!")
-            return jsonify({"status": "success", "message": "Welcome User!"}), 200
+            return jsonify({"status": True, "message": "Welcome back, ", "email": email}), 200
         else:
             print("Incorrect password!")
-            return jsonify({"status": "error", "message": "Incorrect credentials."}), 400
+            return jsonify({"status": False, "message": "Incorrect credentials."}), 400
 
 
 @app.route('/logout', methods=['POST'])

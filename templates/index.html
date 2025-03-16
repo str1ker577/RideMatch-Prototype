@@ -30,41 +30,6 @@
           <p class="success-message"></p>
           <p class="error-message"></p> <!-- Error message element -->
           <p>Don't have an account? <a href="javascript:void(0)" onclick="togglePopup('signup-popup'); togglePopup('login-popup')">Sign Up</a></p>
-          <script>
-              function handleLogin(event) {
-                  event.preventDefault(); // Prevent the default form submission
-                  const email = document.querySelector('input[name="email"]').value;
-                  const password = document.querySelector('input[name="password"]').value;
-
-                  // Perform AJAX request to login
-                  fetch('/login', {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                      },
-                      body: new URLSearchParams({
-                          'email': email,
-                          'password': password
-                      })
-                  })
-                  .then(response => {
-                      if (!response.ok) {
-                          return response.json().then(data => {
-                              // Display error message
-                              document.querySelector('.success-message').textContent = '';
-                              document.querySelector('.error-message').textContent = data.message;
-                          });
-                      }
-                      // Redirect to dashboard or handle successful login
-                      document.querySelector('.error-message12').textContent = '';
-                      window.location.href = '/'; // Redirect to home page
-
-                  })
-                  .catch(error => {
-                      console.error('Error:', error);
-                  });
-              }
-          </script>
       </div>
     </div>
   
@@ -81,45 +46,6 @@
           <p class="error-message12"></p> <!-- Error message element -->
 
           <p>Already have an account? <a href="javascript:void(0)" onclick="togglePopup('login-popup'); togglePopup('signup-popup')">Login</a></p>
-          <script>
-              function handleSignup(event) {
-                  event.preventDefault(); // Prevent the default form submission
-                  const email = document.querySelector('input[name="email_signup"]').value;
-                  const password = document.querySelector('input[name="password_signup"]').value;
-                  
-                  // Perform AJAX request to signup
-                  fetch('/signup', {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                      },
-                      body: new URLSearchParams({
-                          'email': email,
-                          'password': password
-                      })
-                  })
-                  .then(response => {
-                    if (!response.ok) {
-                          return response.json().then(data => {
-                              // Display error message
-                              console.log(data);
-                              document.querySelector('.success-message').textContent = '';
-                              document.querySelector('.error-message12').textContent = data.message;
-                          });
-                      }
-                      // Handle successful signup
-                      document.querySelector('.success-message').textContent = "Signup successful! Please log in.";
-                      document.querySelector('.error-message12').textContent = '';
-                      document.querySelector('.error-message').textContent = '';
-                      togglePopup('login-popup'); // Close signup popup and open login popup
-                      togglePopup('signup-popup'); // Close signup popup
-
-                  })
-                  .catch(error => {
-                      console.error('Error:', error);
-                  });
-              }
-          </script>
       </div>
     </div>
 
@@ -156,13 +82,11 @@
     </div>
 
     <div class="liked"><a href="#"></a></div>
+    <p class="welcome-title"></p>
   </header>
   <!-- Outer Frame (with border and shadow) -->
   <div class="outer-frame" style="margin-top:10rem;">
     <h2 class="filter-title">Filter</h2>
-    {% if name %} 
-      <div class="welcome-message">Welcome Back, {{ name }}!</div>
-    {% endif %}
     <!-- Inner Frame (contains all the filter options) -->
     <div class="inner-frame">
       <!-- Left Section: Brand, Model, etc. -->

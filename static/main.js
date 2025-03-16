@@ -7,10 +7,7 @@ const baseUrl = `http://127.0.0.1:5000`; // Base URL for API requests
 
 //const baseUrl = "https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev"; // Base URL for API requests
 
-
-
 // Get elements for toggling sidebar and menu button
-
 
 const menuButton = document.getElementById('menu-button');
 const closeButton = document.getElementById('close-button');
@@ -52,6 +49,78 @@ document.addEventListener('click', function(event) {
     });
 });
 
+function handleLogin(event) {
+    event.preventDefault(); // Prevent the default form submission
+    const email = document.querySelector('input[name="email"]').value;
+    const password = document.querySelector('input[name="password"]').value;
+
+    // Perform AJAX request to login
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'email': email,
+            'password': password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.status) {
+            document.querySelector('.success-message').textContent = '';
+            document.querySelector('.error-message').textContent = data.message;
+        } else {
+            document.querySelector('.welcome-title').textContent = data.message + data.email + "!";
+            document.querySelector('.error-message12').textContent = '';
+            togglePopup('login-popup'); // Close login popup
+            sidebar.classList.remove('open');
+            menuButton.style.display = 'block'; 
+            closeButton.style.display = 'none';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function handleSignup(event) {
+    event.preventDefault(); // Prevent the default form submission
+    const email = document.querySelector('input[name="email_signup"]').value;
+    const password = document.querySelector('input[name="password_signup"]').value;
+    
+    // Perform AJAX request to signup
+    fetch('/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'email': email,
+            'password': password
+        })
+    })
+    .then(response => {
+      if (!response.ok) {
+            return response.json().then(data => {
+                // Display error message
+                console.log(data);
+                document.querySelector('.success-message').textContent = '';
+                document.querySelector('.error-message12').textContent = data.message;
+            });
+        }
+        // Handle successful signup
+        document.querySelector('.success-message').textContent = "Signup successful! Please log in.";
+        document.querySelector('.error-message12').textContent = '';
+        document.querySelector('.error-message').textContent = '';
+        togglePopup('login-popup'); // Close signup popup and open login popup
+        togglePopup('signup-popup'); // Close signup popup
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 function parseCSV(data) {
     const lines = data.split('\n');
@@ -150,7 +219,7 @@ async function applyFilters() {
     console.log("Min Seating Capacity:", seating);
 
     // Render API Link //
-    const url = new URL(`http://127.0.0.1:5000/get_cars`);//
+    const url = new URL(`${baseUrl}/get_cars`);//
     
     if (brand) url.searchParams.append("brand", brand.charAt(0).toUpperCase() + brand.slice(1)); // Append brand filter if specified
 
@@ -238,15 +307,12 @@ function displayFilteredCars(data) {
         <td>
             <div class="heart-container">
                 <i class="fa-regular fa-heart" id="like-icon" onclick="addToFave(event, '${car.Variant}')"></i>
-
-
             </div>
         </td>
     `;
         resultsBody.appendChild(row);
     });
 
-    //setupLikeButtons();
 
     console.log("✅ Table updated successfully!");
 }
@@ -397,38 +463,6 @@ async function populateVariants() {
 ///////////////////////
 //FAVOURITES Function//
 ///////////////////////
-/*
-async function setupLikeButtons() {
-const likeIcons = document.querySelectorAll('.like-icon'); // Change to class selector
-
-    likeIcons.forEach(icon => {
-        icon.addEventListener('click', async function() {
-            console.log("like icon clicked!")
-            const variant = this.closest('tr').querySelector('td:nth-child(4)').textContent; // Get the variant from the row
-            const isLiked = this.classList.toggle('fa-solid'); // Toggle the filled heart icon
-
-            // Send request to Firestore to add/remove from favorites
-            const user = firebaseAuth.currentUser;
-            if (!user) {
-                alert("Please sign in first!");
-                return;
-            }
-            
-
-            const response = await fetch(`${baseUrl}/toggle-fave`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ variant: variant, liked: isLiked })
-
-            });
-
-            if (!response.ok) {
-                console.error('Failed to update favorites');
-            }
-        });
-    });
-}
-*/
 async function addToFave(event, variant) {
 
     const isLiked = event.target.classList.contains('fa-solid');

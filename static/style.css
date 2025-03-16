@@ -349,6 +349,12 @@ header{
     font-size: 24px;
 }
 
+.welcome-title {
+    text-align: right;
+    margin-bottom: 20px;
+    color: #b49b66;
+    font-size: 18px;
+}
 .error-message {
     display: block; /* Ensure the welcome message is displayed */
     text-align: center;
