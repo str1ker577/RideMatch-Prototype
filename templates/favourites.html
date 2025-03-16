@@ -30,7 +30,6 @@
   </style>
 </head>
 <body>
-
     <!-- Popup Containers -->
     <div id="login-popup" class="popup">
       <div class="popup-content">
@@ -45,41 +44,6 @@
           <p class="success-message"></p>
           <p class="error-message"></p> <!-- Error message element -->
           <p>Don't have an account? <a href="javascript:void(0)" onclick="togglePopup('signup-popup'); togglePopup('login-popup')">Sign Up</a></p>
-          <script>
-              function handleLogin(event) {
-                  event.preventDefault(); // Prevent the default form submission
-                  const email = document.querySelector('input[name="email"]').value;
-                  const password = document.querySelector('input[name="password"]').value;
-
-                  // Perform AJAX request to login
-                  fetch('/login', {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                      },
-                      body: new URLSearchParams({
-                          'email': email,
-                          'password': password
-                      })
-                  })
-                  .then(response => {
-                      if (!response.ok) {
-                          return response.json().then(data => {
-                              // Display error message
-                              document.querySelector('.success-message').textContent = '';
-                              document.querySelector('.error-message').textContent = data.message;
-                          });
-                      }
-                      // Redirect to dashboard or handle successful login
-                      document.querySelector('.error-message12').textContent = '';
-                      window.location.href = '/'; // Redirect to home page
-
-                  })
-                  .catch(error => {
-                      console.error('Error:', error);
-                  });
-              }
-          </script>
       </div>
     </div>
   
@@ -96,54 +60,11 @@
           <p class="error-message12"></p> <!-- Error message element -->
 
           <p>Already have an account? <a href="javascript:void(0)" onclick="togglePopup('login-popup'); togglePopup('signup-popup')">Login</a></p>
-          <script>
-              function handleSignup(event) {
-                  event.preventDefault(); // Prevent the default form submission
-                  const email = document.querySelector('input[name="email_signup"]').value;
-                  const password = document.querySelector('input[name="password_signup"]').value;
-                  
-                  // Perform AJAX request to signup
-                  fetch('/signup', {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                      },
-                      body: new URLSearchParams({
-                          'email': email,
-                          'password': password
-                      })
-                  })
-                  .then(response => {
-                    if (!response.ok) {
-                          return response.json().then(data => {
-                              // Display error message
-                              console.log(data);
-                              document.querySelector('.success-message').textContent = '';
-                              document.querySelector('.error-message12').textContent = data.message;
-                          });
-                      }
-                      // Handle successful signup
-                      document.querySelector('.success-message').textContent = "Signup successful! Please log in.";
-                      document.querySelector('.error-message12').textContent = '';
-                      document.querySelector('.error-message').textContent = '';
-                      togglePopup('login-popup'); // Close signup popup and open login popup
-                      togglePopup('signup-popup'); // Close signup popup
-
-                  })
-                  .catch(error => {
-                      console.error('Error:', error);
-                  });
-              }
-          </script>
       </div>
     </div>
 
-
   <!-- Navbar -->
   <header>
-  {% if name %} 
-    <div class="filter-title">Welcome Back, {{ name }}!</div>
-  {% endif %}
     <!-- Centered Logo -->
     <a href="{{url_for('home')}}" class="Logo">
       <img src="{{url_for('static', filename='resources/Logo2.png')}}" alt="RideMatch">
@@ -175,8 +96,9 @@
     </div>
 
     <div class="liked"><a href="#"></a></div>
+    <p class="welcome-title"></p>
   </header>
-  
+
   <!-- Favorites Section -->
 
   <div class="outer-frame" style="margin-top:10rem;">
@@ -186,6 +108,8 @@
           Here are the cars you've marked as favorites.
         </p>
         <ul id="favorites-items"></ul>
+        <div id="card-container"></div> <!-- CARDS DISPLAY -->
+        <button id="filter-btn" class="filter-btn" onclick="loadFavorites()">Load Favorites</button>
     </div>
 
   </div>

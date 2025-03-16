@@ -87,7 +87,6 @@ def login():
             print("Incorrect password!")
             return jsonify({"status": False, "message": "Incorrect credentials."}), 400
 
-
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user', None)  
@@ -280,6 +279,7 @@ def toggle_fave():
             if not liked:
                 for fave in existing_fave:
                     favorites_ref.document(fave.id).delete()
+                db.collection('users').document(user_id).update({'favourites': firestore.ArrayRemove([variant])})
                 return jsonify({"status": "removed", "variant": variant, "liked": False}), 200  # Return status of removal
         else:
             # If it doesn't exist and liked is True, add it

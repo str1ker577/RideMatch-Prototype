@@ -5,6 +5,7 @@
 
 const baseUrl = `http://127.0.0.1:5000`; // Base URL for API requests
 
+let userName='';
 //const baseUrl = "https://a7cbb3da-2928-4d18-ba75-ea41ce8ad0c5-00-g8eiilou0duk.sisko.replit.dev"; // Base URL for API requests
 
 // Get elements for toggling sidebar and menu button
@@ -67,22 +68,34 @@ function handleLogin(event) {
     })
     .then(response => response.json())
     .then(data => {
+        console.log(data)
         if (!data.status) {
             document.querySelector('.success-message').textContent = '';
             document.querySelector('.error-message').textContent = data.message;
         } else {
-            document.querySelector('.welcome-title').textContent = data.message + data.email + "!";
+            userName = data.email;
+            const welcomeMessageElement = document.querySelector('.welcome-title');
+            welcomeMessageElement.textContent = `Welcome, ${userName}!`;
             document.querySelector('.error-message12').textContent = '';
             togglePopup('login-popup'); // Close login popup
             sidebar.classList.remove('open');
             menuButton.style.display = 'block'; 
             closeButton.style.display = 'none';
+
         }
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
+//update on each page
+document.addEventListener('DOMContentLoaded', function () {
+    const welcomeMessageElement = document.querySelector('.welcome-title');
+    if (userName) {
+        console.log(userName)
+        welcomeMessageElement.textContent = `Welcome, ${userName}!`;
+      }
+});
 
 function handleSignup(event) {
     event.preventDefault(); // Prevent the default form submission
@@ -138,17 +151,6 @@ function parseCSV(data) {
     }
     return result;
 }
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const filterButton = document.getElementById("filter-btn");
-
-    if (!filterButton) {
-        console.error("🚨 Error: Filter button not found! Check your HTML.");
-        return; // Stop execution if button is missing
-    }
-
-});
 
 // ✅ New function to update slider values dynamically
 function updateSliderValue(id, unit = "", isCurrency = false) {
@@ -326,11 +328,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const filterButton = document.getElementById("filter-btn"); 
     const resultsFrame = document.querySelector(".results-frame");
 
-    if (!filterButton) {
-        console.error("🚨 Error: Filter button not found! Check your HTML.");
-        return; // Stop execution if button is missing
-    }
-
     // Ensure sliders start at minimum values
     const priceSlider = document.getElementById("price");
     const horsepowerSlider = document.getElementById("horsepower");
@@ -486,6 +483,8 @@ async function addToFave(event, variant) {
 
 }
 async function loadFavorites() {
+    console.log("function favorites is running")
+
     const response = await fetch(`${baseUrl}/get-faves`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -495,15 +494,34 @@ async function loadFavorites() {
     favoritesList.innerHTML = ""; // Clear existing items
 
     for (const car of favorites) {
-        const variantResponse = await fetch(`${baseUrl}/get_variants?model=${car.variant}`, {
+        const variantResponse = await fetch(`${baseUrl}/get_specs?variant=${car.variant}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         });
         const variantData = await variantResponse.json();
-
+        console.log(variantData);
         const listItem = document.createElement("li");
         listItem.textContent = `${variantData.Brand} ${variantData.Model} - ${variantData.Price}`; // Display full details
 
         favoritesList.appendChild(listItem);
+
+        const cardContainer = document.getElementById("card-container");
+
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        const imagePath = `/static/resources/$`
+
+        card.innerHTML = `
+            <img src="https://via.placeholder.com/250x150" alt="Car1">
+            <div class="name">John Doe</div>
+        `;
+
+        card.addEventListener("click", function() {
+            alert("Card Clicked!");
+        });
+
+        cardContainer.appendChild(card);
+        
     }
 }
