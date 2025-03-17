@@ -561,33 +561,67 @@ async function loadFavorites() {
 async function populateColors(model) {
     const selectedModel = model;
     if (!selectedModel) return; // Exit if no model is selected
-
+    console.log(model);
     const response = await fetch(`${baseUrl}/get_colors?model=${selectedModel}`);
 
     const colors = await response.json();
+
+    console.log(colors);
 
     const colorSelect = document.querySelector('.variant-dropdown');
     colorSelect.innerHTML = '<option value="">Select Color</option>'; // Reset colors
 
     colors.forEach(color => {
         const option = document.createElement('option');
-        option.value = color;
-        option.textContent = color;
+        option.value = color.color;
+        option.textContent = color.color;
+        option.dataset.imagePath = color.image_path;
         colorSelect.appendChild(option);
     });
-}
 
+    colorSelect.addEventListener('change', (e) => {
+        const selectedColor = e.target.value;
+        const selectedOption = colorSelect.querySelector(`option[value="${selectedColor}"]`);
+        const imageUrl = selectedOption.dataset.imagePath;
+        document.querySelector(".img-fave-frame img").src = imageUrl;
+    });
+}
 
 function printPopup() {
     const printContent = document.getElementById("printable-popup").innerHTML;
     const originalContent = document.body.innerHTML;
 
-    // Replace the whole page content with the popup content
-    document.body.innerHTML = printContent;
-    
-    window.print(); // Open print dialog
+    // Create a new iframe to hold the print content
+    const iframe = document.createElement('iframe');
+    iframe.style.visibility = 'hidden';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
 
-    // Restore original page content after printing
+    // Add the iframe to the body
+    document.body.appendChild(iframe);
+
+    // Add the print content to the iframe
+    iframe.contentWindow.document.body.innerHTML = `
+        <html>
+            <head>
+                <link rel="stylesheet" href="style.css"> <!-- Link to your stylesheet file -->
+            </head>
+            <body>
+                ${printContent}
+            </body>
+        </html>
+    `;
+
+    // Print the iframe content
+    iframe.contentWindow.print();
+
+    // Remove the iframe
+    document.body.removeChild(iframe);
+
+    // Restore the original content
     document.body.innerHTML = originalContent;
     location.reload(); // Reload to restore event listeners
 }

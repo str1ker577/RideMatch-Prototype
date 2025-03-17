@@ -236,11 +236,13 @@ def get_variants():
 IMAGE_FOLDER = os.path.join(app.static_folder, "resources")
 
 def find_colors(model):
+    model = ''.join(e for e in model if e.isalnum())
     colors = []
     for filename in os.listdir(IMAGE_FOLDER):
-        if filename.startswith(model) and '_' in filename:
+        if filename.lower().startswith(model.lower()) and '_' in filename:
             color = filename.split('_')[1].split('.')[0]
-            colors.append(color)
+            image_path = find_car_image(filename.split('.')[0])
+            colors.append({"color": color, "image_path": image_path})
     return colors
 
     
@@ -251,8 +253,8 @@ def get_colors():
     return jsonify(colors)
 
 def find_car_image(model):
-    model = ''.join(e for e in model if e.isalnum())
-
+    model = ''.join(e for e in model if e.isalnum() or e == '_')
+    print(model)
     for filename in os.listdir(IMAGE_FOLDER):
         if filename.lower().startswith(model.lower()):  # Case-insensitive match
             return f"/static/resources/{filename}"  # Return correct image path
