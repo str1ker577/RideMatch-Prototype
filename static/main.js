@@ -102,6 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(userName)
         welcomeMessageElement.textContent = `Welcome, ${userName}!`;
       }
+
+    populateModels();
 });
 
 function handleSignup(event) {
@@ -194,6 +196,7 @@ async function applyFilters() {
     console.log("apply filters clicked");
 
     const brand = document.getElementById("brand").value.trim().toLowerCase();
+    const model = document.getElementById("model").value.trim().toLowerCase();
     const bodyType = document.getElementById("body-type").value.trim().toLowerCase();
     const driveTrain = document.getElementById("drive-train").value.trim().toLowerCase();
     const transmission = document.getElementById("transmission").value.trim().toLowerCase();
@@ -201,12 +204,13 @@ async function applyFilters() {
     const minHp = parseFloat(document.getElementById("horsepower").value) || 50;
     const minCargo = parseFloat(document.getElementById("cargo-space").value) || 100;
     const minPrice = parseFloat(document.getElementById("price").value) || 5000;
-    const minGroundClearance = parseFloat(document.getElementById("ground-clearance").value) || 13.3;
+    const minGroundClearance = parseFloat(document.getElementById("ground-clearance").value) || 2;
     const seating = parseInt(document.getElementById("seating").value) || 0;
 
     console.log("🚀 Filters Applied:");
     console.log("Starting applyFilters function..."); // Added debugging log
     console.log("Brand:", brand);
+    console.log("Model:", model);
     console.log("Body Type:", bodyType);
     console.log("Drive Train:", driveTrain);
     console.log("Transmission:", transmission);
@@ -231,6 +235,8 @@ async function applyFilters() {
     const url = new URL(`${baseUrl}/get_cars`);//
     
     if (brand) url.searchParams.append("brand", brand.charAt(0).toUpperCase() + brand.slice(1)); // Append brand filter if specified
+
+    if (model) url.searchParams.append("model", model.charAt(0).toUpperCase() + model.slice(1));
 
     if (bodyType) url.searchParams.append("body_type", bodyType.charAt(0).toUpperCase() + bodyType.slice(1)); // Append body type filter if specified
 
@@ -377,13 +383,16 @@ async function compareCars() {
 
     const container = document.getElementById('comparison-container');
 
-    let titleColumn = document.getElementById('title-column');
-    if (!titleColumn) {
-        titleColumn = document.createElement('div');
-        titleColumn.id = 'title-column';
-        titleColumn.classList.add('column', 'title-column');
-        container.appendChild(titleColumn);
+    let titleColumn = container.querySelector('#title-column');
+    if (titleColumn) {
+        container.removeChild(titleColumn);
     }
+
+    titleColumn = document.createElement('div');
+    titleColumn.id = 'title-column';
+    titleColumn.classList.add('column', 'title-column');
+    titleColumn.innerHTML = 'Specifications';
+    container.appendChild(titleColumn);
 
     // Check if this car was already added to avoid duplicates
     if (document.getElementById(`car-${selectedVariant}`)) {
@@ -395,6 +404,8 @@ async function compareCars() {
     const carColumn = document.createElement('div');
     carColumn.id = `car-${selectedVariant}`;
     carColumn.classList.add('column');
+
+    container.insertBefore(titleColumn, container.firstChild);
 
     if (specs['Image']) {
         const img = document.createElement('img');
@@ -430,25 +441,37 @@ async function compareCars() {
         specDiv.textContent = specs[key];
         carColumn.appendChild(specDiv);
     }
+
 }
 
 
 async function populateModels() {
     const selectedBrand = document.getElementById('brand').value;
-    if (!selectedBrand) return; // Exit if no brand is selected
-
-    const response = await fetch(`${baseUrl}/get_models?brand=${selectedBrand}`);
-
-    const models = await response.json();
     const modelSelect = document.getElementById('model');
-    modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
 
-    models.forEach(model => {
-        const option = document.createElement('option');
-        option.value = model;
-        option.textContent = model;
-        modelSelect.appendChild(option);
-    });
+    if (!selectedBrand) {
+        // If no brand is selected, fetch all models
+        const response = await fetch(`${baseUrl}/get_all_models`);
+        const models = await response.json();
+        modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
+        models.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model;
+          option.textContent = model;
+          modelSelect.appendChild(option);
+        });
+    } else {
+        // If a brand is selected, fetch models for that brand
+        const response = await fetch(`${baseUrl}/get_models?brand=${selectedBrand}`);
+        const models = await response.json();
+        modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
+        models.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model;
+          option.textContent = model;
+          modelSelect.appendChild(option);
+        });
+    }
 }
 
 async function populateVariants() {
