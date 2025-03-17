@@ -377,13 +377,16 @@ async function compareCars() {
 
     const container = document.getElementById('comparison-container');
 
-    let titleColumn = document.getElementById('title-column');
-    if (!titleColumn) {
-        titleColumn = document.createElement('div');
-        titleColumn.id = 'title-column';
-        titleColumn.classList.add('column', 'title-column');
-        container.appendChild(titleColumn);
+    let titleColumn = container.querySelector('#title-column');
+    if (titleColumn) {
+        container.removeChild(titleColumn);
     }
+
+    titleColumn = document.createElement('div');
+    titleColumn.id = 'title-column';
+    titleColumn.classList.add('column', 'title-column');
+    titleColumn.innerHTML = 'Specifications';
+    container.appendChild(titleColumn);
 
     // Check if this car was already added to avoid duplicates
     if (document.getElementById(`car-${selectedVariant}`)) {
@@ -395,6 +398,8 @@ async function compareCars() {
     const carColumn = document.createElement('div');
     carColumn.id = `car-${selectedVariant}`;
     carColumn.classList.add('column');
+
+    container.insertBefore(titleColumn, container.firstChild);
 
     if (specs['Image']) {
         const img = document.createElement('img');
@@ -430,6 +435,7 @@ async function compareCars() {
         specDiv.textContent = specs[key];
         carColumn.appendChild(specDiv);
     }
+
 }
 
 
