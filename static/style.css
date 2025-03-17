@@ -917,6 +917,18 @@ footer {
     gap: 20px;
 }
 
+.comp_table_content img{
+    width: 250px;
+    margin: 10px auto;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+}
+
 .comp_spec_column {
     width: 200px !important; 
     min-width: 200px !important;
@@ -1140,10 +1152,39 @@ footer {
 
 
 /* Outer Frame (Main Container) */
+#card-popup .popup{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1001;
+}
+
+#card-popup .popup-content {
+    background: var(--background-color);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    max-width: 100%;
+    max-height: 100%;
+    width: 80%;
+    height: 90%;
+    position: relative;
+}
+
 .outer-fave-frame {
-    width: 70%;
-    margin: 50px auto;
-    padding: 20px;
+    width: 100%;
+    margin: 25px auto;
+    padding: 0;
     border: 2px solid #b49b66;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -1189,6 +1230,7 @@ footer {
 
 /* Inner Frame: Image + Specs */
 .inner-fave-frame {
+    margin-left: 5px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -1199,12 +1241,11 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 60%;
 }
 
 /* Image Frame */
 .img-fave-frame {
-    width: 100%;
     border: 2px solid #b49b66;
     border-radius: 10px;
     overflow: hidden;
@@ -1227,6 +1268,7 @@ footer {
     display: flex;
     justify-content: center;
     margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 /* Dropdown Styling */
@@ -1246,6 +1288,8 @@ footer {
 .spec-fave-frame {
     width: 50%;
     padding-left: 20px;
+    padding-right: 5px;
+    padding-bottom: 5px;
 }
 
 /* Spec Card Container */
@@ -1304,9 +1348,15 @@ footer {
 }
 
 /* FAVORITES CARDS */
+#card-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
 .card {
     width: 250px;
+    margin: 10px auto;
     background: white;
     border-radius: 10px;
     overflow: hidden;
