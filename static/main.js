@@ -194,6 +194,7 @@ async function applyFilters() {
     console.log("apply filters clicked");
 
     const brand = document.getElementById("brand").value.trim().toLowerCase();
+    const model = document.getElementById("model").value.trim().toLowerCase();
     const bodyType = document.getElementById("body-type").value.trim().toLowerCase();
     const driveTrain = document.getElementById("drive-train").value.trim().toLowerCase();
     const transmission = document.getElementById("transmission").value.trim().toLowerCase();
@@ -207,6 +208,7 @@ async function applyFilters() {
     console.log("🚀 Filters Applied:");
     console.log("Starting applyFilters function..."); // Added debugging log
     console.log("Brand:", brand);
+    console.log("Model:", model);
     console.log("Body Type:", bodyType);
     console.log("Drive Train:", driveTrain);
     console.log("Transmission:", transmission);
@@ -231,6 +233,8 @@ async function applyFilters() {
     const url = new URL(`${baseUrl}/get_cars`);//
     
     if (brand) url.searchParams.append("brand", brand.charAt(0).toUpperCase() + brand.slice(1)); // Append brand filter if specified
+
+    if (model) url.searchParams.append("model", model.charAt(0).toUpperCase() + model.slice(1));
 
     if (bodyType) url.searchParams.append("body_type", bodyType.charAt(0).toUpperCase() + bodyType.slice(1)); // Append body type filter if specified
 
