@@ -154,7 +154,7 @@ def get_cars():
     fuel_type = request.args.get("fuel_type", "").strip()
     min_hp = request.args.get("min_hp", type=int, default=50)
     min_cargo = request.args.get("min_cargo", type=int, default=100)
-    min_price = request.args.get("min_price", type=int, default=5000)
+    max_price = request.args.get("max_price", type=int, default=3000000)
     min_ground_clearance = request.args.get("min_ground_clearance", type=float, default=13.3)
     seating = request.args.get("seating", type=int, default=None)
 
@@ -190,7 +190,7 @@ def get_cars():
     filtered_df = filtered_df[  # Apply numerical filters
         (filtered_df["Horsepower"] >= min_hp) &
         (filtered_df["Cargo_space"] >= min_cargo) &
-        (filtered_df["Price"] >= min_price) &
+        (filtered_df["Price"] <= max_price) &
         (filtered_df["Ground_Clearance"] >= min_ground_clearance)
     ]
     
