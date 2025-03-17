@@ -324,30 +324,9 @@ header{
     cursor: pointer;
 }
 
-/***********************/
-/* Filter System Frame */
-/***********************/
-
-/* Outer Frame Styling */
-.outer-frame {
-    width: 70%; /* Adjust the width as necessary */
-    margin: 50px auto;
-    margin-top: 10%;
-    padding: 20px;
-    border: 2px solid #b49b66;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(18px);
-}
-
-/* Title Styling */
-.filter-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #b49b66;
-    font-size: 24px;
-}
+/*****************/
+/* Welcome Title */
+/****************/
 
 .welcome-title {
     text-align: right;
@@ -382,6 +361,30 @@ header{
 
 }
 
+/***********************/
+/* Filter System Frame */
+/***********************/
+
+/* Outer Frame Styling */
+.outer-frame {
+    width: 70%; /* Adjust the width as necessary */
+    margin: 50px auto;
+    margin-top: 10%;
+    padding: 20px;
+    border: 2px solid #b49b66;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(18px);
+}
+
+/* Title Styling */
+.filter-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #b49b66;
+    font-size: 24px;
+}
 
 /* Inner Frame Styling */
 .inner-frame {
@@ -891,8 +894,10 @@ footer {
 }
 
 /**********************/
-/*Compare Page Styling*/
+/* Compare Page Styling */
 /**********************/
+
+/* Main Container for Comparison */
 .comp_table_frame {
     width: 95%;
     margin: 50px auto;
@@ -905,236 +910,87 @@ footer {
     backdrop-filter: blur(18px);
     overflow-x: auto; /* Allows horizontal scrolling */
     display: flex;
-    position: relative; /* Prevents unwanted shifting */
-    white-space: nowrap;
+    position: relative;
+    white-space: nowrap; /* Keeps everything in one row */
 }
 
-.comp_table_content {
-    display: flex;
-    flex-direction: row;
-    padding: 10px 15px;
-    overflow-x: auto;
-    gap: 20px;
-}
-
-.comp_table_content img{
-    width: 250px;
-    margin: 10px auto;
-    background: white;
+/* Car Column Styling */
+.car-column {
+    min-width: 350px; /* Prevent shrinking below this width */
+    max-width: 350px; /* Prevent growing above this width */
+    width: 250px; /* Set a fixed width */
+    border: 2px solid #b49b66;
     border-radius: 10px;
+    padding: 15px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Title Styling */
+.car-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #b49b66;
+    text-align: center;
+}
+
+/* Image Styling */
+.car-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    text-align: center;
-}
-
-.comp_spec_column {
-    width: 200px !important; 
-    min-width: 200px !important;
-    max-width: 200px !important;
-    flex: none !important;  
-    position: sticky;
-    left: 0;
-    top: 0;
-    height: 100%;
-    z-index: 10;
-    background: #ddd;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-
-#specs_column {
-    width: 200px !important; 
-    min-width: 200px !important; 
-    max-width: 200px !important;
-    flex: none !important;
-    position: sticky;
-    left: 0;
-    background: rgba(255, 255, 255, 0.9); 
-    z-index: 2;
-}
-
-/* Column Titles Styling */
-.spec_title, .car_title {
-    font-size: 16px; 
-    font-weight: bold;
-    padding-left: 10px;
-    color: inherit; /* For .spec_title, #333; for .car_title, use var(--second-color) if desired */
-    border-bottom: 2px solid #bbb;
-    box-sizing: border-box;
-    height: 40px;       
-    line-height: 40px;   
-    margin: 0;           
-}
-
-.car_title {
-    text-align: left;
-    font-weight: bold;
-    color: var(--second-color); 
-    border-bottom: 2px solid #bbb;
-    padding-bottom: 5px;
-    padding: 0px 10px; /* Remove bottom padding */
-    height: 40px;
-    line-height: 40px; /* Ensure it aligns with .spec_title */
-}
-
-/* Ensure rows in both columns have same height */
-.spec, .car_spec {
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-    box-sizing: border-box;
-    border-bottom: 1px solid #ccc;
+    border-radius: 8px;
+    height: 150px; /* Keeps the height consistent */
     width: 100%;
-    height: 40px;         
-    min-height: 40px;
-    margin: 0;            
 }
 
-#car_columns {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    white-space: nowrap;
-    flex-grow: 1;
-    gap: 20px;
-}
-
-.car_column {
-    font-size: 16px; 
-    width: 200px;
-    text-align: center;
-    border-left: 2px solid #ddd;
-    padding: 0px;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-
-.column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    min-width: 150px; /* Ensures each column has enough width */
-}
-
-.car_display {
-    background: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.car_header {
-    font-weight: bold;
-    background: var(--second-color);
-    color: white;
-
-    border-radius: 4px;
-}
-
-.car_spec {
-    font-size: 16px; 
-    padding: 8px 0;
-    padding-left: 10px;
-    border-bottom: 1px solid #ccc;
-    text-align: left;
-}
-
-.car_column, .add_car_column {
-    min-width: 200px;  
-    flex-shrink: 0; 
-    border-left: 2px solid #b49b66;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-/* Add car column styling */ 
-.add_car_row {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 10px 0;
-    border-bottom: 2px solid #b49b66;
-    margin-left: 95px;
-}
-
-/* Add car button and dropdown styling */
-.add_car_section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-}
-
-.add_car_btn {
-    margin-top: 10px;
-    padding: 8px 12px;
-    font-size: 16px;
-    border: none;
-    background: var(--second-color);
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.add_car_column {
-    width: 200px;
+.car-image {
+    width: 100%;
     height: 100%;
-    text-align: center;
-    padding: 10px;
-    background: white;
-    justify-content: center; /* Centers vertically */
-    align-items: center; /* Centers horizontally */
+    object-fit: cover; /* Ensure image fits the container properly */
 }
 
-#savedCarsDropdown {
+/* Spec Label (Gold & Bold) */
+.spec-label {
+    font-weight: bold;
+    color: #b49b66;
+}
+
+/* Spec Value Styling */
+.spec-value {
+    font-size: 16px;
+    color: black;
     padding: 5px;
-    font-size: 14px;
+    word-wrap: break-word;
 }
 
-.remove_car {
-    color: red;
+.spec-value:not(:last-child) {
+    border-bottom: 2px solid #b49b66;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+/* Remove Button */
+.remove-btn {
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #b49b66;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
-    text-decoration: underline;
+    transition: 0.3s;
 }
 
-#comparison-container{
-    display: flex; /* Ensures columns are added horizontally */
-    gap: 10px;
-    overflow-x: auto; /* Allows scrolling if too many cars */
-    padding: 10px;
+.remove-btn:hover {
+    background-color: #9e844d;
 }
 
-/* Preserve spacing when browser shrinks */
-@media (max-width: 768px) {
-    .comp_table_frame {
-        overflow-x: auto;
-        margin-top: 25%;
-    }
-
-    #specs_column {
-        position: sticky;
-        width: 200px;
-        display: block;
-    }
-
-    #car_columns {
-        flex-wrap: nowrap; /* Prevent stacking */
-        overflow-x: auto; /* Scroll horizontally */
-    }
-
-    .car_column, .add_car_column {
-        width: auto; /* Adjust width dynamically */
-    }
-}
-
+/* Compare Button Styling */
 .compare_btn {
     margin-top: 10px;
     padding: 8px 12px;
@@ -1150,204 +1006,53 @@ footer {
     background: #9e8a56;
 }
 
-
-/* Outer Frame (Main Container) */
-#card-popup .popup{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60%;
-    margin: 0 auto;
-    background: rgba(0, 0, 0, 0.5);
+/* Container for Multiple Car Columns */
+#comparison-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 1001;
-}
-
-#card-popup .popup-content {
-    background: var(--background-color);
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: var(--box-shadow);
-    max-width: 100%;
-    max-height: 100%;
-    width: 80%;
-    height: 90%;
-    position: relative;
-}
-
-.outer-fave-frame {
-    width: 100%;
-    margin: 25px auto;
-    padding: 0;
-    border: 2px solid #b49b66;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(18px);
-}
-
-/* Title & Printer Icon Row */
-.header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-/* Car Title */
-.car-title {
-    text-align: center;
-    color: #b49b66;
-    font-size: 24px;
-    flex-grow: 1;
-}
-
-/* Printer Icon */
-.header-row i {
-    font-size: 1.8rem;
-    color: #b49b66 !important;
-    cursor: pointer;
-    transition: all .55s ease;
-}
-
-.header-row i:hover {
-    transform: translateY(-3px);
-}
-
-/* Horizontal Line Under Title */
-.header-divider {
-    width: 100%;
-    height: 2px;
-    background-color: #b49b66;
-    margin-bottom: 15px;
-}
-
-/* Inner Frame: Image + Specs */
-.inner-fave-frame {
-    margin-left: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-/* Image Container */
-.img-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60%;
-}
-
-/* Image Frame */
-.img-fave-frame {
-    border: 2px solid #b49b66;
-    border-radius: 10px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Image Styling (Fixes Gap Issue) */
-.img-fave-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Dropdown Below Image (Centered) */
-.bottom-options {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-/* Dropdown Styling */
-.variant-dropdown {
-    padding: 10px;
-    border: 2px solid #b49b66;
-    border-radius: 5px;
-    font-size: 16px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #b49b66;
-    width: 50%;
-    max-width: 200px;
-    text-align: center;
-}
-
-/* Right Side: Specs */
-.spec-fave-frame {
-    width: 50%;
-    padding-left: 20px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-}
-
-/* Spec Card Container */
-.spec-card-container {
-    display: flex;
-    flex-wrap: wrap;
     gap: 10px;
+    overflow-x: auto; /* Allows scrolling if too many cars */
+    padding: 15px;
+    flex-wrap: nowrap; /* Prevents wrapping; keeps everything horizontal */
+    height: 100%; /* Maintain consistent height */
 }
 
-/* Individual Spec Card */
-.spec-card {
-    background: rgba(255, 255, 255, 0.3);
-    border: 2px solid #b49b66;
-    color: var(--second-color);
-    border-radius: 5px;
-    padding: 10px;
-    text-align: center;
-    min-width: 120px;
-    flex: 1 1 calc(33.33% - 10px);
-}
-
-.spec-card br + span {
-    color: black; /* Toyota text color */
-}
-
-/* Responsive Design */
+/* Responsive Adjustments */
 @media (max-width: 900px) {
-    .inner-fave-frame {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .img-container {
-        width: 100%;
-    }
-
-    .spec-fave-frame {
-        width: 100%;
-        padding-left: 0;
-        margin-top: 20px;
-    }
-
-    .spec-card {
-        flex: 1 1 calc(50% - 10px);
+    .car-column {
+        min-width: 250px;
+        max-width: 250px;
     }
 }
 
 @media (max-width: 600px) {
-    .spec-card {
-        flex: 1 1 100%;
+    #comparison-container {
+        flex-direction: column; /* Stack cars on smaller screens */
+        align-items: center;
     }
 
-    .variant-dropdown {
-        width: 80%;
+    .car-column {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Adjust button width for smaller screens */
+    .compare_btn {
+        width: 100%;
+        padding: 12px;
     }
 }
 
+/* For preventing text overlap */
+.spec-value {
+    white-space: normal; /* Ensure the text doesn't overflow */
+    word-wrap: break-word;
+}
+
+
+
+/*******************/
 /* FAVORITES CARDS */
+/*******************/
 #card-container{
     display: flex;
     flex-wrap: wrap;

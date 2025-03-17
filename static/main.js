@@ -203,7 +203,7 @@ async function applyFilters() {
     const fuelType = document.getElementById("fuel-type").value.trim().toLowerCase(); 
     const minHp = parseFloat(document.getElementById("horsepower").value) || 50;
     const minCargo = parseFloat(document.getElementById("cargo-space").value) || 100;
-    const minPrice = parseFloat(document.getElementById("price").value) || 5000;
+    const maxPrice = parseFloat(document.getElementById("price").value) || 3000000; // Use slider value as max price
     const minGroundClearance = parseFloat(document.getElementById("ground-clearance").value) || 2;
     const seating = parseInt(document.getElementById("seating").value) || 0;
 
@@ -217,7 +217,6 @@ async function applyFilters() {
     console.log("Fuel Type:", fuelType);
     console.log("Min HP:", minHp);
     console.log("Min Cargo Space:", minCargo);
-    console.log("Min Price:", minPrice);
     console.log("Min Ground Clearance:", minGroundClearance);
     console.log("Min Seating Capacity:", seating);
     console.log("Brand:", brand);
@@ -227,7 +226,7 @@ async function applyFilters() {
     console.log("Fuel Type:", fuelType);
     console.log("Min HP:", minHp);
     console.log("Min Cargo Space:", minCargo);
-    console.log("Min Price:", minPrice);
+    console.log("Max Price:", maxPrice);
     console.log("Min Ground Clearance:", minGroundClearance);
     console.log("Min Seating Capacity:", seating);
 
@@ -248,7 +247,7 @@ async function applyFilters() {
 
     url.searchParams.append("min_hp", minHp);
     url.searchParams.append("min_cargo", minCargo);
-    url.searchParams.append("min_price", minPrice);
+    url.searchParams.append("max_price", maxPrice); // Updated to max_price
     url.searchParams.append("min_ground_clearance", minGroundClearance);
     url.searchParams.append("seating", seating);
 
@@ -348,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const horsepowerSlider = document.getElementById("horsepower");
     const seatingSlider = document.getElementById("seating");
 
-    priceSlider.value = priceSlider.min;
+    priceSlider.value = priceSlider.max;
     horsepowerSlider.value = horsepowerSlider.min;
     seatingSlider.value = "0";
 
@@ -361,19 +360,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 //////////////////////
-//COMPARE Function////
+// COMPARE Function //
 //////////////////////
 
+// Function to populate models based on selected brand
+async function populateModels() {
+    const brand = document.getElementById('brand').value;
+    if (!brand) return;
+
+    const response = await fetch(`${baseUrl}/get_models?brand=${brand}`);
+    const models = await response.json();
+    
+    const modelDropdown = document.getElementById('model');
+    modelDropdown.innerHTML = '<option value="">Select Model</option>';
+    models.forEach(model => {
+        const option = document.createElement('option');
+        option.value = model;
+        option.textContent = model;
+        modelDropdown.appendChild(option);
+    });
+}
+
+// Function to populate variants based on selected model
+async function populateVariants() {
+    const model = document.getElementById('model').value;
+    if (!model) return;
+
+    const response = await fetch(`${baseUrl}/get_variants?model=${model}`);
+    const variants = await response.json();
+    
+    const variantDropdown = document.getElementById('variant');
+    variantDropdown.innerHTML = '<option value="">Select Variant</option>';
+    variants.forEach(variant => {
+        const option = document.createElement('option');
+        option.value = variant;
+        option.textContent = variant;
+        variantDropdown.appendChild(option);
+    });
+}
+
+// Ensure event listeners are added to dropdowns
+document.getElementById('brand').addEventListener('change', populateModels);
+document.getElementById('model').addEventListener('change', populateVariants);
+
+// Compare Cars Function
 async function compareCars() {
-    const selectedVariant = document.getElementById('variant').value; // Get value from variant dropdown
+    const selectedVariant = document.getElementById('variant').value;
     if (!selectedVariant) {
         console.warn("No variant selected.");
-        return; // Exit if no variant is selected
+        return;
     }
 
     console.log("Fetching specs for variant:", selectedVariant);
     const response = await fetch(`${baseUrl}/get_specs?variant=${selectedVariant}`);
-
     const specs = await response.json();
 
     if (Object.keys(specs).length === 0) {
@@ -383,65 +422,84 @@ async function compareCars() {
 
     const container = document.getElementById('comparison-container');
 
-    let titleColumn = container.querySelector('#title-column');
-    if (titleColumn) {
-        container.removeChild(titleColumn);
-    }
-
-    titleColumn = document.createElement('div');
-    titleColumn.id = 'title-column';
-    titleColumn.classList.add('column', 'title-column');
-    titleColumn.innerHTML = 'Specifications';
-    container.appendChild(titleColumn);
-
-    // Check if this car was already added to avoid duplicates
     if (document.getElementById(`car-${selectedVariant}`)) {
         alert(`${selectedVariant} is already in the comparison.`);
         return;
     }
 
-    // Create a new column for this car
     const carColumn = document.createElement('div');
     carColumn.id = `car-${selectedVariant}`;
-    carColumn.classList.add('column');
+    carColumn.classList.add('car-column');
 
-    container.insertBefore(titleColumn, container.firstChild);
-
-    if (specs['Image']) {
-        const img = document.createElement('img');
-        img.src = specs['Image'];
-        console.log(specs['Image']);
-        img.alt = `Image of ${selectedVariant}`;
-        carColumn.appendChild(img);
-    }
-
-    // Add car name at the top
     const carTitle = document.createElement('div');
     carTitle.classList.add('car-title');
     carTitle.textContent = selectedVariant;
     carColumn.appendChild(carTitle);
 
-    // Append the new car column next to existing ones
-    container.appendChild(carColumn);
+    if (specs['Image']) {
+        const imgContainer = document.createElement('div');
+        imgContainer.classList.add('car-image-container');
 
-    for (const key of Object.keys(specs)) {
-        const titleDiv = document.createElement('div');
-        titleDiv.classList.add('spec-title');
-        titleDiv.textContent = key;
-        titleColumn.appendChild(titleDiv);
+        const img = document.createElement('img');
+        img.src = specs['Image'];
+        img.alt = `Image of ${selectedVariant}`;
+        img.classList.add('car-image');
 
-        const specDiv = document.createElement('div');
-        specDiv.classList.add('spec-value');
-
-        // Skip adding the Image spec
-        if (key === 'Image') {
-            continue;
-        }
-
-        specDiv.textContent = specs[key];
-        carColumn.appendChild(specDiv);
+        imgContainer.appendChild(img);
+        carColumn.appendChild(imgContainer);
     }
 
+    const specOrder = {
+        "General Specifications": ["Brand", "Model", "BodyType, Variant"],
+        "Performance Specifications": ["Horsepower", "Engine", "Transmission", "DriveTrain", "FuelType"],
+        "Utility Specifications": ["SeatingCapacity", "GroundClearance", "Cargospace"],
+        "Price": []
+    };
+
+    // Iterate through the spec categories and their keys
+    for (const [category, keys] of Object.entries(specOrder)) {
+        if (keys.length > 0) {
+            const categoryTitle = document.createElement('div');
+            categoryTitle.classList.add('spec-value', 'spec-label');
+            categoryTitle.textContent = category;
+            carColumn.appendChild(categoryTitle);
+        }
+
+        keys.forEach(key => {
+            if (specs[key] !== undefined) {
+                const specDiv = document.createElement('div');
+                specDiv.classList.add('spec-value');
+                let formattedValue = specs[key];
+                
+                // Formatting for specific specs
+                if (key === "Horsepower") formattedValue += " hp";
+                if (key === "Ground Clearance") formattedValue += " cm";
+                if (key === "Cargo Space") formattedValue += " L";
+                
+                // Add the formatted spec to the car column
+                specDiv.innerHTML = `<span class="spec-label">${key}:</span> ${formattedValue}`;
+                carColumn.appendChild(specDiv);
+            }
+        });
+    }
+
+    // Price formatting and addition
+    if (specs["Price"]) {
+        const priceDiv = document.createElement('div');
+        priceDiv.classList.add('spec-value');
+        const formattedPrice = new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(specs["Price"]);
+        priceDiv.innerHTML = `<span class="spec-label">Price:</span> ${formattedPrice}`;
+        carColumn.appendChild(priceDiv);
+    }
+
+    // Add the remove button for the car
+    const removeBtn = document.createElement('button');
+    removeBtn.classList.add('remove-btn');
+    removeBtn.textContent = "Remove Car";
+    removeBtn.onclick = () => carColumn.remove();
+
+    carColumn.appendChild(removeBtn);
+    container.appendChild(carColumn);
 }
 
 
