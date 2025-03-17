@@ -209,6 +209,11 @@ def get_cars():
 
     return jsonify(filtered_cars)  # Return the filtered cars as JSON
 
+@app.route('/get_all_models', methods=['GET'])
+def get_all_models():
+  models = df["Model"].unique().tolist()
+  return jsonify(models)
+
 @app.route('/get_models', methods=['GET'])
 def get_models():
     brand = request.args.get("brand", "").strip()

@@ -53,9 +53,9 @@ Car_ID,Brand,Model,Body_Type,Variant,Drive_Train,Engine,Horsepower,Transmission,
 52,Mitsubishi,Mirage G4,Sedan,GLS CVT,FWD,1.2L ; In-line 3,78,CVT,Gasoline,17,450,5,899000
 53,Mitsubishi,Mirage G4,Sedan,GLS Black Series,FWD,1.2L ; In-line 3,78,CVT,Gasoline,17,450,5,909000
 54,Mitsubishi,Mirage G4,Sedan,GLS Sport,FWD,1.2L ; In-line 3,78,CVT,Gasoline,17,450,5,929000
-55,Mitsubishi,Xpander,MPV,GLX M/T,FWD,1.5L ; In-line 4,103,5-Speed ; Manual,Gasoline,22.5,"1,630",7,1068000
-56,Mitsubishi,Xpander,MPV,GLX A/T,FWD,1.5L ; In-line 4,103,4-Speed ; Automatic,Gasoline,22.5,"1,630",7,1128000
-57,Mitsubishi,Xpander,MPV,GLS A/T,FWD,1.5L ; In-line 4,103,4-Speed ; Automatic,Gasoline,22.5,"1,630",7,1216000
+55,Mitsubishi,Xpander,MPV,GLX M/T,FWD,1.5L ; In-line 4,103,5-Speed ; Manual,Gasoline,22.5,1630,7,1068000
+56,Mitsubishi,Xpander,MPV,GLX A/T,FWD,1.5L ; In-line 4,103,4-Speed ; Automatic,Gasoline,22.5,1630,7,1128000
+57,Mitsubishi,Xpander,MPV,GLS A/T,FWD,1.5L ; In-line 4,103,4-Speed ; Automatic,Gasoline,22.5,1630,7,1216000
 58,Mitsubishi,Montero Sport,SUV,GLX M/T,4x2,2.4L;  4 Cylinde 16 Valve,179,6-Speed ; Manual,Diesel,2.18,502,7,1568000
 59,Mitsubishi,Montero Sport,SUV,GLS A/T,4x2,2.4L;  4 Cylinde 16 Valve,179,8-Speed; Automatic,Diesel,2.18,502,7,1899000
 60,Mitsubishi,Montero Sport,SUV,Black 2WD Series 8A/T,4x2,2.4L;  4 Cylinde 16 Valve,179,8-Speed; Automatic,Diesel,2.18,502,7,2162000

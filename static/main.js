@@ -102,6 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(userName)
         welcomeMessageElement.textContent = `Welcome, ${userName}!`;
       }
+
+    populateModels();
 });
 
 function handleSignup(event) {
@@ -202,7 +204,7 @@ async function applyFilters() {
     const minHp = parseFloat(document.getElementById("horsepower").value) || 50;
     const minCargo = parseFloat(document.getElementById("cargo-space").value) || 100;
     const minPrice = parseFloat(document.getElementById("price").value) || 5000;
-    const minGroundClearance = parseFloat(document.getElementById("ground-clearance").value) || 13.3;
+    const minGroundClearance = parseFloat(document.getElementById("ground-clearance").value) || 2;
     const seating = parseInt(document.getElementById("seating").value) || 0;
 
     console.log("🚀 Filters Applied:");
@@ -445,20 +447,31 @@ async function compareCars() {
 
 async function populateModels() {
     const selectedBrand = document.getElementById('brand').value;
-    if (!selectedBrand) return; // Exit if no brand is selected
-
-    const response = await fetch(`${baseUrl}/get_models?brand=${selectedBrand}`);
-
-    const models = await response.json();
     const modelSelect = document.getElementById('model');
-    modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
 
-    models.forEach(model => {
-        const option = document.createElement('option');
-        option.value = model;
-        option.textContent = model;
-        modelSelect.appendChild(option);
-    });
+    if (!selectedBrand) {
+        // If no brand is selected, fetch all models
+        const response = await fetch(`${baseUrl}/get_all_models`);
+        const models = await response.json();
+        modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
+        models.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model;
+          option.textContent = model;
+          modelSelect.appendChild(option);
+        });
+    } else {
+        // If a brand is selected, fetch models for that brand
+        const response = await fetch(`${baseUrl}/get_models?brand=${selectedBrand}`);
+        const models = await response.json();
+        modelSelect.innerHTML = '<option value="">Select Model</option>'; // Reset models
+        models.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model;
+          option.textContent = model;
+          modelSelect.appendChild(option);
+        });
+    }
 }
 
 async function populateVariants() {
